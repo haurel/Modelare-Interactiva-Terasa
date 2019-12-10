@@ -1,29 +1,18 @@
-import { PointLight, BoxGeometry, MeshPhongMaterial, 
-         Mesh, DoubleSide, AxesHelper, GridHelper,
-         HemisphereLight, HemisphereLightHelper,
-         DirectionalLight, DirectionalLightHelper,
-         Group, ImageUtils, sRGBEncoding, RepeatWrapping,
-         BoxHelper,
-         Box3,
-         Vector3,
-         TextureLoader,
-         MeshLambertMaterial,
-         MeshStandardMaterial,
-         PlaneGeometry,
-         BackSide,
-         FrontSide,
-         TangentSpaceNormalMap,
-         Vector2,
+import { PointLight, BoxGeometry, Mesh, AxesHelper, GridHelper, MeshBasicMaterial, 
+         HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper,
+         Group, RepeatWrapping, BoxHelper, Box3, Vector3, TextureLoader, MeshStandardMaterial,
+         TangentSpaceNormalMap, Vector2, Texture,
     } from 'three';
-
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 import props from './config/defaults';
 import settings from './config/settings';
+import wallTextureSettings from './config/wallTextureSettings';
+import teraceTextureSettings from './config/teraceTextureSettings';
 
 
-
+import TextureLoad from './TextureSet';
 
 
 /**
@@ -104,7 +93,7 @@ const createSunLight = () => {
     //props.scene.add(lightGroup);
 }
 
-const loadHouse = (locationFile, setPosition, name, newTexture) => {   
+const loadHouse = (locationFile, setPosition, name) => {   
     const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('./node_modules/three/examples/js/libs/draco/');
@@ -117,51 +106,16 @@ const loadHouse = (locationFile, setPosition, name, newTexture) => {
         mesh.position.set(50, 0, -70);
         mesh.rotation.set(0, Math.PI, 0);
         
-        
-
-        var _tempMap = new TextureLoader().load(newTexture[0]);
-        var _tempMap2 = new TextureLoader().load(newTexture[1]);
-        var _tempMap3 = new TextureLoader().load(newTexture[2]);
-        /* _tempMap.encoding = sRGBEncoding;
-        _tempMap.flipY = false;
-        _tempMap2.encoding = sRGBEncoding;
-        _tempMap2.flipY = false;
-        _tempMap3.encoding = sRGBEncoding;
-        _tempMap3.flipY = false; */
         mesh.traverse(function (child){
             if(child instanceof Mesh){
-                if(child.name === "walls"){
-                   //if(child.material.name == "wood_brown.001"){
-
-                    child.material.map = _tempMap;
-                    child.material.map.wrapS = RepeatWrapping;
-                    child.material.map.wrapT = RepeatWrapping;
-                    child.material.map.anisotropy = 4;
-                    child.material.map.repeat.set( 1, 1);
-
-                    child.material.bumpScale = 0.8;
-                    child.material.bumpMap = _tempMap2;
-                    child.material.bumpMap.wrapS = RepeatWrapping;
-                    child.material.bumpMap.wrapT = RepeatWrapping;
-                    child.material.bumpMap.anisotropy = 4;
-                    child.material.bumpMap.repeat.set(0.9, 0.9); 
-                    
-                    child.material.roughness = 1.0;
-                    child.material.roughnessMap= _tempMap3;
-                    child.material.roughnessMap.wrapS = RepeatWrapping;
-                    child.material.roughnessMap.wrapT = RepeatWrapping;
-                    child.material.roughnessMap.anisotropy = 4;
-                    child.material.roughnessMap.repeat.set(0.9, 0.9);
-                    
-                    //pentru materialul a da a metalic
-                    child.material.metalness = 0.0;
-                    
-                    child.material.needsUpdate = true;
-                   //}
+                if(child.name === "textureToChange"){
+                    child.material = new MeshBasicMaterial({
+                        color: 0x0f0f00,
+                    });
                 }
             }
         })
-
+        console.log(mesh);
         props.meshHouse.add(mesh); 
     })
 }
@@ -172,7 +126,20 @@ const loadTerace = (setPosition, setSize, name, texture, metalic) => {
     */
     const textureLoader = new TextureLoader();
     const geometry = new BoxGeometry(58, 50, 0.01);
-    const material = new MeshStandardMaterial({
+
+    const rotation = new Vector3(Math.PI / 2, 0, 0);
+    const material = new MeshStandardMaterial();
+    const planeMesh = new Mesh(geometry, material);
+
+    TextureLoad(planeMesh, teraceTextureSettings.ceramic_terace_001, "BasicMesh");
+
+    planeMesh.rotation.set(rotation.x, rotation.y, rotation.z);
+    planeMesh.position.set(setPosition.x, setPosition.y, setPosition.z);
+    planeMesh.scale.set(setSize.x, setSize.y, setSize.z)
+    props.meshHouse.add(planeMesh);
+
+    
+    /* const material = new MeshStandardMaterial({
         metalness: 0.0,
         roughness: 0.005,
         bumpScale: 0.5,
@@ -182,16 +149,12 @@ const loadTerace = (setPosition, setSize, name, texture, metalic) => {
     });
 
 
-    /**
-     * Load all 3 map
-     */
     textureLoader.load(texture[0], (map)=>{
         map.wrapS = RepeatWrapping;
         map.wrapT = RepeatWrapping;
         map.anisotropy = 4;
         map.repeat.set(3, 3);
         material.map = map;
-        material.side = DoubleSide;
         material.needsUpdate = true;
         
     });
@@ -202,7 +165,6 @@ const loadTerace = (setPosition, setSize, name, texture, metalic) => {
         map.anisotropy = 4;
         map.repeat.set(3, 3);
         material.displacementMap = map;
-        material.side = FrontSide;
         material.needsUpdate = true;
         
     });
@@ -215,7 +177,6 @@ const loadTerace = (setPosition, setSize, name, texture, metalic) => {
         material.normalMap = map;
         material.normalMapType = TangentSpaceNormalMap;
         material.normalScale = new Vector2(0.7, 0.9);
-        material.side = FrontSide;
         material.needsUpdate = true;
     });
 
@@ -228,17 +189,11 @@ const loadTerace = (setPosition, setSize, name, texture, metalic) => {
             material.metalnessMap = map;
             material.metalness = 0.9;
             material.roughness = 0.08;
-            material.side = FrontSide;
             material.needsUpdate = true;
         });
-    }
+    } */
 
-    const rotation = new Vector3(Math.PI / 2, 0, 0)
-    const planeMesh = new Mesh(geometry, material);
-    planeMesh.rotation.set(rotation.x, rotation.y, rotation.z);
-    planeMesh.position.set(setPosition.x, setPosition.y, setPosition.z);
-    planeMesh.scale.set(setSize.x, setSize.y, setSize.z)
-    props.meshHouse.add(planeMesh);
+    
 }
 
 const loadChair = (locationFile, setPosition, setSize, name) =>{
@@ -273,7 +228,7 @@ const loadChair = (locationFile, setPosition, setSize, name) =>{
 const constructCollider = () => {
     props.boundingBox.forEach((mesh)=>{
         mesh.box = new Box3().setFromObject( mesh );
-        console.log("S", mesh.box);
+        //console.log("S", mesh.box);
         mesh.helper = new BoxHelper(mesh, 0xff00ff);
         
         props.scene.add(mesh.helper);
@@ -282,7 +237,17 @@ const constructCollider = () => {
 }
 
 
+const tempFunctionForChangeTexture = (event) =>{
+    if(event.keyCode == 66){
+        //console.log(props.meshHouse.children[1]);
+        //console.log(wallTextureSettings.texture_wall_001);
+        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_001);
+    }else if(event.keyCode == 65){
+        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_002);
+    }
+}
 
+window.addEventListener('keydown', tempFunctionForChangeTexture, false);
 
 export default createEnvironment  => {
     createHelpers(); createSunLight();
@@ -293,50 +258,11 @@ export default createEnvironment  => {
     props.meshHouse = new Group();
     const position = new Vector3(10, 0 , 0);
     const position2 = new Vector3(0, 0, 0);
-
-    /**
-     * Teste
-     */
-    const texture = ["/src/Structure/House/HouseTexture/brick_001_diffuse.jpg",
-                    "/src/Structure/House/HouseTexture/brick_001_displacement.jpg",
-                    "/src/Structure/House/HouseTexture/brick_001_normal.jpg"
-                    ];
-    const texture_2 = ["/src/Structure/House/HouseTexture/brick_002_diffuse.jpg",
-                    "/src/Structure/House/HouseTexture/brick_002_displacement.jpg",
-                    "/src/Structure/House/HouseTexture/brick_002_normal.jpg"
-                    ];
-
-    const texture_3 = ["/src/Structure/House/House/tiles_1_diffuse.jpg",
-                    "/src/Structure/House/tiles_1_displacement.jpg",
-                    "/src/Structure/House/tiles_1_normal.jpg",
-                    "/src/Structure/House/tiles_1_roughness.jpg"
-                    ];
-    const texture_4 = ["/src/Structure/House/House/tiles_2_diffuse.jpg",
-                    "/src/Structure/House/tiles_2_displacement.jpg",
-                    "/src/Structure/House/tiles_2_normal.jpg",
-                    "/src/Structure/House/tiles_2_roughness.jpg"
-                    ];
+                                          
     
-                    //repeat 20, 20
-    const textureTerace = ["/src/Structure/House/Terasa/ceramic_1_diffuse.jpg",
-                            "/src/Structure/House/Terasa/ceramic_1_displacement.jpg",
-                            "/src/Structure/House/Terasa/ceramic_1_normal.jpg"];
-                    //repeat 6, 6
-    const textureTerace_2 = ["/src/Structure/House/Terasa/parchet_1_diffuse.jpg",
-                            "/src/Structure/House/Terasa/parchet_1_displacement.jpg",
-                            "/src/Structure/House/Terasa/parchet_1_normal.jpg"];  
-                    //repeat 15, 15
-    const textureTerace_3 = ["/src/Structure/House/Terasa/wood_travertine_1_diffuse.jpg ",
-                            "/src/Structure/House/Terasa/wood_travertine_1_displacement.jpg",
-                            "/src/Structure/House/Terasa/wood_travertine_1_normal.jpg"]; 
-                    //repeat  
-    const textureTerace_4 = ["/src/Structure/House/Terasa/parchet_2_diffuse.jpg ",
-                            "/src/Structure/House/Terasa/parchet_2_displacement.jpg",
-                            "/src/Structure/House/Terasa/parchet_2_normal.jpg",
-                            "/src/Structure/House/Terasa/parchet_2_metalic.jpg"];  
-                                                    
-    loadHouse('/src/Structure/House/HouseCompressed/Cyprys_HouseGLTF_002.gltf', position2, "2", texture_2);
-    loadTerace(new Vector3(21.5, 0.06, 0), new Vector3(1, 1, 1), "Terace", textureTerace_4, true);
+    loadTerace(new Vector3(21.5, 0.06, 0), new Vector3(1, 1, 1), "Terace", teraceTextureSettings.ceramic_terace_001, true);
+    loadHouse('/src/Structure/House/HouseCompressed/Cyprys_HouseGLTF_002.gltf', position2, "House");
+
 
     props.boxMeshs = new Group();
     

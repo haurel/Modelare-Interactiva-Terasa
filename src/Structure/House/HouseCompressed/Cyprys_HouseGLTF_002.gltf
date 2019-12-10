@@ -152,7 +152,7 @@
         },
         {
             "mesh" : 13,
-            "name" : "walls",
+            "name" : "textureToChange",
             "translation" : [
                 5.0323262214660645,
                 -0.00909423828125,
