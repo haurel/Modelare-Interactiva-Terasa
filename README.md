@@ -1,4 +1,4 @@
-# Modelare-Interactiva-Terasa
+# Modelare-Interactiva
 
 ## MIT License 
 
