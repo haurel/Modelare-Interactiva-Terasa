@@ -1,6 +1,6 @@
 # Modelare-Interactiva-Terasa
 
-***MIT License***
+## MIT License 
 
 Copyright (c) 2019 Hila Aurel
 
