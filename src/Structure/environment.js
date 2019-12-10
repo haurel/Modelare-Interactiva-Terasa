@@ -297,13 +297,13 @@ export default createEnvironment  => {
     /**
      * Teste
      */
-    const texture = ["/src/Structure/House/1K-brick_wall_3-diffuse.jpg",
-                    "/src/Structure/House/1K-brick_wall_3-displacement.jpg",
-                    "/src/Structure/House/1K-brick_wall_3-normal.jpg"
+    const texture = ["/src/Structure/House/HouseTexture/brick_001_diffuse.jpg",
+                    "/src/Structure/House/HouseTexture/brick_001_displacement.jpg",
+                    "/src/Structure/House/HouseTexture/brick_001_normal.jpg"
                     ];
-    const texture_2 = ["/src/Structure/House/Bricks21_col.jpg",
-                    "/src/Structure/House/Bricks21_disp.jpg",
-                    "/src/Structure/House/Bricks21_nrm.jpg"
+    const texture_2 = ["/src/Structure/House/brick_002_diffuse.jpg",
+                    "/src/Structure/House/brick_002_displacement.jpg",
+                    "/src/Structure/House/brick_002_normal.jpg"
                     ];
 
     const texture_3 = ["/src/Structure/House/House/tiles_1_diffuse.jpg",
