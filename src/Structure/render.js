@@ -1,12 +1,18 @@
+import Stats from 'stats.js';
+
+
 import props from './config/defaults';
 import settings from './config/settings';
 
 import PickHelper from './PickHelper';
 
+
+
 const pickHelper = new PickHelper();
 
 const pickPosition = {x: 0, y: 0};
 const time = 0;
+
 /**
  * Update the environment
  */
@@ -41,8 +47,19 @@ const pickObj = () =>{
     pickHelper.Pick(pickPosition, props.scene, props.camera, time) 
 }
 
-
-
+const initStats = () =>{
+    var stats = new Stats();
+    stats.setMode(0);
+        //Put the statistics panel in the top left corner
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.top = '0px';
+    stats.domElement.style.left = '0px';
+        //Add to body
+    document.body.appendChild(stats.domElement);
+        //Return to this instance
+    return stats;
+}
+const stats = initStats();
 /**
  * Render function  called on every frame
  */
@@ -53,7 +70,8 @@ export default function render(){
     
     
     //updateEnvironment()
-
+    
+    stats.update();
     requestAnimationFrame(render);
 
     props.renderer.render(props.scene, props.camera);
