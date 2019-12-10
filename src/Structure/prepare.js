@@ -1,4 +1,4 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, Vector3 } from 'three'
+import { WebGLRenderer, Scene, PerspectiveCamera, Vector3, PCFSoftShadowMap } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 
@@ -39,7 +39,9 @@ const createRenderer = () => {
 
     // TODO: Check for which cases this is necessary
     props.renderer.gammaOutput = true;
-
+    props.renderer.gammaFactor = 2;
+    /* props.renderer.shadowMap.enabled = true;
+    props.renderer.shadowMap.type = PCFSoftShadowMap; */
     // Append the render canvas to the DOM
     document.body.appendChild(props.renderer.domElement);
 };

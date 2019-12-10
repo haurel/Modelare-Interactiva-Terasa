@@ -1,5 +1,7 @@
 import { RepeatWrapping, TangentSpaceNormalMap, Vector2, MeshStandardMaterial } from "three";
 
+
+
 export default{
     default_material_settings:{
         //MeshStandarMaterial
@@ -10,7 +12,6 @@ export default{
         displacementBias: 0,
         emissiveIntensity: 0.5,
     },
-
     ceramic_terace_001:{
         diffuse_map: "/src/Structure/House/Terasa/ceramic_1_diffuse.jpg",
         disp_map: "/src/Structure/House/Terasa/ceramic_1_displacement.jpg",
@@ -20,7 +21,7 @@ export default{
         repeatSet: 3,
         wrapSorT: RepeatWrapping,
         normalMapType: TangentSpaceNormalMap,
-        normalScale: Vector2(0.7, 0.9),
+        //normalScale: Vector2(0.7, 0.9),
     },
 
     parchet_terace_001:{                             
@@ -32,7 +33,7 @@ export default{
         repeatSet: 3,
         wrapSorT: RepeatWrapping,
         normalMapType: TangentSpaceNormalMap,
-        normalScale: Vector2(0.7, 0.9),
+        //normalScale: Vector2(0.7, 0.9),
     },
 
     parchet_terace_002:{                             
@@ -44,7 +45,7 @@ export default{
         repeatSet: 3,
         wrapSorT: RepeatWrapping,
         normalMapType: TangentSpaceNormalMap,
-        normalScale: Vector2(0.7, 0.9),
+        //normalScale: Vector2(0.7, 0.9),
     },
 
     travertine_terace_002:{                             
@@ -56,7 +57,7 @@ export default{
         repeatSet: 3,
         wrapSorT: RepeatWrapping,
         normalMapType: TangentSpaceNormalMap,
-        normalScale: Vector2(0.7, 0.9),
+        //normalScale: Vector2(0.7, 0.9),
     },
 
 }

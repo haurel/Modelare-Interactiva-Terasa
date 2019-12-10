@@ -1,5 +1,7 @@
-import { TextureLoader, Mesh, RepeatWrapping, MeshStandardMaterial, TextureEncoding } from "three";
-import {  } from './config/teraceTextureSettings';
+import { TextureLoader, Mesh, RepeatWrapping, MeshStandardMaterial, TangentSpaceNormalMap,
+        Vector2
+} from "three";
+import DefaultSettings from './config/teraceTextureSettings';
 
 
 const textureLoaded = [];
@@ -41,33 +43,33 @@ const SetTextureToObject = (mesh, texture) =>{
 
 const SetTextureBasicMesh = (mesh, texture)=>{
     const material = new MeshStandardMaterial({
-        metalness: default_material_settings.metalness,
-        roughness: default_material_settings.roughness,
-        bumpScale: default_material_settings.bumpScale,
-        displacementScale: default_material_settings.displacementScale,
-        displacementBias: default_material_settings.displacementBias,
-        emissiveIntensity: default_material_settings.emissiveIntensity,
+        metalness: DefaultSettings.default_material_settings.metalness,
+        roughness: DefaultSettings.default_material_settings.roughness,
+        bumpScale: DefaultSettings.default_material_settings.bumpScale,
+        displacementScale: DefaultSettings.default_material_settings.displacementScale,
+        displacementBias: DefaultSettings.default_material_settings.displacementBias,
+        emissiveIntensity: DefaultSettings.default_material_settings.emissiveIntensity,
     });
-
-    material.map = texture[0];
-    material.map.wrapS = RepeatWrapping;
-    material.map.wrapT = RepeatWrapping;
-    material.map.anisotropy = 4;
-    material.map.repeat.set(3,3);
+    //console.log(texture);
+    mesh.material.map = texture[0];
+    mesh.material.map.wrapS = RepeatWrapping;
+    mesh.material.map.wrapT = RepeatWrapping;
+    mesh.material.map.anisotropy = 4;
+    mesh.material.map.repeat.set(3,3);
     
-    material.displacementMap = texture[1];
-    material.displacementMap.wrapS = RepeatWrapping;
-    material.displacementMap.wrapT = RepeatWrapping;
-    material.displacementMap.anisotropy = 4;
-    material.displacementMap.repeat.set(3,3);
+    mesh.material.displacementMap = texture[1];
+    mesh.material.displacementMap.wrapS = RepeatWrapping;
+    mesh.material.displacementMap.wrapT = RepeatWrapping;
+    mesh.material.displacementMap.anisotropy = 4;
+    mesh.material.displacementMap.repeat.set(3,3);
 
-    material.normalMap = texture[2];
-    material.normalMapType = TangentSpaceNormalMap;
-    material.normalScale = new Vector2(0.7, 0.9);
-    material.normalMap.wrapS = RepeatWrapping;
-    material.normalMap.wrapT = RepeatWrapping;
-    material.normalMap.anisotropy = 4;
-    material.normalMap.repeat.set(3, 3);
+    mesh.material.normalMap = texture[2];
+    mesh.material.normalMapType = TangentSpaceNormalMap;
+    mesh.material.normalScale = new Vector2(0.7, 0.9);
+    mesh.material.normalMap.wrapS = RepeatWrapping;
+    mesh.material.normalMap.wrapT = RepeatWrapping;
+    mesh.material.normalMap.anisotropy = 4;
+    mesh.material.normalMap.repeat.set(3, 3);
 
     //exista textura pentru nuanta metalica
     if(texture[3] !== ""){
@@ -78,7 +80,7 @@ const SetTextureBasicMesh = (mesh, texture)=>{
         material.metalnessMap.repeat.set(3, 3);
     }
 
-    material.needsUpdate = true;
+    mesh.material.needsUpdate = true;
 }
 
 const LoadTexture = (texture) =>{
@@ -95,6 +97,6 @@ export default (mesh, texture, methodSet) =>{
     if(methodSet === "BigMesh"){
         SetTextureToObject(mesh, textureLoaded);
     }else if(methodSet === "BasicMesh"){
-
+        SetTextureBasicMesh(mesh, textureLoaded);
     }
 }
