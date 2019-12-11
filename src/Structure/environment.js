@@ -1,8 +1,7 @@
-import { PointLight, BoxGeometry, Mesh, AxesHelper, GridHelper, MeshBasicMaterial, 
-         HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper,
-         Group, RepeatWrapping, BoxHelper, Box3, Vector3, TextureLoader, MeshStandardMaterial,
-         TangentSpaceNormalMap, Vector2, Texture,
-    } from 'three';
+import { BoxGeometry, Mesh, AxesHelper, GridHelper, MeshBasicMaterial, 
+         Group, RepeatWrapping, BoxHelper, Box3, Vector3, TextureLoader, MeshStandardMaterial, Vector2,
+} from 'three';
+
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
@@ -10,7 +9,7 @@ import props from './config/defaults';
 import settings from './config/settings';
 import wallTextureSettings from './config/wallTextureSettings';
 import teraceTextureSettings from './config/teraceTextureSettings';
-
+import chairTextureSetttings from './config/chairTextureSettings';
 
 import TextureLoad from './TextureSet';
 import Lights from './Lights';
@@ -89,16 +88,67 @@ const loadChair = (locationFile, setPosition, setSize, name) =>{
     const loader = new GLTFLoader();
     loader.load(locationFile, (gltf) =>{
         const mesh = gltf.scene;
-        //props.scene.add(mesh);
+
+        mesh.scale.set(setSize.x, setSize.y, setSize.z);
+        mesh.position.set(setPosition.x, setPosition.y, setPosition.z);
+        mesh.name = name;
+
+        const tempTexture = [];
+        for(let i = 0; i < 4; i++){
+             tempTexture[i] = new TextureLoader().load(chairTextureSetttings.leather_chair_002[Object.keys(chairTextureSetttings.leather_chair_002)[i]]);
+        }
+        //console.log(text);
+       
+        //console.log(mesh);
         mesh.traverse((child)=>{
             if(child instanceof Mesh){
-                child.receiveShadow = true;
-                child.castShadow = true;
+                if(child.name === "Cube"){
+                    child.material = new MeshBasicMaterial({
+                        color: 0xcaa472,
+                    });
+                    child.receiveShadow = true;
+                    child.castShadow = true;
+                }
+                if(child.name === "Plane"){
+                    child.material.map = tempTexture[0];
+                    child.material.map.wrapS = RepeatWrapping;
+                    child.material.map.wrapT = RepeatWrapping;
+                    child.material.map.anisotropy = 4;
+                    child.material.map.repeat.set( 0.7, 0.7);
+
+                    /* child.material.displacementMap = tempTexture[1];
+                    child.material.displacementMap.wrapS = RepeatWrapping;
+                    child.material.displacementMap.wrapT = RepeatWrapping;
+                    child.material.displacementMap.anisotropy = 1;
+                    child.material.displacementScale = 0.0;
+                    child.material.displacementMap.repeat.set(0.7, 0.7); */
+
+                    child.material.normalMap = tempTexture[2];
+                    child.material.normalMap.wrapS = RepeatWrapping;
+                    child.material.normalMap.wrapT = RepeatWrapping;
+                    child.material.normalMap.anisotropy = 8;
+                    child.material.normalMap.repeat.set(0.7, 0.7);
+                    child.material.normalScale = new Vector2(0.6, 0.9);
+
+                    child.material.roughnessMap = tempTexture[3];
+                    child.material.roughnessMap.wrapS = RepeatWrapping;
+                    child.material.roughnessMap.wrapT = RepeatWrapping;
+                    child.material.roughnessMap.repeat.set(0.7, 0.7);
+                    child.material.roughness = 1.0;
+                    child.material.metalness = 0.4;
+
+                    
+                    child.material.displacementBias = 0.002;
+                    child.material.emissiveIntensity = 0.9;
+                    child.material.needsUpdate = true;
+
+                    child.receiveShadow = true;
+                    child.castShadow = true;
+                }
+                
             }
         })
-        mesh.scale.set(setSize.x, setSize.y, setSize.z);
         
-
         const helper = new BoxHelper(mesh);
         helper.material.visible = false;
         helper.geometry.computeBoundingBox();
@@ -107,7 +157,7 @@ const loadChair = (locationFile, setPosition, setSize, name) =>{
         const boundingBox = new Box3().setFromObject(helper);
         mesh.updateMatrixWorld( true ); // ensure world matrix is up to date
         boundingBox.applyMatrix4( mesh.matrixWorld );
-        console.log( boundingBox );
+        //console.log( boundingBox );
         
         props.boundingBox.push(mesh);
 
@@ -118,6 +168,7 @@ const loadChair = (locationFile, setPosition, setSize, name) =>{
         
         
         props.scene.add(mesh);
+        //console.log(props.scene);
     })
 }
 
@@ -126,7 +177,7 @@ const constructCollider = () => {
         mesh.box = new Box3().setFromObject( mesh );
         //console.log("S", mesh.box);
         mesh.helper = new BoxHelper(mesh, 0xff00ff);
-        
+        mesh.helper.material.visible = false;
         props.scene.add(mesh.helper);
         
     });
@@ -170,13 +221,20 @@ export default createEnvironment  => {
     );
 
     //props.boxMeshs = new Group();
-    
-    loadChair('/src/Structure/Chair/chair001.gltf', 
+
+    loadChair('/src/Structure/Chair/chair_001.gltf', 
             new Vector3(5, 0.06, 10), 
             new Vector3(2.80, 2.80, 2.80), 
-            "Chair"
+            "Chair_001"
+    );
+
+    loadChair('/src/Structure/Chair/chair_001.gltf',
+            new Vector3(15, 0.06, 10),
+            new Vector3(2, 2, 2),
+            "Chair_002"
     );
     //props.structure.box = new Mesh(geometry, material);
     
     props.scene.add(props.meshHouse);
+
 }

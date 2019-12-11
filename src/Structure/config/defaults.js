@@ -2,7 +2,7 @@ export default {
 
     /**
      * Scenes allow you to set up what and where is to be rendered by three.js.
-     * This is where you place objects, lights and cameras.
+     * This is where have place objects, lights and cameras.
      *
      * @type {THREE.Scene}
      * @see https://threejs.org/docs/#Reference/Scenes/Scene
@@ -10,7 +10,7 @@ export default {
     scene: {},
   
     /**
-     * The WebGL renderer displays your beautifully crafted scenes using WebGL.
+     * The WebGL renderer displays scenes using WebGL.
      *
      * @type {THREE.WebGLRenderer}
      * @see https://threejs.org/docs/#Reference/Renderers/WebGLRenderer
@@ -32,27 +32,16 @@ export default {
      */
     orbitControls: {},
 
-
+/**
+ *  For objects from scene
+ */
     /**
      * House Mesh and Plane
      * @type { THREE.Group }
      */
     meshHouse: {},
 
-    /**
-     * Chair Mesh
-     * @type { THREE.Group }
-     */
-    meshChair: {},
-    /**
-    * @type { THREE.Box3 }
-    */
-    boxChair: {},
 
-    /**
-     * @type { THREE.BoxHelper }
-     */
-    boxHelperChair: {},
     /**
      * Object to store the environment in.
      */
@@ -64,18 +53,11 @@ export default {
      */
     helpersStructure: {},
 
-    /**
-     * GroupBox for all mesh
-     * @type { THREE.Group }
-     */
-    boxMeshs: {},
-    /**
-     * @type { const }
-     */
-    boxMeshsLength : 0,
+
     /**
      * @type { Array }
      */
     boundingBox: [],
+
   
 };
