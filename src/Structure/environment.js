@@ -1,5 +1,7 @@
 import { BoxGeometry, Mesh, AxesHelper, GridHelper, MeshBasicMaterial, 
          Group, RepeatWrapping, BoxHelper, Box3, Vector3, TextureLoader, MeshStandardMaterial, Vector2,
+         Object3D, TangentSpaceNormalMap, ImageUtils, CubeGeometry, BackSide, MeshFaceMaterial, 
+         MeshPhongMaterial,
 } from 'three';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -13,11 +15,13 @@ import chairTextureSetttings from './config/chairTextureSettings';
 
 import TextureLoad from './TextureSet';
 import Lights from './Lights';
+import otherTexture from './config/otherTexture';
 
 /**
  * Build the environment.
  */
 const helpers = new Group();
+
 const createHelpers = () =>{
     props.helpersStructure.axesHelper = new AxesHelper(
         settings.axesHelper.axisSize,
@@ -82,6 +86,60 @@ const loadTerace = (setPosition, setSize, name, texture) => {
     planeMesh.position.set(setPosition.x, setPosition.y, setPosition.z);
     planeMesh.scale.set(setSize.x, setSize.y, setSize.z)
     props.meshHouse.add(planeMesh);
+}
+
+const gazon = () => {
+    var texture = otherTexture.grass_texture;
+
+    const geometry = new BoxGeometry(120, 148, 0.01);
+
+    const rotation = new Vector3(Math.PI / 2, 0, 0);
+    const material = new MeshPhongMaterial({
+        shininess: 5, lightMapIntensity: 0.9
+    })
+    //const material = new MeshBasicMaterial({color: 0x9ACD32});
+    const planeMesh = new Mesh(geometry, material);
+    planeMesh.receiveShadow = true;
+    planeMesh.castShadow = true;
+
+    
+    const textureLoaded = [];
+    for(let i = 0; i < 5; i++){
+        textureLoaded[i] = new TextureLoader().load(texture[Object.keys(texture)[i]]);
+    }
+
+    planeMesh.material.map = textureLoaded[0];
+    planeMesh.material.map.wrapS = RepeatWrapping;
+    planeMesh.material.map.wrapT = RepeatWrapping;
+    planeMesh.material.map.anisotropy = 4;
+    planeMesh.material.map.repeat.set(3,3);
+
+    planeMesh.material.displacementMap = textureLoaded[1];
+    planeMesh.material.displacementScale = 1.2;
+    planeMesh.material.displacementMap.wrapS = RepeatWrapping;
+    planeMesh.material.displacementMap.wrapT = RepeatWrapping;
+    planeMesh.material.displacementMap.anisotropy = 4;
+    planeMesh.material.displacementMap.repeat.set(3,3);
+
+    planeMesh.material.normalMap = textureLoaded[2];
+    planeMesh.material.normalMapType = TangentSpaceNormalMap;
+    planeMesh.material.normalScale = new Vector2(0.7, 0.9);
+    planeMesh.material.normalMap.wrapS = RepeatWrapping;
+    planeMesh.material.normalMap.wrapT = RepeatWrapping;
+    planeMesh.material.normalMap.anisotropy = 4;
+    planeMesh.material.normalMap.repeat.set(3, 3);
+
+    planeMesh.material.aoMap = textureLoaded[3];
+    planeMesh.material.aoMapIntensity = 10;
+    planeMesh.material.specularMap = textureLoaded[4];
+
+    var setPosition = new Vector3(21.5, -0.30, 0);
+    var setSize = new Vector3(1, 1, 1)
+    planeMesh.rotation.set(rotation.x, rotation.y, rotation.z);
+    planeMesh.position.set(setPosition.x, setPosition.y, setPosition.z);
+    planeMesh.scale.set(setSize.x, setSize.y, setSize.z)
+
+    props.scene.add(planeMesh);
 }
 
 const loadChair = (locationFile, setPosition, setSize, name) =>{
@@ -172,6 +230,67 @@ const loadChair = (locationFile, setPosition, setSize, name) =>{
     })
 }
 
+const loadGard = (position, rotation) =>{
+    const loader = new GLTFLoader();
+    
+
+    loader.load('/src/Structure/House/OtherModels/gardCurte.gltf', (gltf) => {
+        const mesh = gltf.scene;
+        
+        mesh.traverse( function ( child ){
+            if(child instanceof Group){
+                if(child.name === 'wall'){
+                    child.name = "gardCurte";
+                    child.scale.set(2.5, 2.5, 2.5);
+                    child.position.set(position.x, position.y, position.z);
+                    child.rotateZ(Math.PI / 2);
+                    //props.fance.add(child);
+                    var pozX = 0;
+                    var pozZ = 5;
+                    for(let i = 0; i < 16; i++){
+                        if(i >= 10){
+                            var newModel = child.clone();
+                            newModel.name = "gardCurte"; 
+                            newModel.rotation.set(Math.PI / 2, 0, Math.PI /2);
+                            newModel.position.set((position.x + 12.5) + (pozX * 24.1), position.y, position.z + (pozZ * 28));
+                            props.fance.add(newModel);
+                            pozZ--;
+                        }
+                        else if(i >= 6 && i < 10){
+                            var newModel = child.clone();
+                            newModel.name = "gardCurte"; 
+                            newModel.rotation.set(Math.PI / 2, 0, 0);
+                            newModel.position.set((position.x + 12.5) + (pozX * 28), position.y, position.z + (5 * 31));
+                            props.fance.add(newModel);
+                            pozX++;
+                        }else if(i < 6){
+                            var newModel = child.clone();
+                            newModel.name = "gardCurte"; 
+                            newModel.position.set(position.x, position.y, position.z + (i * 28));
+                            props.fance.add(newModel);
+                        }
+                    }
+                    props.fance.name = "GrupGard";
+                }
+            }
+        });
+    })
+}
+
+const skybox = () =>{
+    var skyGeometry = new CubeGeometry( 1000, 1000, 1000 );
+
+    var materialArray = [];
+	for (var i = 0; i < 6; i++)
+		materialArray.push( new THREE.MeshBasicMaterial({
+			map: ImageUtils.loadTexture("/src/Structure/Sky/sky.jpg"),
+			side: BackSide
+		}));
+	var skyMaterial = new MeshFaceMaterial( materialArray );
+    var skyBox = new Mesh( skyGeometry, skyMaterial );
+    props.scene.add(skyBox);
+}
+
 const constructCollider = () => {
     props.boundingBox.forEach((mesh)=>{
         mesh.box = new Box3().setFromObject( mesh );
@@ -188,9 +307,9 @@ const tempFunctionForChangeTexture = (event) =>{
     if(event.keyCode == 66){
         //console.log(props.meshHouse.children[1]);
         //console.log(wallTextureSettings.texture_wall_001);
-        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_001);
+        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_001, "BigMesh");
     }else if(event.keyCode == 65){
-        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_002);
+        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_002, "BigMesh");
     }
 }
 
@@ -198,13 +317,13 @@ window.addEventListener('keydown', tempFunctionForChangeTexture, false);
 
 export default createEnvironment  => {
     createHelpers();
-    props.scene.add(helpers);
+    //props.scene.add(helpers);
 
     const lights = new Lights();
     props.scene.add(lights);
 
     
-
+    props.fance = new Group();
     props.meshHouse = new Group();
     const position = new Vector3(10, 0 , 0);
     const position2 = new Vector3(0, 0, 0);
@@ -233,8 +352,30 @@ export default createEnvironment  => {
             new Vector3(2, 2, 2),
             "Chair_002"
     );
+
+    var posGard = -80;
+    /* for(let i = 0; i < 6; i++){
+        
+        loadGard(new Vector3(-30, 0, -80 + (i * 28)));
+    } */
+
+    loadGard(new Vector3(-30, 0 , -80));
+    /* props.scene.traverse(function (child){
+        if (child instanceof THREE.Mesh) {
+            child.castShadow = true;
+            console.log(i);
+        }
+    }); */
     //props.structure.box = new Mesh(geometry, material);
     
-    props.scene.add(props.meshHouse);
+    
 
+
+    console.log(props.scene);
+
+    props.scene.add(props.meshHouse, Math.PI / 2);
+    props.scene.add(props.fance);
+    gazon();
+    //skybox();
+    
 }

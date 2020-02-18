@@ -1,6 +1,7 @@
 import { WebGLRenderer, Scene, PerspectiveCamera, Vector3, PCFSoftShadowMap } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+import * as THREE from 'three'
 
 import props from './config/defaults';
 import settings from './config/settings';
@@ -17,6 +18,11 @@ import render from './render';
 */
 const createScene = () => {
     props.scene = new Scene();
+
+   
+    window.scene = props.scene;
+    window.THREE = THREE;
+
 };
 
 /**

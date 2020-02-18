@@ -59,7 +59,7 @@ const initStats = () =>{
         //Return to this instance
     return stats;
 }
-const stats = initStats();
+//const stats = initStats();
 /**
  * Render function  called on every frame
  */
@@ -71,7 +71,7 @@ export default function render(){
     
     //updateEnvironment()
     
-    stats.update();
+    //stats.update();
     requestAnimationFrame(render);
 
     props.renderer.render(props.scene, props.camera);

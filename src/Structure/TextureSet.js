@@ -1,5 +1,6 @@
 import { TextureLoader, Mesh, RepeatWrapping, MeshStandardMaterial, TangentSpaceNormalMap,
-        Vector2
+        Vector2,
+        MeshPhongMaterial
 } from "three";
 import DefaultSettings from './config/teraceTextureSettings';
 
@@ -10,7 +11,14 @@ const SetTextureToObject = (mesh, texture) =>{
     mesh.traverse((child) =>{
         if(child instanceof Mesh){
             if(child.name == "textureToChange"){
-                child.material.color.setHex(0xffffff);
+                child.material = new MeshPhongMaterial({shininess: 5, lightMapIntensity: 0.9});
+                child.material.map = texture[0];
+                child.material.bumpMap = texture[1];
+                child.material.normalMap = texture[2];
+                child.material.lightMap = texture[4];
+                child.material.specularMap = texture[5];
+
+                /* child.material.color.setHex(0xffffff);
                 
                 child.material.map = texture[0];
                 child.material.map.wrapS = RepeatWrapping;
@@ -35,7 +43,7 @@ const SetTextureToObject = (mesh, texture) =>{
                 //pentru material metalic, 0 - nu 1 - da
                 child.material.metalness = 0.0;
                     
-                child.material.needsUpdate = true;
+                child.material.needsUpdate = true; */
             }
         }
     })
@@ -87,7 +95,7 @@ const LoadTexture = (texture) =>{
     /* for(let i = 0; i < 3; i++){
         console.log(texture[Object.keys(texture)[i]]);
     } */
-    for(let i = 0; i < 4; i++){
+    for(let i = 0; i < 6; i++){
         textureLoaded[i] = new TextureLoader().load(texture[Object.keys(texture)[i]]);
     }
 }

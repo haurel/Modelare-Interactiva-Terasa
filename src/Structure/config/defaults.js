@@ -59,5 +59,10 @@ export default {
      */
     boundingBox: [],
 
+    /**
+     * @type { THREE.Group }
+     */
+    fance: {},
+
   
 };
