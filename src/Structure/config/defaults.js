@@ -64,5 +64,22 @@ export default {
      */
     fance: {},
 
+    /**
+     * @type { THREE.TransformControl }
+     */
+    control: {},
+
+    /**
+     *  @type { var }
+     */
+    composer : null,
+    effectFXAA : null,
+    outlinePass : null,
+    renderPass: null,
+    moved : false,
+    /**
+     * @type { Array }
+     */
+    selectedObjects : [],
   
 };

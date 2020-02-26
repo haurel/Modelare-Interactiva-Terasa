@@ -57,6 +57,7 @@ const SetTextureBasicMesh = (mesh, texture)=>{
         displacementScale: DefaultSettings.default_material_settings.displacementScale,
         displacementBias: DefaultSettings.default_material_settings.displacementBias,
         emissiveIntensity: DefaultSettings.default_material_settings.emissiveIntensity,
+        refractionRatio : -1,
     });
     //console.log(texture);
     mesh.material.map = texture[0];

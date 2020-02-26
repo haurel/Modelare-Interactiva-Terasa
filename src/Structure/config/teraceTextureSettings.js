@@ -5,12 +5,12 @@ import { RepeatWrapping, TangentSpaceNormalMap, Vector2, MeshStandardMaterial } 
 export default{
     default_material_settings:{
         //MeshStandarMaterial
-        metalness: 0.0,
-        roughness: 0.005,
+        metalness: 0.2,
+        roughness: 0.8,
         bumpScale: 0.5,
-        displacementScale: 0,
-        displacementBias: 0,
-        emissiveIntensity: 0.5,
+        displacementScale: 0.4,
+        displacementBias: 0.001,
+        emissiveIntensity: 0.1,
     },
     ceramic_terace_001:{
         diffuse_map: "/src/Structure/House/Terasa/ceramic_1_diffuse.jpg",

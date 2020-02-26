@@ -1,5 +1,15 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, Vector3, PCFSoftShadowMap } from 'three'
+import { WebGLRenderer, Scene, PerspectiveCamera, Vector3, PCFSoftShadowMap, Vector2, sRGBEncoding, ReinhardToneMapping } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { MaskPass } from 'three/examples/jsm/postprocessing/MaskPass';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+
+
 
 import * as THREE from 'three'
 
@@ -46,6 +56,16 @@ const createRenderer = () => {
     // TODO: Check for which cases this is necessary
     props.renderer.gammaOutput = true;
     props.renderer.gammaFactor = 2;
+
+    
+    props.renderer.shadowMap.enabled = true;
+    props.renderer.shadowMapSoft = true;
+    props.renderer.shadowMap.type = PCFSoftShadowMap;   
+    
+    props.renderer.outputEncoding = sRGBEncoding;
+    props.renderer.toneMapping = ReinhardToneMapping;
+    props.renderer.toneMappingExposure = 1.2;
+
     /* props.renderer.shadowMap.enabled = true;
     props.renderer.shadowMap.type = PCFSoftShadowMap; */
     // Append the render canvas to the DOM
@@ -75,8 +95,36 @@ const createOrbitControls = () => {
         props.camera,
         props.renderer.domElement
     )
+
+    /* props.controls.enableDamping = true;
+	props.controls.dampingFactor = 0.25; */
 }
 
+const createTransformControl = () =>{
+    props.control = new TransformControls(props.camera, props.renderer.domElement);
+    props.scene.add(props.control);
+
+    props.control.addEventListener( 'change', render );
+}
+
+const createOutlineObject = () =>{
+    props.composer = new EffectComposer( props.renderer );
+
+    props.renderPass = new RenderPass( props.scene, props.camera );
+    props.composer.addPass( props.renderPass );
+
+    props.outlinePass = new OutlinePass( new Vector2(window.innerWidth, window.innerHeight), props.scene, props.camera );
+    props.composer.addPass(props.outlinePass);
+
+    props.effectFXAA = new ShaderPass( FXAAShader );
+    props.effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight );
+    props.effectFXAA.renderToScreen = true;
+    props.composer.addPass( props.effectFXAA );
+
+    props.outlinePass.edgeStrength = 10;
+    props.outlinePass.edgeGlow = 1;
+    props.outlinePass.edgeThinckness = 4;
+}
 
 /**
 * Create all necessary parts of the architecture and start building
@@ -87,8 +135,8 @@ export default () => {
     createRenderer();
     createCamera();
     createOrbitControls();
-
-    
+    //createTransformControl();
+    createOutlineObject();
     createEnvironment();
     
     render();

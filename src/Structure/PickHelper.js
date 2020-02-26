@@ -20,19 +20,42 @@ class PickHelper{
         props.draggable = true;
         props.boundingBox.some((mesh, i) => {
             if(this.raycaster.ray.intersectsBox( mesh.box )){
-                console.log("Ai selectat un obiect");
+                console.log("Ai selectat un obiect", i);
                 mesh.helper.material.visible = true;
+                //this.addSelectedObject(mesh);
+                //props.outlinePass.selectedObjects = props.selectedObjects;
+
+                
             }else{
                 mesh.helper.material.visible = false;
-                console.log("Obiect deselectat");
+                //props.outlinePass.selectedObjects = [];
+                console.log("Obiect deselectat", i);
             }
         });
+    }
 
+    checkIntersection(pickPosition, camera){
+        this.raycaster.setFromCamera(pickPosition, camera);
 
+        var intersects = this.raycaster.intersectObjects( [ props.scene ], true);
+
+        if( intersects.length > 0){
+            var selectedObject = intersects[0].object;
+            //console.log(selectedObject);
+            this.addSelectedObject(selectedObject);
+            props.outlinePass.selectedObjects = selectedObject;
+        }else{
+
+        }
+    }   
+
+    addSelectedObject(object) {
+        props.selectedObjects = [];
+        props.selectedObjects.push(object);
     }
 }
 
-export {PickHelper as default}
+export { PickHelper as default }
 
 /* document.addEventListener('mousedown', () =>{
                     if(this.raycaster.ray.intersectsBox( mesh.box ) ){

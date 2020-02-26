@@ -1,6 +1,6 @@
 import { BoxGeometry, Mesh, AxesHelper, GridHelper, MeshBasicMaterial, 
          Group, RepeatWrapping, BoxHelper, Box3, Vector3, TextureLoader, MeshStandardMaterial, Vector2,
-         Object3D, TangentSpaceNormalMap, ImageUtils, CubeGeometry, BackSide, MeshFaceMaterial, 
+         TangentSpaceNormalMap, ImageUtils, CubeGeometry, BackSide, MeshFaceMaterial, 
          MeshPhongMaterial,
 } from 'three';
 
@@ -78,7 +78,7 @@ const loadTerace = (setPosition, setSize, name, texture) => {
     const material = new MeshStandardMaterial();
     const planeMesh = new Mesh(geometry, material);
     planeMesh.receiveShadow = true;
-    planeMesh.castShadow = true;
+    //planeMesh.castShadow = true;
     //console.log(planeMesh.material)
     TextureLoad(planeMesh, texture, "BasicMesh");
 
@@ -206,7 +206,9 @@ const loadChair = (locationFile, setPosition, setSize, name) =>{
                 
             }
         })
-        
+
+
+
         const helper = new BoxHelper(mesh);
         helper.material.visible = false;
         helper.geometry.computeBoundingBox();
@@ -237,6 +239,14 @@ const loadGard = (position, rotation) =>{
     loader.load('/src/Structure/House/OtherModels/gardCurte.gltf', (gltf) => {
         const mesh = gltf.scene;
         
+        mesh.traverse(function (child ){
+            if(child instanceof Mesh){
+                child.receiveShadow = true;
+                child.castShadow = true;
+            }
+        })
+        //console.log("Gard", mesh);
+
         mesh.traverse( function ( child ){
             if(child instanceof Group){
                 if(child.name === 'wall'){
@@ -274,6 +284,8 @@ const loadGard = (position, rotation) =>{
                 }
             }
         });
+        props.fance.receiveShadow = true;
+        props.fance.castShadow = true;
     })
 }
 

@@ -8,6 +8,7 @@ import PickHelper from './PickHelper';
 
 
 
+
 const pickHelper = new PickHelper();
 
 const pickPosition = {x: 0, y: 0};
@@ -44,7 +45,9 @@ const clearPickPosition = () =>{
 }
 
 const pickObj = () =>{
-    pickHelper.Pick(pickPosition, props.scene, props.camera, time) 
+    pickHelper.Pick(pickPosition, props.scene, props.camera, time);
+    //pickHelper.ControlPickObj(); 
+    //console.log("Am dat click");
 }
 
 const initStats = () =>{
@@ -74,7 +77,15 @@ export default function render(){
     //stats.update();
     requestAnimationFrame(render);
 
+    props.renderer.autoClear = true;
+    props.renderer.setClearColor( 0xfff0f0 );
+    props.renderer.setClearAlpha( 0.0 );
+
+    props.composer.render();
     props.renderer.render(props.scene, props.camera);
+    props.composer.render();
+    props.orbitControls.update();
+    
 }
 
 /**
@@ -88,12 +99,47 @@ const windowResizeHandler = () => {
 
 document.addEventListener('resize', windowResizeHandler, false);
 
-document.addEventListener('mousedown', pickObj, false);
+document.addEventListener('mousedown', pickObj, true);
 document.addEventListener('mousemove', setPikerPosition);
-document.addEventListener('mouseout', clearPickPosition);
-document.addEventListener('mouseleave', clearPickPosition);
 
-document.addEventListener('touchstart', (event) => {
+
+/* props.orbitControls.addEventListener( 'change', function() {
+    props.moved = true;
+}); */
+
+/* window.addEventListener( 'mousedown', function () {
+    props.moved = false;
+}, false);
+
+window.addEventListener( 'mouseup', function () {
+    if(!props.moved)
+        pickHelper.checkIntersection(pickPosition, props.camera);
+});
+
+window.addEventListener( 'mousemove', onTouchMove );
+window.addEventListener( 'touchmove', onTouchMove );
+
+function onTouchMove( event ) {
+    var x, y;
+	if ( event.changedTouches ) {
+
+		x = event.changedTouches[ 0 ].pageX;
+		y = event.changedTouches[ 0 ].pageY;
+	} else {
+
+        x = event.clientX;
+        y = event.clientY;
+
+	}
+
+	pickPosition.x = ( x / window.innerWidth ) * 2 - 1;
+	pickPosition.y = - ( y / window.innerHeight ) * 2 + 1;
+} */
+
+/* document.addEventListener('mouseout', clearPickPosition);
+document.addEventListener('mouseleave', clearPickPosition); */
+
+/* document.addEventListener('touchstart', (event) => {
         // prevent the window from scrolling
     event.preventDefault();
     setPickPosition(event.touches[0]);
@@ -103,4 +149,4 @@ document.addEventListener('touchmove', (event) => {
     setPickPosition(event.touches[0]);
 });
     
-document.addEventListener('touchend', clearPickPosition);
+document.addEventListener('touchend', clearPickPosition); */
