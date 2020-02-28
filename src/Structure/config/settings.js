@@ -33,7 +33,7 @@ export default {
     /**
      * Background color used on draw (false for transparent).
      */
-    backgroundColor: 0xEFEFEF,
+    backgroundColor: 0xfff0f0,
   
     /**
      * Set a default pixel ratio (1 for more performance).

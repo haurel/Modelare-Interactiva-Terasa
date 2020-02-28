@@ -27,8 +27,13 @@ const canvas = document.body;
 const getCanvasRelativePosition = (event) =>{
     const rect =  canvas.getBoundingClientRect();
     return {
-        x: ((event.clientX - rect.left) / (rect.width - rect.left )) * 2 - 1,
-        y: - ((event.clientY - rect.top) / (rect.bottom - rect.top )) * 2 + 1
+        //x: ((event.clientX - rect.left) / (rect.width - rect.left )) * 2 - 1,
+        //y: - ((event.clientY - rect.top) / (rect.bottom - rect.top )) * 2 + 1
+        /* x: ((0.4 * window.innerWidth + 1) / ( (0.6 * window.innerWidth - 2) - (0.4 * window.innerWidth + 1))) * 2 - 1,
+        y: -(((1 - (window.innerHeight - 2))) / (1 - (1 - (window.innerHeight - 2)))) * 2 + 1 */
+
+        x: ((event.clientX * 0.5 - (0.4 * rect.left + 1)) / ((0.6 * rect.width - 2) - (0.4 * rect.left + 1))) * 2 - 1,
+        y: - ((event.clientY - (0.4 * rect.top + 1)) / (rect.bottom - (0.4 * rect.top + 1))) * 2 + 1
     };
 }
 
@@ -36,7 +41,7 @@ const setPikerPosition = (event) =>{
     const pos = getCanvasRelativePosition(event);
     pickPosition.x = pos.x;
     pickPosition.y = pos.y;
-    //console.log(pickPosition);
+    
 }
 
 const clearPickPosition = () =>{
@@ -48,6 +53,7 @@ const pickObj = () =>{
     pickHelper.Pick(pickPosition, props.scene, props.camera, time);
     //pickHelper.ControlPickObj(); 
     //console.log("Am dat click");
+    //console.log(pickPosition);
 }
 
 const initStats = () =>{
@@ -66,26 +72,48 @@ const initStats = () =>{
 /**
  * Render function  called on every frame
  */
+
+
+
 export default function render(){
     if(settings.backgroundColor !== false) 
         props.renderer.setClearColor(settings.backgroundColor);
-    //console.log(pickPosition);
-    
-    
+   
+
     //updateEnvironment()
-    
     //stats.update();
+
+    
+    //props.renderer.setClearColor( 0xfff0f0 );
+    //props.renderer.setClearAlpha( 0.0 );
+    
+    props.orbitControls.update();
+
     requestAnimationFrame(render);
 
-    props.renderer.autoClear = true;
-    props.renderer.setClearColor( 0xfff0f0 );
-    props.renderer.setClearAlpha( 0.0 );
-
-    props.composer.render();
-    props.renderer.render(props.scene, props.camera);
-    props.composer.render();
-    props.orbitControls.update();
+    var SCREEN_W, SCREEN_H;
+    SCREEN_W = window.innerWidth;
+    SCREEN_H = window.innerHeight;
     
+    
+    var left,bottom,width,height;
+    left = 0; bottom = 0; width = 0.4*SCREEN_W-2; height = SCREEN_H-2;
+
+
+    props.renderer.setViewport(left,bottom,width,height);
+    props.renderer.setScissor(left,bottom,width,height);
+    props.renderer.setScissorTest (true);
+    props.camera2D.aspect = width / height;
+    props.camera2D.updateProjectionMatrix();
+    props.renderer.render(props.scene, props.camera2D);
+
+    left = 0.4*SCREEN_W+1; bottom = 1; width = 0.6*SCREEN_W-2; height = SCREEN_H-2;
+    props.renderer.setViewport (left,bottom,width,height);
+    props.renderer.setScissor(left,bottom,width,height);
+    props.renderer.setScissorTest (true);  // clip out "viewport"
+    props.camera.aspect = width / height;
+    props.camera.updateProjectionMatrix();
+    props.renderer.render (props.scene,props.camera);
 }
 
 /**

@@ -4,7 +4,7 @@ export default {
      * Scenes allow you to set up what and where is to be rendered by three.js.
      * This is where have place objects, lights and cameras.
      *
-     * @type {THREE.Scene}
+     * @type { THREE.Scene }
      * @see https://threejs.org/docs/#Reference/Scenes/Scene
      */
     scene: {},
@@ -12,7 +12,7 @@ export default {
     /**
      * The WebGL renderer displays scenes using WebGL.
      *
-     * @type {THREE.WebGLRenderer}
+     * @type { THREE.WebGLRenderer }
      * @see https://threejs.org/docs/#Reference/Renderers/WebGLRenderer
      */
     renderer: {},
@@ -20,11 +20,18 @@ export default {
     /**
      * Camera with perspective projection.
      *
-     * @type {THREE.PerspectiveCamera}
+     * @type { THREE.PerspectiveCamera }
      * @see https://threejs.org/docs/#Reference/Cameras/PerspectiveCamera
      */
     camera: {},
    
+    /**
+     * Camera with ortographics projection
+     * @type { THREE.OrthographicCamera }
+     * @see 
+     */
+    camera2D: {},
+
     /**
      * Orbit Controls
      * 

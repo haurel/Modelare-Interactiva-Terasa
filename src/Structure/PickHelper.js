@@ -1,6 +1,4 @@
 import { Raycaster } from 'three';
-import { DragControls } from 'three/examples/jsm/controls/DragControls';
-import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 
 import props from './config/defaults';
 import render from './render';
@@ -22,6 +20,12 @@ class PickHelper{
             if(this.raycaster.ray.intersectsBox( mesh.box )){
                 console.log("Ai selectat un obiect", i);
                 mesh.helper.material.visible = true;
+                props.control.attach(mesh);
+
+                //props.orbitControls.enabled = false;
+                //props.control.showY = true;
+
+
                 //this.addSelectedObject(mesh);
                 //props.outlinePass.selectedObjects = props.selectedObjects;
 
