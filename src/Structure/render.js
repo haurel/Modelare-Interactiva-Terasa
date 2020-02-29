@@ -24,7 +24,7 @@ const time = 0;
 
 //const canvas = document.getElementById('canvas');
 const canvas = document.body;  
-const getCanvasRelativePosition = (event) =>{
+const getRelativeMousePositionOnlyPerspectivCamera = (event) =>{
     const rect =  canvas.getBoundingClientRect();
     return {
         //x: ((event.clientX - rect.left) / (rect.width - rect.left )) * 2 - 1,
@@ -37,11 +37,34 @@ const getCanvasRelativePosition = (event) =>{
     };
 }
 
+const getRelativMousePosition = (event) =>{
+    const rect = canvas.getBoundingClientRect();
+    var x = ((event.clientX  - (0.6 * rect.left + 1)) / ((rect.width * 0.6 - 2) - (rect.left * 0.6 + 1))) * 2 - 1;
+    var xPerspectivCamera = ((event.clientX * 0.5 - (0.4 * rect.left + 1)) / ((0.6 * rect.width - 2) - (0.4 * rect.left + 1))) * 2 - 1;
+
+
+    if(Math.abs(parseFloat(x)) <= Math.abs(parseFloat(xPerspectivCamera))){
+        //console.log(x + " - " + xPerspectivCamera);
+        return true;
+    }else{
+        //console.log( x + " - " + xPerspectivCamera);
+        return false;
+    } 
+
+}
+
 const setPikerPosition = (event) =>{
-    const pos = getCanvasRelativePosition(event);
+    const pos = getRelativeMousePositionOnlyPerspectivCamera(event);
     pickPosition.x = pos.x;
     pickPosition.y = pos.y;
     
+
+    const mousePos = getRelativMousePosition(event);
+    if(mousePos){
+        props.orbitControls.enabled = false;
+    }else if(!mousePos){
+        props.orbitControls.enabled = true;
+    }
 }
 
 const clearPickPosition = () =>{
@@ -75,21 +98,21 @@ const initStats = () =>{
 
 
 
+
 export default function render(){
     if(settings.backgroundColor !== false) 
         props.renderer.setClearColor(settings.backgroundColor);
    
-
     //updateEnvironment()
     //stats.update();
 
-    
+    //requestAnimationFrame(render);
     //props.renderer.setClearColor( 0xfff0f0 );
     //props.renderer.setClearAlpha( 0.0 );
     
     props.orbitControls.update();
 
-    requestAnimationFrame(render);
+    //
 
     var SCREEN_W, SCREEN_H;
     SCREEN_W = window.innerWidth;
@@ -113,7 +136,9 @@ export default function render(){
     props.renderer.setScissorTest (true);  // clip out "viewport"
     props.camera.aspect = width / height;
     props.camera.updateProjectionMatrix();
-    props.renderer.render (props.scene,props.camera);
+    props.renderer.render(props.scene,props.camera);
+    
+    //requestAnimationFrame(render);
 }
 
 /**
@@ -125,7 +150,8 @@ const windowResizeHandler = () => {
     props.renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-document.addEventListener('resize', windowResizeHandler, false);
+document.addEventListener('resize', windowResizeHandler);
+
 
 document.addEventListener('mousedown', pickObj, true);
 document.addEventListener('mousemove', setPikerPosition);

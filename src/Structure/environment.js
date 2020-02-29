@@ -226,7 +226,7 @@ const loadChair = (locationFile, setPosition, setSize, name) =>{
 
         props.boxMeshsLength++;
         
-        
+        console.log(props.boundingBox[0]);
         props.scene.add(mesh);
         //console.log(props.scene);
     })

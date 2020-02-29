@@ -120,9 +120,13 @@ const createOrbitControls = () => {
 
 const createTransformControl = () =>{
     props.control = new TransformControls(props.camera2D, props.renderer.domElement);
+    props.control.setSize(1);
+    props.control.setSpace("local");
+    /* props.control.setMode('rotate');
+    props.control.showX = false; */
     props.scene.add(props.control);
 
-    props.control.addEventListener( 'change', render );
+    //props.control.addEventListener( 'change', render );
 }
 
 const createOutlineObject = () =>{
@@ -148,6 +152,11 @@ const createOutlineObject = () =>{
 * Create all necessary parts of the architecture and start building
 */
 
+function animate(){
+    render();
+    requestAnimationFrame(animate);
+}
+
 export default () => {
     createScene();
     createRenderer();
@@ -158,5 +167,9 @@ export default () => {
     //createOutlineObject();
     createEnvironment();
     
+    animate();
+
     render();
+
+    
 };

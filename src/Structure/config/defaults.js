@@ -88,5 +88,10 @@ export default {
      * @type { Array }
      */
     selectedObjects : [],
+
+    /**
+     * @type { var }
+     */
+    needUpdate : null,
   
 };

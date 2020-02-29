@@ -1,4 +1,4 @@
-import { Raycaster } from 'three';
+import { Raycaster, Box3, BoxHelper } from 'three';
 
 import props from './config/defaults';
 import render from './render';
@@ -22,13 +22,11 @@ class PickHelper{
                 mesh.helper.material.visible = true;
                 props.control.attach(mesh);
 
-                //props.orbitControls.enabled = false;
-                //props.control.showY = true;
+                props.boundingBox[i].helper.update();
 
-
-                //this.addSelectedObject(mesh);
-                //props.outlinePass.selectedObjects = props.selectedObjects;
-
+                var box3Temp = new Box3().setFromObject(props.boundingBox[i].helper);
+                props.boundingBox[i].box = box3Temp;
+                console.log(props.control);
                 
             }else{
                 mesh.helper.material.visible = false;
@@ -36,27 +34,12 @@ class PickHelper{
                 console.log("Obiect deselectat", i);
             }
         });
+
+        //props.control.detach();
+        //props.control.dispose();
     }
 
-    checkIntersection(pickPosition, camera){
-        this.raycaster.setFromCamera(pickPosition, camera);
 
-        var intersects = this.raycaster.intersectObjects( [ props.scene ], true);
-
-        if( intersects.length > 0){
-            var selectedObject = intersects[0].object;
-            //console.log(selectedObject);
-            this.addSelectedObject(selectedObject);
-            props.outlinePass.selectedObjects = selectedObject;
-        }else{
-
-        }
-    }   
-
-    addSelectedObject(object) {
-        props.selectedObjects = [];
-        props.selectedObjects.push(object);
-    }
 }
 
 export { PickHelper as default }
