@@ -23,7 +23,14 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: [
-                    'file-loader'
+                    {
+                        loader: "file-loader",
+                        options: { 
+                            outputPath: "img/",
+                            name: '[name].[ext]',
+                            //name: '[sha512:hash:base64:7].[ext]' 
+                        }
+                    }
                 ]
             },
             {

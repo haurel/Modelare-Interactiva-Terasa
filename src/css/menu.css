@@ -1,3 +1,8 @@
+body{
+  margin: 0px;
+  overflow: hidden;
+}
+
 /* The side navigation menu */
 .sidenav {
   height: 100%; /* 100% Full-height */
@@ -36,6 +41,43 @@
   margin-left: 50px;
 }
 
+.sidenav .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width:100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.sidenav a:hover, .dropdown-btn:hover {
+  color: #f1f1f1;
+}
+
+.active {
+  background-color: green;
+  color: white;
+}
+
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 4px;
+  padding-right: 4px;
+
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left 0.5s;
@@ -45,6 +87,34 @@
 .imageClass{
   position: absolute;
   padding: 20px;
+}
+
+/* Mouse hover image zoom*/
+.zoom:hover {
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: translate(70px, 0) scale(1.5);
+}
+
+
+
+#photos {
+  /* Prevent vertical gaps */
+  line-height: 0px;
+  
+  -webkit-column-count: 4;
+  -webkit-column-gap:   0.2px;
+  -moz-column-count:    4;
+  -moz-column-gap:      0.2px;
+  column-count:         4;
+  column-gap:           1px;
+}
+
+#photos img {
+ /* Just in case there are inline attributes */
+ width: 100% !important;
+ height: auto !important;
+ margin-bottom: 1px;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

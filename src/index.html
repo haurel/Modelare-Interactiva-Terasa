@@ -11,10 +11,59 @@
 <body>
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">About</a>
+        <!-- <a href="#">About</a>
         <a href="#">Services</a>
         <a href="#">Clients</a>
-        <a href="#">Contact</a>
+        <a href="#">Contact</a> -->
+
+        <button class="dropdown-btn">Camera Position
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <div class="cameraDiv">
+            <button type = "button" id="original-position" class="camera" onclick='modVizualizare(this.id)'>Original Position</button>
+            <button type = "button" id="fata" class="camera" onclick='modVizualizare(this.id)'>Fata</button>
+            <button type = "button" id="lateral" class="camera" onclick='modVizualizare(this.id)'>Lateral</button>
+            <button type = "button" id="freemode" class="camera" onclick='modVizualizare(this.id)'>Free Mode</button>
+        </div>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+        <!-- HOUSE -->
+        <button class="dropdown-btn">House Colors
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <section id="photos">
+                <img src="./css/image/textures/house/1.jpg">
+                <img src="./css/image/textures/house/2.jpg">
+            </section>
+            <!-- <div class="imageGalery">
+                <figure class="imageGalery__item imageGalery__item--1">
+                    <img src='./Structure/House/HouseTexture/brick_001_diffuse.jpg' alt="Gallery image 1" class="imageGalery__img">
+                </figure>
+                <figure class="imageGalery__itemimageGalery__item--2">
+                    <img src='./Structure/House/HouseTexture/brick_001_diffuse.jpg' alt="Gallery image 1" class="imageGalery__img">
+                </figure>
+                <figure class="imageGalery__item imageGalery__item--3">
+                    <img src='./Structure/House/HouseTexture/brick_001_diffuse.jpg' alt="Gallery image 1" class="imageGalery__img">
+                </figure>
+                <figure class="imageGalery__item imageGalery__item--4">
+                    <img src='./Structure/House/HouseTexture/brick_001_diffuse.jpg' alt="Gallery image 1" class="imageGalery__img">
+                </figure>
+               
+            </div>	 -->
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+        <!-- OBJECTS -->
+        <button class="dropdown-btn">Dropdown
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="#">Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
     </div>
       
     <!-- Use any element to open the sidenav -->
@@ -24,5 +73,44 @@
     <div id="main">
         <div id='canvas'></div>
     </div>
+
+    <script>
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+        var sectionImage = document.getElementById('photos');
+
+        var image = '';
+        //var src = "./css/image/textures/house/";
+        var src = "./dist/img/";
+        var ext = ".jpg";
+        var srcComplete;
+
+        for(var i = 0; i < 2; i++){
+            srcComplete = src + (i+1) + ext;
+            console.log(srcComplete.toString());
+            var image = document.createElement("img");
+            image.setAttribute("src", srcComplete);
+            document.getElementById('photos').appendChild(image);
+            
+            //image += '<img src= "'+srcComplete+'" alt="colors house" >';
+            //sectionImage.innerHTML += '<img src="./css/image/textures/house/' + i + '.jpg" />';
+            //console.log(image);
+        }
+        //document.getElementById('photos').innerHTML += image;
+
+    </script>
+        
 </body>
 </html>
