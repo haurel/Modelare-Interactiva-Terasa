@@ -18,7 +18,7 @@ class PickHelper{
         props.draggable = true;
         props.boundingBox.some((mesh, i) => {
             if(this.raycaster.ray.intersectsBox( mesh.box )){
-                console.log("Ai selectat un obiect", i);
+                //console.log("Ai selectat un obiect", i);
                 mesh.helper.material.visible = true;
                 props.control.attach(mesh);
 
@@ -26,12 +26,12 @@ class PickHelper{
 
                 var box3Temp = new Box3().setFromObject(props.boundingBox[i].helper);
                 props.boundingBox[i].box = box3Temp;
-                console.log(props.control);
+                //console.log(props.control);
                 
             }else{
                 mesh.helper.material.visible = false;
                 //props.outlinePass.selectedObjects = [];
-                console.log("Obiect deselectat", i);
+                //console.log("Obiect deselectat", i);
             }
         });
 

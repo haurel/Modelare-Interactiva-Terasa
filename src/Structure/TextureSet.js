@@ -15,10 +15,13 @@ const SetTextureToObject = (mesh, texture) =>{
                 child.material.map = texture[0];
                 child.material.bumpMap = texture[1];
                 child.material.normalMap = texture[2];
-                child.material.lightMap = texture[4];
-                child.material.specularMap = texture[5];
+                if(texture[4] !== ""){
+                    child.material.lightMap = texture[4];
+                }else if(texture[5] !== ""){
+                    child.material.specularMap = texture[5];
+                }
 
-                /* child.material.color.setHex(0xffffff);
+                child.material.color.setHex(0xffffff);
                 
                 child.material.map = texture[0];
                 child.material.map.wrapS = RepeatWrapping;
@@ -43,7 +46,7 @@ const SetTextureToObject = (mesh, texture) =>{
                 //pentru material metalic, 0 - nu 1 - da
                 child.material.metalness = 0.0;
                     
-                child.material.needsUpdate = true; */
+                child.material.needsUpdate = true;
             }
         }
     })
@@ -88,12 +91,13 @@ const SetTextureBasicMesh = (mesh, texture)=>{
         material.metalnessMap.anisotropy = 4;
         material.metalnessMap.repeat.set(3, 3);
     }
+    if(texture[4] !== ""){}
 
     mesh.material.needsUpdate = true;
 }
 
 const LoadTexture = (texture) =>{
-    /* for(let i = 0; i < 3; i++){
+    /* for(let i = 0; i < 6; i++){
         console.log(texture[Object.keys(texture)[i]]);
     } */
     for(let i = 0; i < 6; i++){
