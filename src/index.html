@@ -36,27 +36,12 @@
         </button>
         <div class="dropdown-container">
             <section id="photos">
-                <img src="./css/image/textures/house/1.jpg" onclick = "init(this.src)" class="img_select">
-                <img src="./css/image/textures/house/2.jpg" onclick = "init(this.src)" class="img_select">
+                <!-- <img src="./css/image/textures/house/1.jpg" onclick = "init(this.src)" class="img_select">
+                <img src="./css/image/textures/house/2.jpg" onclick = "init(this.src)" class="img_select"> -->
             </section>
 
             <input type="image" id="input_image" src="/src/css/image/upload.png"/>
             <input type="file" id="input_file" style="display: none" onchange="readURL(this);" />
-            <!-- <div class="imageGalery">
-                <figure class="imageGalery__item imageGalery__item--1">
-                    <img src='./Structure/House/HouseTexture/brick_001_diffuse.jpg' alt="Gallery image 1" class="imageGalery__img">
-                </figure>
-                <figure class="imageGalery__itemimageGalery__item--2">
-                    <img src='./Structure/House/HouseTexture/brick_001_diffuse.jpg' alt="Gallery image 1" class="imageGalery__img">
-                </figure>
-                <figure class="imageGalery__item imageGalery__item--3">
-                    <img src='./Structure/House/HouseTexture/brick_001_diffuse.jpg' alt="Gallery image 1" class="imageGalery__img">
-                </figure>
-                <figure class="imageGalery__item imageGalery__item--4">
-                    <img src='./Structure/House/HouseTexture/brick_001_diffuse.jpg' alt="Gallery image 1" class="imageGalery__img">
-                </figure>
-               
-            </div>	 -->
         </div>
         <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
         <!-- OBJECTS -->
@@ -99,8 +84,9 @@
         var sectionImage = document.getElementById('photos');
 
         var image = '';
-        //var src = "./css/image/textures/house/";
-        var src = "./dist/img/";
+        //var src = "css/image/textures/house/";
+        //var src = "./dist/img/";
+        var src = "img/";
         var ext = ".jpg";
         var srcComplete;
 
@@ -110,6 +96,7 @@
             var image = document.createElement("img");
             image.setAttribute("src", srcComplete);
             image.setAttribute("onclick", "init(this.src)");
+            image.setAttribute("class", "img_select");
             //image.setAttribute("onclick", "getSelectedColor(this.src)");
             document.getElementById('photos').appendChild(image);
             
