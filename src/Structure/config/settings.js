@@ -29,7 +29,24 @@ export default {
       near: 1,
       far: 3500,
     },
+    
+    /**
+     * Set the camera properties.
+     */
+
+    camera2DSigle : {
+      left: -60,
+      right: 100,
+      top: 100,
+      bottom: -100,
+      near: 1,
+      far: 100,
+    },
   
+    /**
+     * OrbitControl for difference 
+     */
+    
     /**
      * Background color used on draw (false for transparent).
      */

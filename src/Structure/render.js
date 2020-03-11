@@ -27,17 +27,17 @@ const canvas = document.body;
 const getRelativeMousePositionOnlyPerspectivCamera = (event) =>{
     const rect =  canvas.getBoundingClientRect();
     return {
-        //x: ((event.clientX - rect.left) / (rect.width - rect.left )) * 2 - 1,
-        //y: - ((event.clientY - rect.top) / (rect.bottom - rect.top )) * 2 + 1
+        x: ((event.clientX - rect.left) / (rect.width - rect.left )) * 2 - 1,
+        y: - ((event.clientY - rect.top) / (rect.bottom - rect.top )) * 2 + 1
         /* x: ((0.4 * window.innerWidth + 1) / ( (0.6 * window.innerWidth - 2) - (0.4 * window.innerWidth + 1))) * 2 - 1,
         y: -(((1 - (window.innerHeight - 2))) / (1 - (1 - (window.innerHeight - 2)))) * 2 + 1 */
 
-        x: ((event.clientX * 0.5 - (0.4 * rect.left + 1)) / ((0.6 * rect.width - 2) - (0.4 * rect.left + 1))) * 2 - 1,
-        y: - ((event.clientY - (0.4 * rect.top + 1)) / (rect.bottom - (0.4 * rect.top + 1))) * 2 + 1
+        //x: ((event.clientX * 0.5 - (0.4 * rect.left + 1)) / ((0.6 * rect.width - 2) - (0.4 * rect.left + 1))) * 2 - 1,
+        //y: - ((event.clientY - (0.4 * rect.top + 1)) / (rect.bottom - (0.4 * rect.top + 1))) * 2 + 1
     };
 }
 
-const getRelativMousePosition = (event) =>{
+/* const getRelativMousePosition = (event) =>{
     const rect = canvas.getBoundingClientRect();
     var x = ((event.clientX  - (0.6 * rect.left + 1)) / ((rect.width * 0.6 - 2) - (rect.left * 0.6 + 1))) * 2 - 1;
     var xPerspectivCamera = ((event.clientX * 0.5 - (0.4 * rect.left + 1)) / ((0.6 * rect.width - 2) - (0.4 * rect.left + 1))) * 2 - 1;
@@ -51,7 +51,7 @@ const getRelativMousePosition = (event) =>{
         return false;
     } 
 
-}
+} */
 
 const setPikerPosition = (event) =>{
     const pos = getRelativeMousePositionOnlyPerspectivCamera(event);
@@ -59,12 +59,12 @@ const setPikerPosition = (event) =>{
     pickPosition.y = pos.y;
     
 
-    const mousePos = getRelativMousePosition(event);
+    /* const mousePos = getRelativMousePosition(event);
     if(mousePos){
         props.orbitControls.enabled = false;
     }else if(!mousePos){
         props.orbitControls.enabled = true;
-    }
+    } */
 }
 
 const clearPickPosition = () =>{
@@ -73,7 +73,7 @@ const clearPickPosition = () =>{
 }
 
 const pickObj = () =>{
-    pickHelper.Pick(pickPosition, props.scene, props.camera, time);
+    pickHelper.Pick(pickPosition, props.scene, props.camera2D, time);
     //pickHelper.ControlPickObj(); 
     //console.log("Am dat click");
     //console.log(pickPosition);
@@ -94,7 +94,7 @@ const initStats = () =>{
 //const stats = initStats();
 /**
  * Render function  called on every frame
- */
+*/
 
 
 
@@ -110,11 +110,11 @@ export default function render(){
     //props.renderer.setClearColor( 0xfff0f0 );
     //props.renderer.setClearAlpha( 0.0 );
     
-    props.orbitControls.update();
+    //props.orbitControls.update();
 
     //
 
-    var SCREEN_W, SCREEN_H;
+    /* var SCREEN_W, SCREEN_H;
     SCREEN_W = window.innerWidth;
     SCREEN_H = window.innerHeight;
     
@@ -136,9 +136,13 @@ export default function render(){
     props.renderer.setScissorTest (true);  // clip out "viewport"
     props.camera.aspect = width / height;
     props.camera.updateProjectionMatrix();
-    props.renderer.render(props.scene,props.camera);
+    props.renderer.render(props.scene,props.camera); */
     
-    //requestAnimationFrame(render);
+
+    props.cameraControl.OrthographicCamera();
+    props.camera2D.aspect = window.innerWidth / window.innerHeight;
+    props.camera2D.updateProjectionMatrix();
+    props.renderer.render(props.scene, props.camera2D);
 }
 
 /**
@@ -154,7 +158,7 @@ document.addEventListener('resize', windowResizeHandler);
 
 
 document.addEventListener('mousedown', pickObj, true);
-document.addEventListener('mousemove', setPikerPosition);
+document.addEventListener('mousemove', setPikerPosition); //apelez aici oribitcontrolprop
 
 
 /* props.orbitControls.addEventListener( 'change', function() {

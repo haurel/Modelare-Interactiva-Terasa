@@ -34,9 +34,6 @@ class PickHelper{
                 //console.log("Obiect deselectat", i);
             }
         });
-
-        //props.control.detach();
-        //props.control.dispose();
     }
 
 

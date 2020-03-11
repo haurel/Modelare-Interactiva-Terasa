@@ -2,11 +2,9 @@ import { WebGLRenderer, Scene, PerspectiveCamera, Vector3, PCFSoftShadowMap, Vec
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
-import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
-import { MaskPass } from 'three/examples/jsm/postprocessing/MaskPass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 
@@ -15,7 +13,7 @@ import * as THREE from 'three'
 
 import props from './config/defaults';
 import settings from './config/settings';
-
+import Camera from './Camera';
 
 
 import createEnvironment from './environment';
@@ -74,7 +72,7 @@ const createRenderer = () => {
 * Create camera of type THREE.PerspectiveCamera
 */
 
-const createCamera = () => {
+/* const createCamera = () => {
     // Create the camera 
     props.camera = new PerspectiveCamera(
         settings.camera.fov,
@@ -106,7 +104,7 @@ const createCamera2D = () =>{
     props.camera2D.lookAt(new Vector3(0, -1, 0));
 
 
-}
+} */
 
 const createOrbitControls = () => {
     props.orbitControls = new OrbitControls(
@@ -124,12 +122,13 @@ const createTransformControl = () =>{
     props.control.setSpace("local");
     /* props.control.setMode('rotate');
     props.control.showX = false; */
+    props.control.showY = false;
     props.scene.add(props.control);
 
     //props.control.addEventListener( 'change', render );
 }
 
-const createOutlineObject = () =>{
+/* const createOutlineObject = () =>{
     props.composer = new EffectComposer( props.renderer );
 
     props.renderPass = new RenderPass( props.scene, props.camera );
@@ -146,7 +145,7 @@ const createOutlineObject = () =>{
     props.outlinePass.edgeStrength = 10;
     props.outlinePass.edgeGlow = 1;
     props.outlinePass.edgeThinckness = 4;
-}
+} */
 
 /**
 * Create all necessary parts of the architecture and start building
@@ -160,9 +159,10 @@ function animate(){
 export default () => {
     createScene();
     createRenderer();
-    createCamera();
-    createCamera2D();
-    createOrbitControls();
+    //createCamera();
+    //createCamera2D();
+    props.cameraControl = new Camera();
+    //createOrbitControls();
     createTransformControl();
     //createOutlineObject();
     createEnvironment();

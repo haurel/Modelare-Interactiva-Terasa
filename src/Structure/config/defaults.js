@@ -93,5 +93,9 @@ export default {
      * @type { var }
      */
     needUpdate : null,
-  
+
+    /**
+     * @type { var }
+     */
+    cameraControl : undefined,
 };
