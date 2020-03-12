@@ -1,3 +1,5 @@
+import { Object3D } from "three";
+
 export default {
 
     /**
@@ -66,6 +68,7 @@ export default {
      */
     boundingBox: [],
 
+
     /**
      * @type { THREE.Group }
      */
@@ -75,6 +78,11 @@ export default {
      * @type { THREE.TransformControl }
      */
     control: {},
+
+    /**
+     * @type { THREE.DragControls }
+     */
+    dragControl : undefined,
 
     /**
      *  @type { var }
@@ -97,5 +105,18 @@ export default {
     /**
      * @type { var }
      */
+    indexOfObject : null,
+
+    /**
+     * @type { var }
+     */
     cameraControl : undefined,
+    plane : undefined,
+
+
+    /**
+     * @type { var }
+     * PickHelper
+     */
+    pickHelper : undefined,
 };

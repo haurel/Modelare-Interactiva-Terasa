@@ -3,13 +3,9 @@ import Stats from 'stats.js';
 
 import props from './config/defaults';
 import settings from './config/settings';
-
 import PickHelper from './PickHelper';
 
 
-
-
-const pickHelper = new PickHelper();
 
 const pickPosition = {x: 0, y: 0};
 const time = 0;
@@ -57,7 +53,11 @@ const setPikerPosition = (event) =>{
     const pos = getRelativeMousePositionOnlyPerspectivCamera(event);
     pickPosition.x = pos.x;
     pickPosition.y = pos.y;
-    
+
+
+    props.pickHelper.SetMousePosition(pickPosition);
+    props.pickHelper.CalculateMousePosition(event);
+
 
     /* const mousePos = getRelativMousePosition(event);
     if(mousePos){
@@ -72,11 +72,17 @@ const clearPickPosition = () =>{
     pickPosition.y = -100000;
 }
 
-const pickObj = () =>{
-    pickHelper.Pick(pickPosition, props.scene, props.camera2D, time);
+const pickObj = (event) =>{
+    props.pickHelper.MoveObject(event);
+
+    //pickHelper.Pick(pickPosition, props.scene, props.camera2D, time);
     //pickHelper.ControlPickObj(); 
     //console.log("Am dat click");
     //console.log(pickPosition);
+}
+
+const setNewPosition = (event) =>{
+    props.pickHelper.CancelMove(event);
 }
 
 const initStats = () =>{
@@ -143,6 +149,9 @@ export default function render(){
     props.camera2D.aspect = window.innerWidth / window.innerHeight;
     props.camera2D.updateProjectionMatrix();
     props.renderer.render(props.scene, props.camera2D);
+
+    props.pickHelper = new PickHelper();
+    props.pickHelper.SetCamera(props.camera2D);
 }
 
 /**
@@ -157,9 +166,9 @@ const windowResizeHandler = () => {
 document.addEventListener('resize', windowResizeHandler);
 
 
-document.addEventListener('mousedown', pickObj, true);
-document.addEventListener('mousemove', setPikerPosition); //apelez aici oribitcontrolprop
-
+document.addEventListener('mousedown', pickObj, false);
+document.addEventListener('mousemove', setPikerPosition, false); //apelez aici oribitcontrolprop
+document.addEventListener('mouseup', setNewPosition, false)
 
 /* props.orbitControls.addEventListener( 'change', function() {
     props.moved = true;

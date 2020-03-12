@@ -2,6 +2,9 @@ import { BoxGeometry, Mesh, AxesHelper, GridHelper, MeshBasicMaterial,
          Group, RepeatWrapping, BoxHelper, Box3, Vector3, TextureLoader, MeshStandardMaterial, Vector2,
          TangentSpaceNormalMap, ImageUtils, CubeGeometry, BackSide, MeshFaceMaterial, 
          MeshPhongMaterial,
+         LoadingManager,
+         Object3D,
+         MeshLambertMaterial,
 } from 'three';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -142,8 +145,8 @@ const gazon = () => {
     props.scene.add(planeMesh);
 }
 
-const loadChair = (locationFile, setPosition, setSize, name) =>{
-    const loader = new GLTFLoader();
+const loadChair = (locationFile, setPosition, setSize, name, manager) =>{
+    const loader = new GLTFLoader(manager);
     loader.load(locationFile, (gltf) =>{
         const mesh = gltf.scene;
 
@@ -155,9 +158,6 @@ const loadChair = (locationFile, setPosition, setSize, name) =>{
         for(let i = 0; i < 4; i++){
              tempTexture[i] = new TextureLoader().load(chairTextureSetttings.leather_chair_002[Object.keys(chairTextureSetttings.leather_chair_002)[i]]);
         }
-        //console.log(text);
-       
-        //console.log(mesh);
         mesh.traverse((child)=>{
             if(child instanceof Mesh){
                 if(child.name === "Cube"){
@@ -209,25 +209,25 @@ const loadChair = (locationFile, setPosition, setSize, name) =>{
 
 
 
-        const helper = new BoxHelper(mesh);
+        /* const helper = new BoxHelper(mesh);
         helper.material.visible = false;
         helper.geometry.computeBoundingBox();
         helper.update();
 
         const boundingBox = new Box3().setFromObject(helper);
         mesh.updateMatrixWorld( true ); // ensure world matrix is up to date
-        boundingBox.applyMatrix4( mesh.matrixWorld );
+        boundingBox.applyMatrix4( mesh.matrixWorld ); */
         //console.log( boundingBox );
         
+        mesh.i = 0;
         props.boundingBox.push(mesh);
-
+        console.log(mesh);
         //se apeleaza doar aici
         constructCollider();
 
         props.boxMeshsLength++;
-        
-        console.log(props.boundingBox[0]);
         props.scene.add(mesh);
+        
         //console.log(props.scene);
     })
 }
@@ -305,9 +305,14 @@ const skybox = () =>{
 
 const constructCollider = () => {
     props.boundingBox.forEach((mesh)=>{
+        //console.log("MESH: ", mesh);
         mesh.box = new Box3().setFromObject( mesh );
+        mesh.updateMatrixWorld(true);
+        //mesh.box.applyMatrix4(mesh.matrixWorld);
         //console.log("S", mesh.box);
         mesh.helper = new BoxHelper(mesh, 0xff00ff);
+        mesh.helper.geometry.computeBoundingBox();
+        mesh.helper.update();
         mesh.helper.material.visible = false;
         props.scene.add(mesh.helper);
         
@@ -325,6 +330,13 @@ const tempFunctionForChangeTexture = (event) =>{
     }
 }
 
+const PlaneTest = () =>{
+    props.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2000, 2000, 8, 8 ), new THREE.MeshBasicMaterial( { color: 0x000000, opacity: 0.25, transparent: false, wireframe: true } ) );
+    props.plane.rotation.set(30, 300, 10);
+	props.plane.visible = true;
+	props.scene.add( props.plane );
+}
+
 window.addEventListener('keydown', tempFunctionForChangeTexture, false);
 
 export default createEnvironment  => {
@@ -334,7 +346,7 @@ export default createEnvironment  => {
     const lights = new Lights();
     props.scene.add(lights);
 
-    
+
     props.fance = new Group();
     props.meshHouse = new Group();
     const position = new Vector3(10, 0 , 0);
@@ -353,17 +365,102 @@ export default createEnvironment  => {
 
     //props.boxMeshs = new Group();
 
-    loadChair('/src/Structure/Chair/chair_001.gltf', 
+    /* loadChair('/src/Structure/Chair/chair_001.gltf', 
             new Vector3(5, 0.06, 10), 
             new Vector3(2.80, 2.80, 2.80), 
             "Chair_001"
+    ); */
+    
+    
+    var manager = new LoadingManager();
+    manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
+
+        console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    
+    };
+    
+    manager.onLoad = function ( ) {
+    
+        console.log( 'Loading complete!');
+
+        props.boundingBox[1] = props.boundingBox[0].clone();
+        props.boundingBox[1].name = "Chair_002";
+        props.boundingBox[1].position.set(-2, 0.06, 10);
+
+        props.boundingBox[1].box = new Box3().setFromObject( props.boundingBox[1] );
+        props.boundingBox[1].updateMatrixWorld(true);
+        //props.boundingBox[1].box.applyMatrix4(props.boundingBox[1].matrixWorld);
+        //console.log("S", mesh.box);
+        props.boundingBox[1].helper = new BoxHelper(props.boundingBox[1], 0xff00ff);
+        props.boundingBox[1].helper.geometry.computeBoundingBox();
+        props.boundingBox[1].helper.update();
+        props.boundingBox[1].helper.material.visible = false;
+        props.boundingBox[1].i = 1;
+        props.scene.add(props.boundingBox[1].helper);
+        //console.log(props.boundingBox[1]);
+        props.scene.add(props.boundingBox[1]);
+    
+    };
+    
+    
+    manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+    
+        console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    
+    };
+    
+    manager.onError = function ( url ) {
+    
+        console.log( 'There was an error loading ' + url );
+    
+    };
+
+    loadChair('/src/Structure/Chair/chair_001.gltf', 
+            new Vector3(5, 0.06, 10),
+            new Vector3(2, 2, 2),
+            "Chair_001",
+            manager
     );
 
-    loadChair('/src/Structure/Chair/chair_001.gltf',
+    /* var geometry = new THREE.CubeGeometry( 8, 8, 8 );
+    for ( var i = 0; i < 200; i ++ ) {
+
+        var object = new Mesh( geometry, 
+            new MeshLambertMaterial( 
+                { 
+                    color: Math.random() * 0xffffff 
+                } ) 
+        );
+
+        object.material.ambient = object.material.color;
+
+        object.position.x = Math.random() * 1000 - 500;
+        object.position.y = Math.random() * 600 - 300;
+        object.position.z = 5;
+
+        object.rotation.x = ( Math.random() * 360 ) * Math.PI / 180;
+        object.rotation.y = ( Math.random() * 360 ) * Math.PI / 180;
+        object.rotation.z = ( Math.random() * 360 ) * Math.PI / 180;
+
+        object.scale.x = 1
+        object.scale.y = 1
+        object.scale.z = 1
+
+        object.castShadow = true;
+        object.receiveShadow = true;
+
+        props.scene.add( object );
+
+        props.boundingBox.push( object );
+
+    } */
+
+    /* loadChair('/src/Structure/Chair/chair_001.gltf',
             new Vector3(15, 0.06, 10),
             new Vector3(2, 2, 2),
-            "Chair_002"
-    );
+            "Chair_002",
+            manager
+    ); */
 
     var posGard = -80;
     /* for(let i = 0; i < 6; i++){
@@ -383,11 +480,13 @@ export default createEnvironment  => {
     
 
 
-    console.log(props.scene);
+    //console.log(props.scene);
 
-    props.scene.add(props.meshHouse, Math.PI / 2);
+    props.scene.add(props.meshHouse);
     props.scene.add(props.fance);
     gazon();
     //skybox();
     
 }
+
+

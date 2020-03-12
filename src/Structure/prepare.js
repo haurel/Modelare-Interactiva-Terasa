@@ -1,11 +1,10 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, Vector3, PCFSoftShadowMap, Vector2, sRGBEncoding, ReinhardToneMapping, OrthographicCamera } from 'three'
+import { WebGLRenderer, Scene, PerspectiveCamera, Vector3, PCFSoftShadowMap, Box3, sRGBEncoding, ReinhardToneMapping, OrthographicCamera } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { DragControls } from 'three/examples/jsm/controls/DragControls';
+
+
+
 
 
 
@@ -118,14 +117,37 @@ const createOrbitControls = () => {
 
 const createTransformControl = () =>{
     props.control = new TransformControls(props.camera2D, props.renderer.domElement);
-    props.control.setSize(1);
-    props.control.setSpace("local");
+    props.control.setSize(0.6);
+    props.control.setSpace("world");
+    props.control.dragging = true;
+    console.log(props.control.dragging);
     /* props.control.setMode('rotate');
     props.control.showX = false; */
     props.control.showY = false;
     props.scene.add(props.control);
+    
+    props.control.addEventListener('mouseUp', function () {
+        if(props.indexOfObject !== null){
+            //console.log(props.indexOfObject);
+            
+            props.boundingBox[props.indexOfObject].helper.update();
+            var box3Temp = new Box3().setFromObject(props.boundingBox[props.indexOfObject].helper);
+            props.boundingBox[props.indexOfObject].box = box3Temp;
 
-    //props.control.addEventListener( 'change', render );
+            //console.log("UPDATE", props.boundingBox[props.indexOfObject].helper);
+        }
+    });
+
+}
+
+const createDragControl = () =>{
+    props.dragControl = new DragControls(
+        props.boundingBox,
+        props.camera2D,
+        props.renderer.domElement
+    )
+
+    props.dragControl.addEventListener( 'drag', render );
 }
 
 /* const createOutlineObject = () =>{
@@ -163,13 +185,14 @@ export default () => {
     //createCamera2D();
     props.cameraControl = new Camera();
     //createOrbitControls();
-    createTransformControl();
+    //createTransformControl();
     //createOutlineObject();
     createEnvironment();
-    
+    createDragControl();
     animate();
 
     render();
 
     
 };
+
