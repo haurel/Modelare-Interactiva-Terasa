@@ -67,6 +67,7 @@ export default {
      * @type { Array }
      */
     boundingBox: [],
+    objectsArray: [],
 
 
     /**
@@ -119,4 +120,14 @@ export default {
      * PickHelper
      */
     pickHelper : undefined,
+
+    /**
+     * @type { var }
+     */
+    parameters : undefined,
+
+    /**
+     * @type { var }
+     */
+    allObject: 0,
 };
