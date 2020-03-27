@@ -1,4 +1,5 @@
 import { Object3D } from "three";
+import { NotEqualStencilFunc } from "three/build/three.module";
 
 export default {
 
@@ -130,4 +131,13 @@ export default {
      * @type { var }
      */
     allObject: 0,
+
+    /**
+     * @type { var }
+     */
+    parameters:{
+        translate: true,
+		rotate: false
+    },
+    gui : null,
 };

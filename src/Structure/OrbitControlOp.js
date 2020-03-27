@@ -24,9 +24,9 @@ export default class CameraMoveWithMouse{
         var xPerspectivCamera = ((event.clientX * 0.5 - (0.4 * rect.left + 1)) / ((0.6 * rect.width - 2) - (0.4 * rect.left + 1))) * 2 - 1;
 
         if(Math.abs(parseFloat(x)) <= Math.abs(parseFloat(xPerspectivCamera))){
-            props.orbitControls.enabled
+            //props.orbitControls.enabled
         }else{
-            props.orbitControls.enabled = true;
+            //props.orbitControls.enabled = true;
         } 
     }
 

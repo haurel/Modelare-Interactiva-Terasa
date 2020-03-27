@@ -10,24 +10,29 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Box3, Vector3, Group, BoxGeometry, MeshBasicMaterial, Mesh, BoxHelper } from "three";
 import props from './config/defaults';
- THREE.ObjectLoad = function( objectPath, positionToScene, 
-    scaleObject, nameObject){
 
-    _objectPath = objectPath;
-    _position = positionToScene;
-    _scale = scaleObject;
-    _name = nameObject;
+//ObjectLoad = function( objectPath, positionToScene, 
+    //scaleObject, nameObject){
+export default class ObjectLoad{
 
-    var group = new Group();
-
-    this.Load = () =>{
+    constructor(objectPath, positionToScene, 
+        scaleObject, nameObject){
+            this._objectPath = objectPath;
+            this._rotation = new Vector3(0, 0, 0);
+            this._position = positionToScene;
+            this._scale = scaleObject;
+            this._name = nameObject;
+            this.group = new Group();
+    }
+    
+    Load(){
         const loader = new GLTFLoader();
-        loader.load( _objectPath, ( gltf ) =>{
+        loader.load( this._objectPath, ( gltf ) =>{
             const mesh = gltf.scene;
 
-            mesh.scale.set( _scale.x, _scale.y, _scale.z );
+            mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
             //mesh.position.set( _position.x, _position.y, _position.z );
-            mesh.name = _name;
+            mesh.name = this._name;
 
             var gltfBox = new Box3().setFromObject( mesh );
             var getSize = new Vector3();
@@ -44,43 +49,47 @@ import props from './config/defaults';
             
             mesh.position.set( 0, -objectheight / 2, 0 );
             var box = this.DrawBox( objectwidth, objectheight, objectdepth );
-
-            group.add( box );
-            group.name = "Group of Mesh";
+            console.log("BOX: ", box);
+            this.group.add( box );
+            this.group.name = "Group of Mesh";
 
             props.scene.add( box.helper );
             box.add( mesh );
+            
+            console.log(props.scene);
         });
-        return group;
+        return this.group;
     };
 
-    this.DrawBox = ( width, height, depth ) => {
+    DrawBox( width, height, depth ){
         var geometry, material, box;
-        geometry = BoxGeometry(
+        geometry = new BoxGeometry(
             width, height, depth
         );
-        material = MeshBasicMaterial({
-            color: 0xffff00,
-            tranparent: true,
-            opacity: 0,
+        material = new MeshBasicMaterial({
+            color: 0x000000,
+            transparent: true,
+            opacity: 0.0,
             wireframe: true,
             depthTest: true
         });
 
 
-        box = Mesh( geometry, material );
+        box = new Mesh( geometry, material );
         box.i = props.allObject; props.allObject++;
 
-        box.rotation.set( rotation.x, rotation.y, rotation.z );
+        box.rotation.set( this._rotation.x, this._rotation.y, this._rotation.z );
         box.box= new Box3().setFromObject( box );
+        box.position.set( this._position.x, this._position.y, this._position.z );
         box.updateMatrixWorld( true );
-        box.helper = BoxHelper( box, 0xffff00 );
-        box.helper.update();
+        box.helper = new BoxHelper( box, 0xffff00 );
+        
         box.helper.material.visible = false;
+        box.helper.update();
         box.helper.matrixAutoUpdate = true;
 
         props.objectsArray.push( box );
-        box.position.set( position.x, position.y, position.z );
+        
 
         return box;
     };

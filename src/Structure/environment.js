@@ -16,6 +16,9 @@ import wallTextureSettings from './config/wallTextureSettings';
 import teraceTextureSettings from './config/teraceTextureSettings';
 import chairTextureSetttings from './config/chairTextureSettings';
 
+import ObjectLoad from './ObjectLoad';
+import { CreateGUI } from './CreateGUI';
+
 import TextureLoad from './TextureSet';
 import Lights from './Lights';
 import otherTexture from './config/otherTexture';
@@ -371,8 +374,20 @@ export default createEnvironment  => {
             "Chair_001"
     ); */
     
-    
-    var manager = new LoadingManager();
+    //////////////////////////////////////////
+
+    var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
+                new Vector3(5, 2, 10),
+                new Vector3(2, 2, 2),
+                "Chair_002");
+    var a = chair.Load();
+    console.log(props.objectsArray);
+    //console.log(a);
+    props.scene.add(a);
+
+    //#region TEST
+    //console.log(props.scene);
+    /* var manager = new LoadingManager();
     manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
 
         console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
@@ -420,7 +435,8 @@ export default createEnvironment  => {
             new Vector3(2, 2, 2),
             "Chair_001",
             manager
-    );
+    ); */
+    //////////////////////////////////////////
 
     /* var geometry = new THREE.CubeGeometry( 8, 8, 8 );
     for ( var i = 0; i < 200; i ++ ) {
@@ -461,7 +477,7 @@ export default createEnvironment  => {
             "Chair_002",
             manager
     ); */
-
+//#endregion TEST
     var posGard = -80;
     /* for(let i = 0; i < 6; i++){
         
@@ -478,7 +494,13 @@ export default createEnvironment  => {
     //props.structure.box = new Mesh(geometry, material);
     
     
-
+    var datGUI = new CreateGUI();
+    var rotate = datGUI.GetRotate();
+    rotate.onChange(function() { datGUI.Update("rotate")});
+    var translate = datGUI.GetTranslate();
+    translate.onChange(function() { datGUI.Update("translate")});
+    
+    
 
     //console.log(props.scene);
 
@@ -488,5 +510,7 @@ export default createEnvironment  => {
     //skybox();
     
 }
+
+
 
 

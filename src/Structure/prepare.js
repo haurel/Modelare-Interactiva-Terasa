@@ -107,12 +107,11 @@ const createCamera2D = () =>{
 
 const createOrbitControls = () => {
     props.orbitControls = new OrbitControls(
-        props.camera,
+        props.camera2D,
         props.renderer.domElement
     )
-
-    /* props.controls.enableDamping = true;
-	props.controls.dampingFactor = 0.25; */
+    props.orbitControls.update();
+    console.log(props.orbitControls);
 }
 
 const createTransformControl = () =>{
@@ -150,24 +149,6 @@ const createDragControl = () =>{
     props.dragControl.addEventListener( 'drag', render );
 }
 
-/* const createOutlineObject = () =>{
-    props.composer = new EffectComposer( props.renderer );
-
-    props.renderPass = new RenderPass( props.scene, props.camera );
-    props.composer.addPass( props.renderPass );
-
-    props.outlinePass = new OutlinePass( new Vector2(window.innerWidth, window.innerHeight), props.scene, props.camera );
-    props.composer.addPass(props.outlinePass);
-
-    props.effectFXAA = new ShaderPass( FXAAShader );
-    props.effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight );
-    props.effectFXAA.renderToScreen = true;
-    props.composer.addPass( props.effectFXAA );
-
-    props.outlinePass.edgeStrength = 10;
-    props.outlinePass.edgeGlow = 1;
-    props.outlinePass.edgeThinckness = 4;
-} */
 
 /**
 * Create all necessary parts of the architecture and start building
@@ -189,6 +170,7 @@ export default () => {
     //createOutlineObject();
     createEnvironment();
     createDragControl();
+    
     animate();
 
     render();
