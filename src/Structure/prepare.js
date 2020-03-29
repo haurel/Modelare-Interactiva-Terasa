@@ -2,7 +2,7 @@ import { WebGLRenderer, Scene, PerspectiveCamera, Vector3, PCFSoftShadowMap, Box
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
-
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 
 
 
@@ -19,13 +19,13 @@ import createEnvironment from './environment';
 import render from './render';
 
 
-
+import { ObjectControl } from './ObjectControl';
 /**
 * Create scene of type THREE.Scene.
 */
 const createScene = () => {
     props.scene = new Scene();
-
+    props.scene.name = "Scene"
    
     window.scene = props.scene;
     window.THREE = THREE;
@@ -105,75 +105,68 @@ const createCamera2D = () =>{
 
 } */
 
+
 const createOrbitControls = () => {
-    props.orbitControls = new OrbitControls(
+    /* props.orbitControls = new OrbitControls(
         props.camera2D,
         props.renderer.domElement
     )
     props.orbitControls.update();
-    console.log(props.orbitControls);
+    console.log(props.orbitControls); */
+
+    var controls = new TrackballControls( props.camera2D, 
+        props.renderer.domElement);
+        /* controls.rotateSpeed = 13.0;
+        controls.zoomSpeed = 1.2;
+        controls.panSpeed = 0.8;
+        controls.noZoom = false;
+        controls.noPan = false;
+        controls.staticMoving = true;
+        controls.dynamicDampingFactor = 0.3; */
 }
-
-const createTransformControl = () =>{
-    props.control = new TransformControls(props.camera2D, props.renderer.domElement);
-    props.control.setSize(0.6);
-    props.control.setSpace("world");
-    props.control.dragging = true;
-    console.log(props.control.dragging);
-    /* props.control.setMode('rotate');
-    props.control.showX = false; */
-    props.control.showY = false;
-    props.scene.add(props.control);
-    
-    props.control.addEventListener('mouseUp', function () {
-        if(props.indexOfObject !== null){
-            //console.log(props.indexOfObject);
-            
-            props.boundingBox[props.indexOfObject].helper.update();
-            var box3Temp = new Box3().setFromObject(props.boundingBox[props.indexOfObject].helper);
-            props.boundingBox[props.indexOfObject].box = box3Temp;
-
-            //console.log("UPDATE", props.boundingBox[props.indexOfObject].helper);
-        }
-    });
-
-}
-
-const createDragControl = () =>{
-    props.dragControl = new DragControls(
-        props.boundingBox,
-        props.camera2D,
-        props.renderer.domElement
-    )
-
-    props.dragControl.addEventListener( 'drag', render );
-}
-
 
 /**
 * Create all necessary parts of the architecture and start building
 */
 
 function animate(){
-    render();
     requestAnimationFrame(animate);
+    render();
 }
 
 export default () => {
     createScene();
-    createRenderer();
-    //createCamera();
-    //createCamera2D();
-    props.cameraControl = new Camera();
-    //createOrbitControls();
-    //createTransformControl();
-    //createOutlineObject();
+    var w = window.innerWidth / 6, h = window.innerHeight / 6;
+    var viewSize = h;
+    var aspectRatio = w / h;
+    props.camera2D = new OrthographicCamera(
+        (-aspectRatio * viewSize) / 2,
+        (aspectRatio * viewSize) / 2,
+        viewSize / 2,
+        -viewSize / 2,
+        -200, 
+        200
+    );
+    props.scene.add(props.camera2D);
+    props.camera2D.position.set(0, 0, 100);
+    //props.camera2D.position.set(0, 0, 30);
+    createRenderer();    
     createEnvironment();
-    createDragControl();
-    
-    animate();
 
-    render();
+
+    props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
+        props.objectsArray, props.plane);
+    
+    /* props.obj.addEventListener('move', function ( event ) {
+            //alert( "hallo" );
+    });
+    props.obj.addEventListener('down', function ( event ) {
+        //alert( "hallo" );
+    }); */
+
+    animate();
+    
+    //render();
 
     
 };

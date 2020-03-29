@@ -22,19 +22,30 @@ export default class Camera{
     }
 
     OrthographicCamera(){
+        var w = window.innerWidth, h = window.innerHeight;
+        var viewSize = h;
+		var aspectRatio = w / h;
         props.camera2D = new OrthographicCamera(
-            settings.camera2DSigle.left,
+            /* settings.camera2DSigle.left,
             settings.camera2DSigle.right,
             settings.camera2DSigle.top,
             settings.camera2DSigle.bottom,
             settings.camera2DSigle.near,
-            settings.camera2DSigle.far
+            settings.camera2DSigle.far */
+            (-aspectRatio * viewSize) / 2,
+			(aspectRatio * viewSize) / 2,
+			viewSize / 2,
+			-viewSize / 2,
+			-100, 
+            100
         );
 
-        props.camera2D.position.set(0, 50, 5);
-        props.camera2D.zoom = 1;
+        //props.camera2D.position.set(150, -300, 150);
+        props.camera2D.position.set(0, 0, 200);
+        //props.camera2D.rotation.set(Math.PI / 2, 0, 0);
+        /* props.camera2D.zoom = 1;
         props.camera2D.up = new Vector3(0, 0, -1);
-        props.camera2D.lookAt(new Vector3(0, -1, 0));
+        props.camera2D.lookAt(new Vector3(0, -1, 0)); */
 
         this.activeCamera = "Camera2D";
     }

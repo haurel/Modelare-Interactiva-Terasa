@@ -18,9 +18,10 @@ export default class ObjectLoad{
     constructor(objectPath, positionToScene, 
         scaleObject, nameObject){
             this._objectPath = objectPath;
-            this._rotation = new Vector3(0, 0, 0);
+            this._rotation = new Vector3(Math.PI / 2, 0, 0);
             this._position = positionToScene;
-            this._scale = scaleObject;
+            //this._scale = scaleObject;
+            this._scale = new Vector3(10, 10, 10);
             this._name = nameObject;
             this.group = new Group();
     }
@@ -29,8 +30,9 @@ export default class ObjectLoad{
         const loader = new GLTFLoader();
         loader.load( this._objectPath, ( gltf ) =>{
             const mesh = gltf.scene;
-
-            mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
+            //mesh.scale.set(30, 30,30);
+            mesh.scale.set(2.5, 2.5, 2.5);
+            //mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
             //mesh.position.set( _position.x, _position.y, _position.z );
             mesh.name = this._name;
 
@@ -49,14 +51,14 @@ export default class ObjectLoad{
             
             mesh.position.set( 0, -objectheight / 2, 0 );
             var box = this.DrawBox( objectwidth, objectheight, objectdepth );
-            console.log("BOX: ", box);
+            //console.log("BOX: ", box);
             this.group.add( box );
             this.group.name = "Group of Mesh";
 
             props.scene.add( box.helper );
             box.add( mesh );
             
-            console.log(props.scene);
+            //console.log(props.scene);
         });
         return this.group;
     };
@@ -89,6 +91,9 @@ export default class ObjectLoad{
         box.helper.matrixAutoUpdate = true;
 
         props.objectsArray.push( box );
+
+        /* props.objectsArray[0].helper.material.visible = true;
+        props.objectsArray[0].helper.update(); */
         
 
         return box;

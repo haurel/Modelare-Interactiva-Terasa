@@ -5,11 +5,11 @@ import props from './config/defaults';
 import settings from './config/settings';
 import PickHelper from './PickHelper';
 
-import { ObjectControl } from './ObjectControl';
+
 
 const pickPosition = {x: 0, y: 0};
 const time = 0;
-var obj;
+
 /**
  * Update the environment
  */
@@ -104,7 +104,6 @@ const initStats = () =>{
 
 
 
-
 export default function render(){
     if(settings.backgroundColor !== false) 
         props.renderer.setClearColor(settings.backgroundColor);
@@ -145,13 +144,10 @@ export default function render(){
     props.renderer.render(props.scene,props.camera); */
     
 
-    props.cameraControl.OrthographicCamera();
-    props.camera2D.aspect = window.innerWidth / window.innerHeight;
-    props.camera2D.updateProjectionMatrix();
+    
     props.renderer.render(props.scene, props.camera2D);
     
-    obj = new ObjectControl(props.renderer.domElement, props.camera2D,
-        props.objectsArray, props.plane);
+    
     //props.pickHelper = new PickHelper();
     //props.pickHelper.SetCamera(props.camera2D);
 }
@@ -165,7 +161,9 @@ const windowResizeHandler = () => {
     props.renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-document.addEventListener('resize', windowResizeHandler);
+//document.addEventListener('resize', windowResizeHandler);
+
+
 
 
 //document.addEventListener('mousedown', obj., false);

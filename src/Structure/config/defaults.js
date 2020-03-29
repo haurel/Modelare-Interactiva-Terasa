@@ -1,5 +1,6 @@
 import { Object3D } from "three";
 import { NotEqualStencilFunc } from "three/build/three.module";
+import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 
 export default {
 
@@ -38,7 +39,7 @@ export default {
     /**
      * Orbit Controls
      * 
-     * @type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+     * @type { TrackballControls } from 'three/examples/jsm/controls/OrbitControls.js'
      */
     orbitControls: {},
 
@@ -140,4 +141,10 @@ export default {
 		rotate: false
     },
     gui : null,
+
+
+    /**
+     * @type { var }
+     */
+    obj : null,
 };

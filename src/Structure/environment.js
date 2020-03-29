@@ -2,9 +2,8 @@ import { BoxGeometry, Mesh, AxesHelper, GridHelper, MeshBasicMaterial,
          Group, RepeatWrapping, BoxHelper, Box3, Vector3, TextureLoader, MeshStandardMaterial, Vector2,
          TangentSpaceNormalMap, ImageUtils, CubeGeometry, BackSide, MeshFaceMaterial, 
          MeshPhongMaterial,
-         LoadingManager,
-         Object3D,
-         MeshLambertMaterial,
+         PlaneGeometry,
+         Matrix4,
 } from 'three';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -18,6 +17,7 @@ import chairTextureSetttings from './config/chairTextureSettings';
 
 import ObjectLoad from './ObjectLoad';
 import { CreateGUI } from './CreateGUI';
+
 
 import TextureLoad from './TextureSet';
 import Lights from './Lights';
@@ -55,8 +55,12 @@ const loadHouse = (locationFile, setPosition, name) => {
         const mesh = gltf.scene;
         mesh.position.set(setPosition.x, setPosition.y, setPosition.z);
         mesh.scale.set(6, 6, 6);
-        mesh.position.set(50, 0, -70);
-        mesh.rotation.set(0, Math.PI, 0);
+        //mesh.scale.set(40, 40, 40);
+        //mesh.position.set(50, 0, -70);
+        mesh.rotation.set(Math.PI / 2, 0, 0);
+        mesh.position.set(0, 0, 0);
+        //mesh.rotation.set(0, Math.PI, 0);
+        //mesh.rotation.set(Math.PI / 4, 0 , 0);
         
         mesh.traverse(function (child){
             if(child instanceof Mesh){
@@ -78,9 +82,9 @@ const loadTerace = (setPosition, setSize, name, texture) => {
     * Plane 
     */
     const textureLoader = new TextureLoader();
-    const geometry = new BoxGeometry(58, 50, 0.01);
-
-    const rotation = new Vector3(Math.PI / 2, 0, 0);
+    //const geometry = new BoxGeometry(58, 50, 0.01);
+    const geometry = new BoxGeometry(7, 7, 0.10);
+    //const rotation = new Vector3(Math.PI / 2, 0, 0);
     const material = new MeshStandardMaterial();
     const planeMesh = new Mesh(geometry, material);
     planeMesh.receiveShadow = true;
@@ -88,7 +92,7 @@ const loadTerace = (setPosition, setSize, name, texture) => {
     //console.log(planeMesh.material)
     TextureLoad(planeMesh, texture, "BasicMesh");
 
-    planeMesh.rotation.set(rotation.x, rotation.y, rotation.z);
+    //planeMesh.rotation.set(rotation.x, rotation.y, rotation.z);
     planeMesh.position.set(setPosition.x, setPosition.y, setPosition.z);
     planeMesh.scale.set(setSize.x, setSize.y, setSize.z)
     props.meshHouse.add(planeMesh);
@@ -99,7 +103,7 @@ const gazon = () => {
 
     const geometry = new BoxGeometry(120, 148, 0.01);
 
-    const rotation = new Vector3(Math.PI / 2, 0, 0);
+    //const rotation = new Vector3(Math.PI / 2, 0, 0);
     const material = new MeshPhongMaterial({
         shininess: 5, lightMapIntensity: 0.9
     })
@@ -141,7 +145,7 @@ const gazon = () => {
 
     var setPosition = new Vector3(21.5, -0.30, 0);
     var setSize = new Vector3(1, 1, 1)
-    planeMesh.rotation.set(rotation.x, rotation.y, rotation.z);
+    //planeMesh.rotation.set(rotation.x, rotation.y, rotation.z);
     planeMesh.position.set(setPosition.x, setPosition.y, setPosition.z);
     planeMesh.scale.set(setSize.x, setSize.y, setSize.z)
 
@@ -334,11 +338,25 @@ const tempFunctionForChangeTexture = (event) =>{
 }
 
 const PlaneTest = () =>{
-    props.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2000, 2000, 8, 8 ), new THREE.MeshBasicMaterial( { color: 0x000000, opacity: 0.25, transparent: false, wireframe: true } ) );
-    props.plane.rotation.set(30, 300, 10);
-	props.plane.visible = true;
-	props.scene.add( props.plane );
+    props.plane = new Mesh( 
+        new PlaneGeometry( 100, 100, 30, 30 ), 
+        new MeshBasicMaterial( 
+            { 
+                color: 0x03fc32, 
+                opacity: 0.0,
+                transparent: true, 
+                wireframe: true 
+            } )
+    );
+    
+    props.plane.visible = true;
+    props.plane.name = "PlaneTest";
+    console.log(props.plane);
+	//plane.material.depthTest = false;
+    props.scene.add( props.plane );
 }
+
+
 
 window.addEventListener('keydown', tempFunctionForChangeTexture, false);
 
@@ -349,6 +367,8 @@ export default createEnvironment  => {
     const lights = new Lights();
     props.scene.add(lights);
 
+    //PlaneTest();
+    
 
     props.fance = new Group();
     props.meshHouse = new Group();
@@ -357,7 +377,7 @@ export default createEnvironment  => {
                                           
     
     loadTerace(new Vector3(21.5, 0.06, 0), 
-            new Vector3(1, 1, 1), 
+            new Vector3(10, 10, 10), 
             "Terace", 
             teraceTextureSettings.parchet_terace_002
     );
@@ -484,7 +504,7 @@ export default createEnvironment  => {
         loadGard(new Vector3(-30, 0, -80 + (i * 28)));
     } */
 
-    loadGard(new Vector3(-30, 0 , -80));
+    //loadGard(new Vector3(-30, 0 , -80));
     /* props.scene.traverse(function (child){
         if (child instanceof THREE.Mesh) {
             child.castShadow = true;
@@ -500,12 +520,14 @@ export default createEnvironment  => {
     var translate = datGUI.GetTranslate();
     translate.onChange(function() { datGUI.Update("translate")});
     
-    
+     
 
     //console.log(props.scene);
 
     props.scene.add(props.meshHouse);
-    props.scene.add(props.fance);
+    //props.scene.add(props.fance);
+
+    //props.scene.rotation.set(Math.PI / 2, 0, 0);
     gazon();
     //skybox();
     
