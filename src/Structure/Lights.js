@@ -9,7 +9,7 @@ export default class Lights extends Group{
         this.CreateHemispehereLight();
         this.CreateDirectionalLight();
         //this.CreateSpotLight();
-        this.CreateHelpersForLights();
+        //this.CreateHelpersForLights();
     }
 
     CreateHemispehereLight(){

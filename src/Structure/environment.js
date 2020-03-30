@@ -6,14 +6,10 @@ import { BoxGeometry, Mesh, AxesHelper, GridHelper, MeshBasicMaterial,
          Matrix4,
 } from 'three';
 
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 import props from './config/defaults';
 import settings from './config/settings';
 import wallTextureSettings from './config/wallTextureSettings';
-import teraceTextureSettings from './config/teraceTextureSettings';
-import chairTextureSetttings from './config/chairTextureSettings';
 
 import ObjectLoad from './ObjectLoad';
 import { CreateGUI } from './CreateGUI';
@@ -21,7 +17,7 @@ import { CreateGUI } from './CreateGUI';
 
 import TextureLoad from './TextureSet';
 import Lights from './Lights';
-import otherTexture from './config/otherTexture';
+import { InitializationStaticObjects } from './InitializationStaticObjects';
 
 /**
  * Build the environment.
@@ -45,7 +41,69 @@ const createHelpers = () =>{
 };
 
 
-const loadHouse = (locationFile, setPosition, name) => {   
+
+
+
+
+
+const tempFunctionForChangeTexture = (event) =>{
+    if(event.keyCode == 66){
+        //console.log(props.meshHouse.children[1]);
+        //console.log(wallTextureSettings.texture_wall_001);
+        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_001, "BigMesh");
+    }else if(event.keyCode == 65){
+        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_002, "BigMesh");
+    }
+}
+
+
+
+window.addEventListener('keydown', tempFunctionForChangeTexture, false);
+
+export default createEnvironment  => {
+    createHelpers();
+    //props.scene.add(helpers);
+
+    const lights = new Lights();
+    props.scene.add(lights);
+
+    
+    props.meshHouse = InitializationStaticObjects.House();
+    props.scene.add(props.meshHouse);
+    
+    var datGUI = new CreateGUI();
+    var rotate = datGUI.GetRotate();
+    rotate.onChange(function() { datGUI.Update("rotate")});
+    var translate = datGUI.GetTranslate();
+    translate.onChange(function() { datGUI.Update("translate")});
+    
+    
+}
+
+
+
+
+
+
+
+
+/* const constructCollider = () => {
+    props.boundingBox.forEach((mesh)=>{
+        //console.log("MESH: ", mesh);
+        mesh.box = new Box3().setFromObject( mesh );
+        mesh.updateMatrixWorld(true);
+        //mesh.box.applyMatrix4(mesh.matrixWorld);
+        //console.log("S", mesh.box);
+        mesh.helper = new BoxHelper(mesh, 0xff00ff);
+        mesh.helper.geometry.computeBoundingBox();
+        mesh.helper.update();
+        mesh.helper.material.visible = false;
+        props.scene.add(mesh.helper);
+        
+    });
+} */
+
+/* const loadHouse = (locationFile, setPosition, name) => {   
     const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('./node_modules/three/examples/js/libs/draco/');
@@ -75,12 +133,10 @@ const loadHouse = (locationFile, setPosition, name) => {
         })
         props.meshHouse.add(mesh); 
     })
-}
+} */
 
-const loadTerace = (setPosition, setSize, name, texture) => {
-    /**
-    * Plane 
-    */
+/* const loadTerace = (setPosition, setSize, name, texture) => {
+
     const textureLoader = new TextureLoader();
     //const geometry = new BoxGeometry(58, 50, 0.01);
     const geometry = new BoxGeometry(7, 7, 0.10);
@@ -96,9 +152,9 @@ const loadTerace = (setPosition, setSize, name, texture) => {
     planeMesh.position.set(setPosition.x, setPosition.y, setPosition.z);
     planeMesh.scale.set(setSize.x, setSize.y, setSize.z)
     props.meshHouse.add(planeMesh);
-}
+} */
 
-const gazon = () => {
+/* const gazon = () => {
     var texture = otherTexture.grass_texture;
 
     const geometry = new BoxGeometry(120, 148, 0.01);
@@ -150,9 +206,9 @@ const gazon = () => {
     planeMesh.scale.set(setSize.x, setSize.y, setSize.z)
 
     props.scene.add(planeMesh);
-}
+} */
 
-const loadChair = (locationFile, setPosition, setSize, name, manager) =>{
+/* const loadChair = (locationFile, setPosition, setSize, name, manager) =>{
     const loader = new GLTFLoader(manager);
     loader.load(locationFile, (gltf) =>{
         const mesh = gltf.scene;
@@ -181,12 +237,12 @@ const loadChair = (locationFile, setPosition, setSize, name, manager) =>{
                     child.material.map.anisotropy = 4;
                     child.material.map.repeat.set( 0.7, 0.7);
 
-                    /* child.material.displacementMap = tempTexture[1];
-                    child.material.displacementMap.wrapS = RepeatWrapping;
-                    child.material.displacementMap.wrapT = RepeatWrapping;
-                    child.material.displacementMap.anisotropy = 1;
-                    child.material.displacementScale = 0.0;
-                    child.material.displacementMap.repeat.set(0.7, 0.7); */
+                    //child.material.displacementMap = tempTexture[1];
+                    //child.material.displacementMap.wrapS = RepeatWrapping;
+                    //child.material.displacementMap.wrapT = RepeatWrapping;
+                    //child.material.displacementMap.anisotropy = 1;
+                    //child.material.displacementScale = 0.0;
+                    //child.material.displacementMap.repeat.set(0.7, 0.7); 
 
                     child.material.normalMap = tempTexture[2];
                     child.material.normalMap.wrapS = RepeatWrapping;
@@ -216,14 +272,14 @@ const loadChair = (locationFile, setPosition, setSize, name, manager) =>{
 
 
 
-        /* const helper = new BoxHelper(mesh);
-        helper.material.visible = false;
-        helper.geometry.computeBoundingBox();
-        helper.update();
+        //const helper = new BoxHelper(mesh);
+        //helper.material.visible = false;
+        //helper.geometry.computeBoundingBox();
+        //helper.update();
 
-        const boundingBox = new Box3().setFromObject(helper);
-        mesh.updateMatrixWorld( true ); // ensure world matrix is up to date
-        boundingBox.applyMatrix4( mesh.matrixWorld ); */
+        //const boundingBox = new Box3().setFromObject(helper);
+        //mesh.updateMatrixWorld( true ); // ensure world matrix is up to date
+        //boundingBox.applyMatrix4( mesh.matrixWorld ); 
         //console.log( boundingBox );
         
         mesh.i = 0;
@@ -237,9 +293,9 @@ const loadChair = (locationFile, setPosition, setSize, name, manager) =>{
         
         //console.log(props.scene);
     })
-}
+} */
 
-const loadGard = (position, rotation) =>{
+/* const loadGard = (position, rotation) =>{
     const loader = new GLTFLoader();
     
 
@@ -308,75 +364,20 @@ const skybox = () =>{
 	var skyMaterial = new MeshFaceMaterial( materialArray );
     var skyBox = new Mesh( skyGeometry, skyMaterial );
     props.scene.add(skyBox);
-}
-
-const constructCollider = () => {
-    props.boundingBox.forEach((mesh)=>{
-        //console.log("MESH: ", mesh);
-        mesh.box = new Box3().setFromObject( mesh );
-        mesh.updateMatrixWorld(true);
-        //mesh.box.applyMatrix4(mesh.matrixWorld);
-        //console.log("S", mesh.box);
-        mesh.helper = new BoxHelper(mesh, 0xff00ff);
-        mesh.helper.geometry.computeBoundingBox();
-        mesh.helper.update();
-        mesh.helper.material.visible = false;
-        props.scene.add(mesh.helper);
-        
-    });
-}
+} */
 
 
-const tempFunctionForChangeTexture = (event) =>{
-    if(event.keyCode == 66){
-        //console.log(props.meshHouse.children[1]);
-        //console.log(wallTextureSettings.texture_wall_001);
-        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_001, "BigMesh");
-    }else if(event.keyCode == 65){
-        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_002, "BigMesh");
-    }
-}
-
-const PlaneTest = () =>{
-    props.plane = new Mesh( 
-        new PlaneGeometry( 100, 100, 30, 30 ), 
-        new MeshBasicMaterial( 
-            { 
-                color: 0x03fc32, 
-                opacity: 0.0,
-                transparent: true, 
-                wireframe: true 
-            } )
-    );
-    
-    props.plane.visible = true;
-    props.plane.name = "PlaneTest";
-    console.log(props.plane);
-	//plane.material.depthTest = false;
-    props.scene.add( props.plane );
-}
-
-
-
-window.addEventListener('keydown', tempFunctionForChangeTexture, false);
-
-export default createEnvironment  => {
-    createHelpers();
-    //props.scene.add(helpers);
-
-    const lights = new Lights();
-    props.scene.add(lights);
-
-    //PlaneTest();
+//createEnv
+//PlaneTest();
     
 
-    props.fance = new Group();
+    /* props.fance = new Group();
     props.meshHouse = new Group();
     const position = new Vector3(10, 0 , 0);
-    const position2 = new Vector3(0, 0, 0);
+    const position2 = new Vector3(0, 0, 0); */
                                           
     
-    loadTerace(new Vector3(21.5, 0.06, 0), 
+    /* loadTerace(new Vector3(21.5, 0.06, 0), 
             new Vector3(10, 10, 10), 
             "Terace", 
             teraceTextureSettings.parchet_terace_002
@@ -384,7 +385,7 @@ export default createEnvironment  => {
     loadHouse('/src/Structure/House/HouseCompressed/Cyprys_HouseGLTF_002.gltf', 
             position2, 
             "House"
-    );
+    ); */
 
     //props.boxMeshs = new Group();
 
@@ -396,7 +397,7 @@ export default createEnvironment  => {
     
     //////////////////////////////////////////
 
-    var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
+    /* var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
                 new Vector3(5, 2, 10),
                 new Vector3(2, 2, 2),
                 "Chair_002");
@@ -404,7 +405,7 @@ export default createEnvironment  => {
     console.log(props.objectsArray);
     //console.log(a);
     props.scene.add(a);
-
+ */
     //#region TEST
     //console.log(props.scene);
     /* var manager = new LoadingManager();
@@ -498,41 +499,17 @@ export default createEnvironment  => {
             manager
     ); */
 //#endregion TEST
-    var posGard = -80;
-    /* for(let i = 0; i < 6; i++){
-        
-        loadGard(new Vector3(-30, 0, -80 + (i * 28)));
-    } */
-
-    //loadGard(new Vector3(-30, 0 , -80));
-    /* props.scene.traverse(function (child){
-        if (child instanceof THREE.Mesh) {
-            child.castShadow = true;
-            console.log(i);
-        }
-    }); */
-    //props.structure.box = new Mesh(geometry, material);
+var posGard = -80;
+/* for(let i = 0; i < 6; i++){
     
-    
-    var datGUI = new CreateGUI();
-    var rotate = datGUI.GetRotate();
-    rotate.onChange(function() { datGUI.Update("rotate")});
-    var translate = datGUI.GetTranslate();
-    translate.onChange(function() { datGUI.Update("translate")});
-    
-     
+    loadGard(new Vector3(-30, 0, -80 + (i * 28)));
+} */
 
-    //console.log(props.scene);
-
-    props.scene.add(props.meshHouse);
-    //props.scene.add(props.fance);
-
-    //props.scene.rotation.set(Math.PI / 2, 0, 0);
-    gazon();
-    //skybox();
-    
-}
-
-
-
-
+//loadGard(new Vector3(-30, 0 , -80));
+/* props.scene.traverse(function (child){
+    if (child instanceof THREE.Mesh) {
+        child.castShadow = true;
+        console.log(i);
+    }
+}); */
+//props.structure.box = new Mesh(geometry, material);

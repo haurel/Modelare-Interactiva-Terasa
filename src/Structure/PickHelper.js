@@ -1,4 +1,4 @@
-import { Raycaster, Box3, BoxHelper, Vector2, Mesh, PlaneGeometry, MeshBasicMaterial, Vector3, Ray } from 'three';
+/* import { Raycaster, Box3, BoxHelper, Vector2, Mesh, PlaneGeometry, MeshBasicMaterial, Vector3, Ray } from 'three';
 import { Projector } from 'three/examples/jsm/renderers/Projector'
 
 import props from './config/defaults';
@@ -122,7 +122,7 @@ export default class PickHelper{
     }
 
 
-}
+} */
 
 /* class PickHelper{
     constructor(){

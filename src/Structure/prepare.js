@@ -1,3 +1,5 @@
+import * as THREE from 'three'
+
 import { WebGLRenderer, Scene, PerspectiveCamera, Vector3, PCFSoftShadowMap, Box3, sRGBEncoding, ReinhardToneMapping, OrthographicCamera } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
@@ -8,7 +10,7 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 
 
 
-import * as THREE from 'three'
+
 
 import props from './config/defaults';
 import settings from './config/settings';
@@ -133,13 +135,13 @@ function animate(){
     requestAnimationFrame(animate);
     render();
 }
-
+import { CameraObject } from './CameraObject';
 export default () => {
     createScene();
     var w = window.innerWidth / 6, h = window.innerHeight / 6;
     var viewSize = h;
     var aspectRatio = w / h;
-    props.camera2D = new OrthographicCamera(
+    /* props.camera2D = new OrthographicCamera(
         (-aspectRatio * viewSize) / 2,
         (aspectRatio * viewSize) / 2,
         viewSize / 2,
@@ -148,7 +150,10 @@ export default () => {
         200
     );
     props.scene.add(props.camera2D);
-    props.camera2D.position.set(0, 0, 100);
+    props.camera2D.position.set(0, 0, 100); */
+
+    props.camera2D = CameraObject.Camera2D();
+    props.scene.add(props.camera2D);
     //props.camera2D.position.set(0, 0, 30);
     createRenderer();    
     createEnvironment();
