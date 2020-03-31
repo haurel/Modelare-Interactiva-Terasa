@@ -139,7 +139,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
             if( props.parameters.translate ){
                 var intersects = _raycaster.intersectObject( planeTest );
 
-                console.log(intersects);
+                //console.log(intersects);
                 if( scope._SELECTED_TEMP === null){
                     CloneToSelectedTemp( scope._SELECTED );
                 }else{

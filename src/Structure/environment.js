@@ -1,17 +1,9 @@
-import { BoxGeometry, Mesh, AxesHelper, GridHelper, MeshBasicMaterial, 
-         Group, RepeatWrapping, BoxHelper, Box3, Vector3, TextureLoader, MeshStandardMaterial, Vector2,
-         TangentSpaceNormalMap, ImageUtils, CubeGeometry, BackSide, MeshFaceMaterial, 
-         MeshPhongMaterial,
-         PlaneGeometry,
-         Matrix4,
-} from 'three';
-
+import { AxesHelper, GridHelper, Group, Vector3 } from 'three';
 
 import props from './config/defaults';
 import settings from './config/settings';
 import wallTextureSettings from './config/wallTextureSettings';
 
-import ObjectLoad from './ObjectLoad';
 import { CreateGUI } from './CreateGUI';
 
 
@@ -40,23 +32,13 @@ const createHelpers = () =>{
     //props.scene.add(props.helpersStructure.gridHelper, props.helpersStructure.axesHelper);
 };
 
-
-
-
-
-
-
 const tempFunctionForChangeTexture = (event) =>{
     if(event.keyCode == 66){
-        //console.log(props.meshHouse.children[1]);
-        //console.log(wallTextureSettings.texture_wall_001);
         TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_001, "BigMesh");
     }else if(event.keyCode == 65){
         TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_002, "BigMesh");
     }
 }
-
-
 
 window.addEventListener('keydown', tempFunctionForChangeTexture, false);
 
@@ -67,18 +49,38 @@ export default createEnvironment  => {
     const lights = new Lights();
     props.scene.add(lights);
 
-    
     props.meshHouse = InitializationStaticObjects.House();
     props.scene.add(props.meshHouse);
     
+    var fancePosition = new Vector3(-30, 0, -80);
+    var fanceScale = new Vector3(0, 0, 0);    
+    props.fance = InitializationStaticObjects.Fence(fanceScale, fancePosition);
+    props.fance.rotation.set(Math.PI / 2, 0, 0);
+    props.scene.add(props.fance);
+
+    props.terace = InitializationStaticObjects.Terrace();
+    props.scene.add(props.terace);
+
+    /* props.grass = InitializationStaticObjects.Grass(); */
+    var grass = new Group();
+    grass = InitializationStaticObjects.Grass();
+    props.scene.add(grass);
+
+    console.log(props.scene);
+    props.scene.children[4].scale.set(11.65, 12.10, 1)
+
     var datGUI = new CreateGUI();
     var rotate = datGUI.GetRotate();
     rotate.onChange(function() { datGUI.Update("rotate")});
     var translate = datGUI.GetTranslate();
     translate.onChange(function() { datGUI.Update("translate")});
     
-    
 }
+
+
+
+
+
 
 
 

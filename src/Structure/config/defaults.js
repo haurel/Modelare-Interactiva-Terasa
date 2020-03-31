@@ -1,5 +1,5 @@
 import { Object3D } from "three";
-import { NotEqualStencilFunc } from "three/build/three.module";
+import { NotEqualStencilFunc, Group } from "three/build/three.module";
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 
 export default {
@@ -46,12 +46,33 @@ export default {
 /**
  *  For objects from scene
  */
+//#region Scene 
     /**
      * House Mesh and Plane
      * @type { THREE.Group }
      */
     meshHouse: {},
+    /**
+     * @type { THREE.Group }
+     */
+    fance: {},
+    /**
+     * @type { var }
+     */
+    grass : null,
+//#endregion
 
+//#region 
+    /**
+     * @type { array }
+     */
+    itemsPreviousLoaded : [],
+    /**
+     * @type { Object3D }
+     */
+    chair_model_01 : {},
+//#endregion
+//#region Global variable
 
     /**
      * Object to store the environment in.
@@ -72,10 +93,6 @@ export default {
     objectsArray: [],
 
 
-    /**
-     * @type { THREE.Group }
-     */
-    fance: {},
 
     /**
      * @type { THREE.TransformControl }
@@ -87,18 +104,6 @@ export default {
      */
     dragControl : undefined,
 
-    /**
-     *  @type { var }
-     */
-    composer : null,
-    effectFXAA : null,
-    outlinePass : null,
-    renderPass: null,
-    moved : false,
-    /**
-     * @type { Array }
-     */
-    selectedObjects : [],
 
     /**
      * @type { var }
@@ -115,13 +120,6 @@ export default {
      */
     cameraControl : undefined,
     plane : undefined,
-
-
-    /**
-     * @type { var }
-     * PickHelper
-     */
-    pickHelper : undefined,
 
     /**
      * @type { var }
@@ -147,4 +145,12 @@ export default {
      * @type { var }
      */
     obj : null,
+
+
+    /**
+     * @type { Array}
+     */
+    addObjectsToScene : [],
+
+//#endregion
 };

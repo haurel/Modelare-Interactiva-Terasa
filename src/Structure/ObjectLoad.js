@@ -99,6 +99,10 @@ export default class ObjectLoad{
         return box;
     };
 
+    RedrawBoxForClone(mesh){
+        
+    }
+
 
 
  };
