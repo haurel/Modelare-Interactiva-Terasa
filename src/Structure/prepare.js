@@ -66,7 +66,11 @@ const createRenderer = () => {
     props.renderer.toneMappingExposure = 1.2;
 
     // Append the render canvas to the DOM
-    document.body.appendChild(props.renderer.domElement);
+    //document.body.appendChild(props.renderer.domElement);
+    var container = document.getElementById( 'main' );
+    document.body.appendChild( container );
+    container.appendChild( props.renderer.domElement );
+    //document.getElementById('scena').appendChild(props.renderer.domElement);
 };
 
 /**

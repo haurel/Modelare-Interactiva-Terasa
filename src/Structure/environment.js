@@ -70,6 +70,7 @@ export default createEnvironment  => {
     props.scene.children[4].scale.set(11.65, 12.10, 1)
 
     var datGUI = new CreateGUI();
+    
     var rotate = datGUI.GetRotate();
     rotate.onChange(function() { datGUI.Update("rotate")});
     var translate = datGUI.GetTranslate();

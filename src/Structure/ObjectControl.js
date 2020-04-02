@@ -62,8 +62,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
      * @param event - event from domElement
      */
     function MouseLocation( event ){
-        scope._mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        scope._mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+        /* scope._mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        scope._mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1; */
+        scope._mouse.x = ( ( event.clientX - props.renderer.domElement.offsetLeft ) / props.renderer.domElement.clientWidth ) * 2 - 1;
+        scope._mouse.y = - ( ( event.clientY - props.renderer.domElement.offsetTop ) / props.renderer.domElement.clientHeight ) * 2 + 1;   
     };
 
     /**

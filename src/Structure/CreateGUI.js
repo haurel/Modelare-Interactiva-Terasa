@@ -5,7 +5,7 @@ import props from './config/defaults';
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module';
 
 var CreateGUI = function (){
-    props.gui = new GUI();
+    props.gui = new GUI({ autoPlace: false });
     var scope = this;
     this.traslateValue = props.gui.add( props.parameters, 'translate')
         .name('Translate')
@@ -14,6 +14,8 @@ var CreateGUI = function (){
     .name('Rotate')
     .listen()
 
+    var customContainer = document.getElementById('datGUI');
+    customContainer.appendChild(props.gui.domElement);
    
     this.GetTranslate = () =>{
         return scope.traslateValue;

@@ -1,14 +1,31 @@
-body{
-  margin: 0px;
+body, html{
+  /* margin: 0px;
+  overflow: hidden; */
+  font-family: sans-serif;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
+}
+
+#header{
+  /* z-index: 999; */
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: #818181;
+  padding: .5rem;
+  height: 6rem;
 }
 
 /* The side navigation menu */
 .sidenav {
+  margin-top: 7rem;
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  z-index: 2; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
   background-color: #111; /* Black*/
@@ -85,7 +102,9 @@ body{
 }
 
 .imageClass{
+  margin-top: 7rem;
   position: absolute;
+  z-index: 1;
   padding: 20px;
 }
 
@@ -115,6 +134,26 @@ body{
  width: 100% !important;
  height: auto !important;
  margin-bottom: 1px;
+}
+
+
+.iframe{
+  /* position:fixed; */
+  position: static;
+  width: 100%;
+ /*  padding: .5rem; */
+  margin-top: 6rem;
+  height: 100%;
+  /* background: green; */
+
+}
+
+#datGUI{
+  position: absolute;
+  margin-top: 7rem;
+  top: 0px;
+  right: 0px;
+  z-index: 1;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

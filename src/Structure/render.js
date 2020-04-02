@@ -13,8 +13,8 @@ import settings from './config/settings';
 }; */
 
 //const canvas = document.getElementById('canvas');
-const canvas = document.body;  
-
+//const canvas = document.body;  
+const canvas = document.getElementById('scena');
 /**
  * @returns Scene FPS
  */

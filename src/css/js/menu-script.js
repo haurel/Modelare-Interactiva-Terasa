@@ -1,7 +1,7 @@
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
 function openNav() {
-    document.getElementById("mySidenav").style.width = "500px";
-    document.getElementById("main").style.marginLeft = "500px";
+    document.getElementById("mySidenav").style.width = "400px";
+    /* document.getElementById("main").style.marginLeft = "400px"; */ // mutare cu tot cu scena
     document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
   }
   
