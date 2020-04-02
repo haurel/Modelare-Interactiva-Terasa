@@ -32,6 +32,6 @@ export class ObjectControl extends EventDispatcher{
     activate(): void;
     MouseLocation(): void;
 
-    CheckCollision():void;
+    //CheckCollision(): void;
 
 }

@@ -14,7 +14,7 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 
 import props from './config/defaults';
 import settings from './config/settings';
-import Camera from './Camera';
+
 
 
 import createEnvironment from './environment';
@@ -136,7 +136,8 @@ function animate(){
     render();
 }
 import { CameraObject } from './CameraObject';
-export default () => {
+
+function LoadCompleteScene(){
     createScene();
     var w = window.innerWidth / 6, h = window.innerHeight / 6;
     var viewSize = h;
@@ -162,17 +163,9 @@ export default () => {
     props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
         props.objectsArray, props.plane);
     
-    /* props.obj.addEventListener('move', function ( event ) {
-            //alert( "hallo" );
-    });
-    props.obj.addEventListener('down', function ( event ) {
-        //alert( "hallo" );
-    }); */
-
     animate();
     
-    //render();
-
-    
 };
+
+export default { LoadCompleteScene, animate };
 

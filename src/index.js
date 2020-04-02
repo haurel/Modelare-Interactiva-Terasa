@@ -30,14 +30,13 @@ function takeModel(name){
     console.warn(name + " Array: " + props.addObjectsToScene[0]);
 
     if(props.addObjectsToScene[0] === 'chair_model_1' && !props.itemsPreviousLoaded.includes('chair_model_1')){
-        /* var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
+        var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
                 new Vector3(5, -30, 3),
                 new Vector3(2, 2, 2),
                 "Chair_002");
-        var a = chair.Load();
-        //console.log(props.objectsArray);
-        props.scene.add(a); */
-        props.chair_model_01 = new Object3D();
+        var tempObject = chair.Load();
+        props.scene.add(tempObject);
+       /*  props.chair_model_01 = new Object3D();
         var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
                 new Vector3(5, -30, 3),
                 new Vector3(2, 2, 2),
@@ -55,16 +54,15 @@ function takeModel(name){
         //console.log("Nonclone: ", props.chair_model_01);
         //console.log(chair_temp);    
         props.scene.add(chair_temp);
-
-    }
-    
+        */
+    }   
 }
 
 window.takeModel = function(name){
     takeModel(name);
 }
 
-prepare();
-
+//prepare();
+prepare.LoadCompleteScene();
 
 

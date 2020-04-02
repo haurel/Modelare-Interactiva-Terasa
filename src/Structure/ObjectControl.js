@@ -9,7 +9,9 @@
 
 import { Vector3, Vector2, Raycaster, Box3, BoxHelper, Matrix4, EventDispatcher, Mesh} from 'three';
 import props from './config/defaults';
+import prepare from './prepare';
 import { PlaneGeometry, MeshBasicMaterial } from 'three/build/three.module';
+
 
 
 var ObjectControl = function(domElement, camera, objectsArray, plane){ 
@@ -39,6 +41,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         /* FOR OBJECT VARIABLE */
     this._INTERSECTED = null, 
     this._SELECTED = null,
+    this._SELECTED_PREVIOUS = null,
     this._INDEX = null, 
     this._SELECTED_TEMP = null;
     this._objectForCheckCollision = [], 
@@ -71,18 +74,25 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         scope._deltaMouse.y = event.offsetY - previousMousePosition.y;
     }
 
+    function GetIsDragged(){
+        return scope._isDragged;
+    }
 
-    function CheckCollision(){
+
+    this.CheckCollision = () =>{
         var boxesCollision = false;
-        if(_raycaster.ray.intersectBox( scope._objectForCheckCollision[0].box )){
-            boxesCollision = true;
-            scope._itsCollision = true;
+        console.log(scope._objectForCheckCollision.length);
+        if(scope._objectForCheckCollision.length > 0){
+            if(_raycaster.ray.intersectBox( scope._objectForCheckCollision[0].box )){
+                boxesCollision = true;
+                scope._itsCollision = true;
+                console.clear();
+            }
         }
 
         if( boxesCollision && scope._isMoved ){
             scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0xff0000);
-            
-        }else if( _isMoved ){
+        }else if( scope._isMoved ){
             scope._itsCollision = false;
             scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0x00ff00);
         }
@@ -95,6 +105,13 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         event.preventDefault();
         MouseLocation( event );
         scope.dispatchEvent( { type: 'down' } );
+
+        if( scope._SELECTED_PREVIOUS !== scope._SELECTED ){
+            props.objectsArray.some( ( mesh, i) => {
+                console.log(mesh);
+                if( i !== scope._INDEX ) scope._objectForCheckCollision.push( mesh );
+            });
+        }
 
         _raycaster.setFromCamera(scope._mouse, props.camera2D);
 
@@ -142,10 +159,13 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 //console.log(intersects);
                 if( scope._SELECTED_TEMP === null){
                     CloneToSelectedTemp( scope._SELECTED );
+                    scope._isMoved = true;
                 }else{
                     scope._SELECTED_TEMP.position.copy( intersects[0].point.sub( scope._offset ));
                     scope._SELECTED_TEMP.helper.update();
                 } 
+
+                scope.CheckCollision();
                 
                 return;
             }else if( props.parameters.rotate && scope._isRotated ){
@@ -173,13 +193,9 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
                 domElement.style.cursor = 'pointer';
 
-                //console.log(props.objectsArray[ scope._INDEX ]);
                 props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                 props.objectsArray[ scope._INDEX ].helper.update();
 
-                props.objectsArray.some( ( mesh, i) => {
-                    if( i !== scope._INDEX ) scope._objectForCheckCollision.push( mesh );
-                });
             }else if( props.parameters.rotate ){
                 if( scope._INTERSECTED !== intersects[0].object ){
                     scope._INTERSECTED = intersects[0].object;
@@ -210,8 +226,6 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         event.preventDefault();
         MouseLocation( event );
 
-        //props.orbitControls.enabled = true;
-        //console.log(scope._INTERSECTED);
         if( scope._INTERSECTED ){
             if( props.parameters.translate ){
                 if( scope._itsCollision ){
@@ -233,11 +247,14 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 props.scene.remove( scope._SELECTED_TEMP );
                 props.scene.remove ( scope._SELECTED_TEMP.helper );
 
+
+                scope._SELECTED_PREVIOUS = scope._SELECTED;
+
                 scope._SELECTED_TEMP = null; 
                 scope._SELECTED = null;
                 scope._isDragged = null; 
                 scope._isMoved = false;
-                scope._objectForCheckCollision = [];
+                scope._objectForCheckCollision.length = 0;
             }else if( props.parameters.rotate ){
                 scope._SELECTED = null;
                 scope._isRotated = false;
@@ -267,9 +284,6 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         props.scene.add( scope._SELECTED_TEMP.helper );
 
         scope._isMoved = true;
-
-        //if( _isDragged ) animate(); //!!!!!!!!
-
     }
 
     this.activate();
