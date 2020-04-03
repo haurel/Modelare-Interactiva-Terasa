@@ -153,4 +153,17 @@ export default {
     addObjectsToScene : [],
 
 //#endregion
+
+//#region FROM GUI
+    /**
+     * Array for object actions: paint, delete, rotate, move
+     * @type { Array }
+     *
+     */
+    objectActions:{
+        'paint': false,
+        'delete': false,
+        'rotate': false,
+        'move': true,
+    }
 };

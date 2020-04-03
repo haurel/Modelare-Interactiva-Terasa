@@ -117,7 +117,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
         _raycaster.setFromCamera(scope._mouse, props.camera2D);
 
-        if( props.parameters.translate ){
+        //if( props.parameters.translate ){
+        if( props.objectActions['move'] === true){
 
             var intersects = _raycaster.intersectObjects( props.objectsArray );
             if( intersects.length > 0 ){
@@ -155,7 +156,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         
         if( scope._SELECTED ){
             //console.log("SELECTED", scope._SELECTED);
-            if( props.parameters.translate ){
+            //if( props.parameters.translate ){
+            if( props.objectActions['move'] === true){
                 var intersects = _raycaster.intersectObject( planeTest );
 
                 //console.log(intersects);
@@ -182,7 +184,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         var intersects = _raycaster.intersectObjects( props.objectsArray );
 
         if( intersects.length > 0 && scope._SELECTED === null){
-            if( props.parameters.translate ){
+            //if( props.parameters.translate ){
+            if( props.objectActions['move'] === true){
                 if( scope._INTERSECTED != intersects[0].object ){
                     scope._INDEX = intersects[0].object.i;
 
@@ -229,7 +232,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         MouseLocation( event );
 
         if( scope._INTERSECTED ){
-            if( props.parameters.translate ){
+            //if( props.parameters.translate ){
+            if( props.objectActions['move'] === true){
                 if( scope._itsCollision ){
                     scope._SELECTED.position.copy( scope._originalObjectPosition );
                     scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);

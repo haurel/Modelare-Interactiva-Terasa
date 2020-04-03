@@ -40,7 +40,7 @@ module.exports = {
                     "css-loader",
                     "sass-loader",
                 ],
-				loader: 'style!css!ruby-sass?compass=1'
+				//loader: 'style!css!ruby-sass?compass=1'
             }
         ]
     },
