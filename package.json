@@ -19,15 +19,17 @@
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",
-    "node-sass": "^4.13.0",
-    "sass-loader": "^8.0.0",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
     "style-loader": "^1.0.0",
     "three": "^0.110.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "compass-mixins": "^0.12.10",
     "noisejs": "^2.1.0",
+    "ruby-sass-loader": "^0.4.0",
     "stats.js": "^0.17.0",
     "webpack-dev-server": "^3.9.0"
   }

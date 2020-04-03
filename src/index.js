@@ -1,3 +1,5 @@
+import './css/wave.scss';
+
 import prepare from './Structure/prepare';
 import getSelectedColor from './Structure/functionForUI';
 import props from './Structure/config/defaults';

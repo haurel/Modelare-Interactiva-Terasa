@@ -14,6 +14,7 @@ var CreateGUI = function (){
     .name('Rotate')
     .listen()
 
+
     var customContainer = document.getElementById('datGUI');
     customContainer.appendChild(props.gui.domElement);
    

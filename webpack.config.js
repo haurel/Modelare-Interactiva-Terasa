@@ -38,8 +38,9 @@ module.exports = {
                 use: [
                     "style-loader",
                     "css-loader",
-                    "sass-loader"
-                ]
+                    "sass-loader",
+                ],
+				loader: 'style!css!ruby-sass?compass=1'
             }
         ]
     },

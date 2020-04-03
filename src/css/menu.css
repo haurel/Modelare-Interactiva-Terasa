@@ -14,14 +14,14 @@ body, html{
   left: 0;
   top: 0;
   width: 100%;
-  background: #818181;
-  padding: .5rem;
-  height: 6rem;
+  background: #1F2833;
+  /* padding: .5rem; */
+  height: 5rem;
 }
 
 /* The side navigation menu */
 .sidenav {
-  margin-top: 7rem;
+  margin-top: 5rem;
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
@@ -142,7 +142,7 @@ body, html{
   position: static;
   width: 100%;
  /*  padding: .5rem; */
-  margin-top: 6rem;
+  margin-top: 5rem;
   height: 100%;
   /* background: green; */
 
@@ -150,7 +150,7 @@ body, html{
 
 #datGUI{
   position: absolute;
-  margin-top: 7rem;
+  margin-top: 5rem;
   top: 0px;
   right: 0px;
   z-index: 1;
@@ -161,3 +161,20 @@ body, html{
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+
+#image-container { 
+  min-width:782px; /* width of 3 images (746px) plus images' padding and border (36px) */ 
+  border:1px solid #d3d2d2; 
+  background-color:#f0f0f0; 
+ } 
+#image-container img { 
+  /* padding:5px;  */
+  border:1px solid #d3d2d2;  
+ } 
+#image-right { 
+  float:right;
+  display: block;
+  margin-top: 10px;
+  margin-right: 100px;
+ } 
