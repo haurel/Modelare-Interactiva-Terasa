@@ -178,3 +178,43 @@ body, html{
   margin-top: 10px;
   margin-right: 100px;
  } 
+
+
+ .cameraDiv{
+   padding: 26px 26px;
+ }
+
+.cameraDiv .cameraButton{
+  display: inline-block;
+  padding-left: 10px;
+  
+  margin-left: 25px;
+}
+ .cameraButton {
+	box-shadow: 3px 2px 21px 1px #020a14;
+	background:linear-gradient(to bottom, #1f2833 5%, #314357 100%);
+	background-color:#1f2833;
+	border-radius:42px;
+	border:2px solid #292d33;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+  padding:26px 26px;
+  padding-top: 10px;
+	text-shadow:0px 1px 11px #80a4cf;
+}
+
+.cameraDiv a{
+  font-size:28px;
+	font-weight:bold;
+  text-decoration:none;
+  text-align: center;
+}
+.cameraButton:hover {
+  background:linear-gradient(to bottom, #314357 5%, #1f2833 100%);
+	background-color:#314357;
+}
+.cameraButton:active {
+	position:relative;
+	top:1px;
+}

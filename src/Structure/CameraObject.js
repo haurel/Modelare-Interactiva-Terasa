@@ -51,6 +51,8 @@ var CameraObject = {
             _camera3D.near,
             _camera3D.far
         );
+        camera.position.set(0, -100, 50);
+        camera.rotation.set(1, 0, 0);
         //camera.position.set(x, y, z);
         return camera;
     }

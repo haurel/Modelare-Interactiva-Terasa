@@ -1,14 +1,15 @@
-import { MeshPhongMaterial, TextureLoader } from "three/build/three.module"
+import { MeshPhongMaterial, TextureLoader, Mesh } from "three/build/three.module"
 
 var PaintObject = {
-    LoadTextureArray: function( texture ){
+    LoadTextureArray: function( _texture ){
         var texture = [];
         for(let i = 0; i < 5; i++){
             texture[i] = new TextureLoader().
                 load( 
-                    texture[ Object.keys(texture)[i] ]
+                    _texture[ Object.keys(_texture)[i] ]
                 );
         }
+        //console.warn(texture);
         return texture;
     },
 //Mai am de facut setari la texturi.
@@ -30,6 +31,8 @@ var PaintObject = {
     },
 
     ObjectTexture: function( mesh, texture ){
-        
+
     }
 }
+
+export { PaintObject }

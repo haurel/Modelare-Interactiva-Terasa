@@ -5,7 +5,9 @@ import getSelectedColor from './Structure/functionForUI';
 import props from './Structure/config/defaults';
 import ObjectLoad from './Structure/ObjectLoad';
 import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh } from 'three/build/three.module';
-import { BoxHelper } from 'three';
+import { CameraObject } from './Structure/CameraObject';
+
+
 /* document.addEventListener('DOMContentLoaded', () => {
     const wallTexture = document.getElementById("img_select");
     wallTexture.addEventListener('click', getSelectedColor(wallTexture.getAttribute("src")));
@@ -25,6 +27,20 @@ function init(src) {
    }
 window.init = function(src){
     init(src);
+}
+
+function ChangeView( typeOfView ){
+    if( typeOfView === '3D'){
+        props.scene.remove(props.camera2D);
+        props.camera2D = null;
+
+        props.camera2D = CameraObject.Camera3D();
+        props.scene.add(props.camera2D);
+    }
+}
+
+window.ChangeView = function( typeOfView ){
+    ChangeView( typeOfView );
 }
 
 function takeModel(name){
