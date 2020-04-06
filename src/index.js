@@ -53,14 +53,17 @@ window.ChangeView = function( typeOfView ){
 function takeModel(name){
     props.addObjectsToScene.push(name);
     console.warn(name + " Array: " + props.addObjectsToScene[0]);
-
-    if(props.addObjectsToScene[0] === 'chair_model_1' && !props.itemsPreviousLoaded.includes('chair_model_1')){
-        var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
+    console.log(props.objectsArray);
+    //if(props.addObjectsToScene[0] === 'chair_model_1' && !props.itemsPreviousLoaded.includes('chair_model_1')){
+    var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
                 new Vector3(5, -30, 5.40),
                 new Vector3(2, 2, 2),
                 "Chair_002");
-        var tempObject = chair.Load();
-        props.scene.add(tempObject);
+    var tempObject = chair.Load();
+    //console.log("temObject", tempObject);
+    props.scene.add(tempObject);
+
+        //console.log(props.objectsArray);
        /*  props.chair_model_01 = new Object3D();
         var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
                 new Vector3(5, -30, 3),
@@ -80,11 +83,31 @@ function takeModel(name){
         //console.log(chair_temp);    
         props.scene.add(chair_temp);
         */
-    }   
+    //}   
 }
 
 window.takeModel = function(name){
     takeModel(name);
+}
+
+
+function Action( actionName ){
+    Object.keys(props.objectActions).forEach(v => props.objectActions[v] = false)
+
+    if( actionName === 'drag'){
+        props.objectActions['drag'] = true;
+    }else if(actionName === 'rotate'){
+        props.objectActions['rotate'] = true;
+    }else if( actionName === 'paint'){
+        props.objectActions['paint'] = true;
+    }else if( actionName === 'delete'){
+        props.objectActions['delete'] = true;
+    }
+    console.log(props.objectActions);
+}
+
+window.Action = function( actionName ){
+    Action( actionName );
 }
 
 //prepare();

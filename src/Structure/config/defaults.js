@@ -91,7 +91,7 @@ export default {
      */
     boundingBox: [],
     objectsArray: [],
-
+    indexDeleteObject: null,
 
 
     /**
@@ -164,6 +164,6 @@ export default {
         'paint': false,
         'delete': false,
         'rotate': false,
-        'move': true,
+        'drag': true,
     }
 };

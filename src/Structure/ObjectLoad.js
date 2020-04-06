@@ -78,7 +78,13 @@ export default class ObjectLoad{
 
 
         box = new Mesh( geometry, material );
-        box.i = props.allObject; props.allObject++;
+
+        //if( props.indexDeleteObject === null){
+            box.i = props.allObject; props.allObject++;
+/*         }else{
+            box.i = props.indexDeleteObject;
+            props.indexDeleteObject = null;
+        }  */
 
         box.rotation.set( this._rotation.x, this._rotation.y, this._rotation.z );
         box.box= new Box3().setFromObject( box );
@@ -91,6 +97,8 @@ export default class ObjectLoad{
         box.helper.matrixAutoUpdate = true;
 
         props.objectsArray.push( box );
+
+        console.log(props.objectsArray);
 
         /* props.objectsArray[0].helper.material.visible = true;
         props.objectsArray[0].helper.update(); */
