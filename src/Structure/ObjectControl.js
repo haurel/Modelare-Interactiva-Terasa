@@ -84,20 +84,25 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
     this.CheckCollision = () =>{
         var boxesCollision = false;
-        console.log(scope._objectForCheckCollision.length);
+        //console.log("Check collisionLenght: ", scope._objectForCheckCollision);
         if(scope._objectForCheckCollision.length > 0){
-            if(_raycaster.ray.intersectBox( scope._objectForCheckCollision[0].box )){
-                boxesCollision = true;
-                scope._itsCollision = true;
-                console.clear();
-            }
+            props.objectsArray.some(( mesh, i )=>{
+                if(_raycaster.ray.intersectBox( scope._objectForCheckCollision[i].box )){
+                    boxesCollision = true;
+                    scope._itsCollision = true;
+                    console.clear();
+                }
+            });
+            
         }
 
         if( boxesCollision && scope._isMoved ){
+            domElement.style.cursor = 'no-drop';
             scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0xff0000);
         }else if( scope._isMoved ){
             scope._itsCollision = false;
             scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0x00ff00);
+            domElement.style.cursor = 'move';
         }
     }
 
@@ -131,6 +136,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 scope._offset.copy( intersects[0].point ).sub( planeTest.position );
 
                 domElement.style.cursor = 'move';
+
+                props.objectsArray.some(( mesh, i )=>{
+                    if(i !== scope._INDEX) scope._objectForCheckCollision.push(mesh);
+                });
             }
         }else if( props.objectActions['rotate'] === true ){
             var intersects = _raycaster.intersectObjects( props.objectsArray );
@@ -142,6 +151,18 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
                 domElement.style.cursor = 'crosshair';
             }
+        }else if( props.objectActions['delete'] === true){
+            var intersects = _raycaster.intersectObjects( props.objectsArray );
+            if(intersects.length > 0){
+                props.scene.remove( intersects[0].object.parent );
+                props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                props.objectsArray[ scope._INDEX ].helper.update();
+
+                props.indexDeleteObject = scope._INDEX;
+
+                props.objectsArray.splice( scope._INDEX, 1);
+                console.log(props.objectsArray);
+            }
         }
     }
 
@@ -150,15 +171,12 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         MouseLocation( event );
         scope.dispatchEvent( { type: 'move' } );
 
-        //console.log("move")
         _raycaster.setFromCamera( scope._mouse, props.camera2D);
         
-        //console.log(scope._SELECTED);
         if( scope._SELECTED ){
             if( props.objectActions['drag'] === true){
                 var intersects = _raycaster.intersectObject( planeTest );
 
-                //console.log(intersects);
                 if( scope._SELECTED_TEMP === null){
                     CloneToSelectedTemp( scope._SELECTED );
                     scope._isMoved = true;
@@ -189,20 +207,28 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
                     planeTest.applyMatrix3 = new Matrix4().makeRotationZ( -Math.PI / 2);
                     planeTest.position.copy( scope._INTERSECTED.position );
-                    //planeTest.lookAt( camera.position );
+
                 }
 
                 domElement.style.cursor = 'pointer';
 
                 props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                 props.objectsArray[ scope._INDEX ].helper.update();
-
+                
             }else if( props.objectActions['rotate'] === true ){
                 if( scope._INTERSECTED != intersects[0].object ){
                     scope._INTERSECTED = intersects[0].object;
                     scope._INDEX = intersects[0].object.i;
 
-                    //console.log(scope._INTERSECTED);
+                }
+                domElement.style.cursor = 'pointer';
+                props.objectsArray[ scope._INDEX ].helper.material.visible = true;
+                props.objectsArray[ scope._INDEX ].helper.update();
+            }else if( props.objectActions['delete'] === true){
+                if( scope._INTERSECTED != intersects[0].object ){
+                    scope._INTERSECTED = intersects[0].object;
+                    scope._INDEX = intersects[0].object.i;
+
                 }
                 domElement.style.cursor = 'pointer';
                 props.objectsArray[ scope._INDEX ].helper.material.visible = true;
@@ -231,6 +257,16 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._INTERSECTED = null;
                     scope._INDEX = null;
                     scope._objectForCheckCollision = [];
+                }
+            }else if( props.objectActions['delete'] === true){
+                if(scope._INDEX !== null){
+                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    props.objectsArray[ scope._INDEX ].helper.update();
+
+                    domElement.style.cursor = 'auto';
+
+                    scope._INTERSECTED = null;
+                    scope._INDEX = null;
                 }
             }
         }
@@ -275,6 +311,9 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 scope._SELECTED = null;
                 scope._isRotated = false;
                 //console.log("AM RIDICAT MOUSUL", scope._isRotated, scope._SELECTED);
+            }else if( props.objectActions['delete'] === true){
+                scope._INDEX= null;
+
             }
         }
         //props.orbitControls.enabled = true;
