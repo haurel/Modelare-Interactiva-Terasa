@@ -31,14 +31,15 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     this._camera = camera;
     //this.domElement = (domElement !== undefined) ? domElement : document;
     //console.log(objectsArray);
-        /* Standard variable */
+
+    /* Standard variable */
     this._mouse = new Vector2();
     this._deltaMouse = new Vector3(); 
     this._previousMousePosition = new Vector2(0,0);
     var _raycaster = new Raycaster();
     this._offset = new Vector3();
 
-        /* FOR OBJECT VARIABLE */
+    /* FOR OBJECT VARIABLE */
     this._INTERSECTED = null, 
     this._SELECTED = null,
     this._SELECTED_PREVIOUS = null,
@@ -59,8 +60,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     
     var scope = this;
     /**
-     * @param event - event from domElement
-     */
+    * @param event - event from domElement
+    */
     function MouseLocation( event ){
         /* scope._mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
         scope._mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1; */
@@ -110,7 +111,6 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
         if( scope._SELECTED_PREVIOUS !== scope._SELECTED ){
             props.objectsArray.some( ( mesh, i) => {
-                console.log(mesh);
                 if( i !== scope._INDEX ) scope._objectForCheckCollision.push( mesh );
             });
         }
@@ -118,7 +118,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         _raycaster.setFromCamera(scope._mouse, props.camera2D);
 
         //if( props.parameters.translate ){
-        if( props.objectActions['move'] === true){
+        if( props.objectActions['drag'] === true){
 
             var intersects = _raycaster.intersectObjects( props.objectsArray );
             if( intersects.length > 0 ){
@@ -132,10 +132,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
                 domElement.style.cursor = 'move';
             }
-        }else if( props.parameters.rotate ){
+        }else if( props.objectActions['rotate'] === true ){
             var intersects = _raycaster.intersectObjects( props.objectsArray );
             if( intersects.length > 0){
-                props.orbitControls.enabled = false;
+                //props.orbitControls.enabled = false;
                 scope._SELECTED = intersects[0].object;
                 
                 scope._isRotated = true;
@@ -153,11 +153,9 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         //console.log("move")
         _raycaster.setFromCamera( scope._mouse, props.camera2D);
         
-        
+        //console.log(scope._SELECTED);
         if( scope._SELECTED ){
-            //console.log("SELECTED", scope._SELECTED);
-            //if( props.parameters.translate ){
-            if( props.objectActions['move'] === true){
+            if( props.objectActions['drag'] === true){
                 var intersects = _raycaster.intersectObject( planeTest );
 
                 //console.log(intersects);
@@ -172,11 +170,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 scope.CheckCollision();
                 
                 return;
-            }else if( props.parameters.rotate && scope._isRotated ){
-                var angleRad = Math.atan2( scope._mouse.y - scope._SELECTED.position.y,
-                    scope._mouse.X - scope._SELECTED.position.x );
+            }else if( props.objectActions['rotate'] === true && scope._isRotated === true ){
+                var angleRad = Math.atan2( scope._mouse.y - scope._SELECTED.position.y, scope._mouse.x - scope._SELECTED.position.x );
                 var angleOfRotation = ( 180 / Math.PI ) * angleRad;
-
+                
                 scope._SELECTED.rotation.y = angleOfRotation;
             }
         }
@@ -184,8 +181,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         var intersects = _raycaster.intersectObjects( props.objectsArray );
 
         if( intersects.length > 0 && scope._SELECTED === null){
-            //if( props.parameters.translate ){
-            if( props.objectActions['move'] === true){
+            if( props.objectActions['drag'] === true ){
                 if( scope._INTERSECTED != intersects[0].object ){
                     scope._INDEX = intersects[0].object.i;
 
@@ -201,18 +197,32 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                 props.objectsArray[ scope._INDEX ].helper.update();
 
-            }else if( props.parameters.rotate ){
-                if( scope._INTERSECTED !== intersects[0].object ){
+            }else if( props.objectActions['rotate'] === true ){
+                if( scope._INTERSECTED != intersects[0].object ){
                     scope._INTERSECTED = intersects[0].object;
                     scope._INDEX = intersects[0].object.i;
+
+                    //console.log(scope._INTERSECTED);
                 }
                 domElement.style.cursor = 'pointer';
                 props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                 props.objectsArray[ scope._INDEX ].helper.update();
             }
         }else{
-            if( props.parameters.translate || props.parameters.rotate){
-                if( scope._INDEX !== null || ( scope._INDEX !== null && !scope._isRotated ) ){
+            if( props.objectActions['drag'] === true){
+                if( scope._INDEX !== null){
+                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    props.objectsArray[ scope._INDEX ].helper.update();
+
+                    domElement.style.cursor = 'auto';
+
+                    scope._INTERSECTED = null;
+                    scope._INDEX = null;
+                    scope._objectForCheckCollision = [];
+                }
+            }
+            else if(props.objectActions['rotate'] === true ){
+                if(scope._INDEX !== null && !scope._isRotated){
                     props.objectsArray[ scope._INDEX ].helper.material.visible = false;
                     props.objectsArray[ scope._INDEX ].helper.update();
 
@@ -230,10 +240,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     function mouseUp( event ){
         event.preventDefault();
         MouseLocation( event );
-
+        console.log(scope._INTERSECTED);
         if( scope._INTERSECTED ){
             //if( props.parameters.translate ){
-            if( props.objectActions['move'] === true){
+            if( props.objectActions['drag'] === true){
                 if( scope._itsCollision ){
                     scope._SELECTED.position.copy( scope._originalObjectPosition );
                     scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
@@ -261,12 +271,13 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 scope._isDragged = null; 
                 scope._isMoved = false;
                 scope._objectForCheckCollision.length = 0;
-            }else if( props.parameters.rotate ){
+            }else if( props.objectActions['rotate'] === true ){
                 scope._SELECTED = null;
                 scope._isRotated = false;
+                //console.log("AM RIDICAT MOUSUL", scope._isRotated, scope._SELECTED);
             }
         }
-        props.orbitControls.enabled = true;
+        //props.orbitControls.enabled = true;
 
         domElement.style.cursor = 'auto';
     }
