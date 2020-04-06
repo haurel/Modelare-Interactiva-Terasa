@@ -122,7 +122,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
             var intersects = _raycaster.intersectObjects( props.objectsArray );
             if( intersects.length > 0 ){
-                //props.orbitControls.enabled = false;
+                props.orbitControls.enabled = false;
                 scope._SELECTED = intersects[0].object;
                 scope._originalObjectPosition.copy( scope._SELECTED.position );
                 
@@ -135,7 +135,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         }else if( props.parameters.rotate ){
             var intersects = _raycaster.intersectObjects( props.objectsArray );
             if( intersects.length > 0){
-                //props.orbitControls.enabled = false;
+                props.orbitControls.enabled = false;
                 scope._SELECTED = intersects[0].object;
                 
                 scope._isRotated = true;
@@ -266,6 +266,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 scope._isRotated = false;
             }
         }
+        props.orbitControls.enabled = true;
 
         domElement.style.cursor = 'auto';
     }

@@ -30,7 +30,14 @@ window.init = function(src){
 }
 
 function ChangeView( typeOfView ){
-    if( typeOfView === '3D'){
+    if( typeOfView === '2D'){
+        props.scene.remove(props.camera2D)
+        props.camera2D = null;
+
+        props.camera2D = CameraObject.Camera2D();
+        props.scene.add( props.camera2D );
+    }
+    else if( typeOfView === '3D'){
         props.scene.remove(props.camera2D);
         props.camera2D = null;
 
@@ -49,7 +56,7 @@ function takeModel(name){
 
     if(props.addObjectsToScene[0] === 'chair_model_1' && !props.itemsPreviousLoaded.includes('chair_model_1')){
         var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
-                new Vector3(5, -30, 3),
+                new Vector3(5, -30, 5.40),
                 new Vector3(2, 2, 2),
                 "Chair_002");
         var tempObject = chair.Load();

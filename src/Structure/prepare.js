@@ -117,18 +117,18 @@ const createOrbitControls = () => {
         props.camera2D,
         props.renderer.domElement
     )
-    props.orbitControls.update();
+    //props.orbitControls.update();
     console.log(props.orbitControls); */
 
-    var controls = new TrackballControls( props.camera2D, 
+    /* props.orbitControls = new TrackballControls( props.camera2D, 
         props.renderer.domElement);
-        /* controls.rotateSpeed = 13.0;
-        controls.zoomSpeed = 1.2;
-        controls.panSpeed = 0.8;
-        controls.noZoom = false;
-        controls.noPan = false;
-        controls.staticMoving = true;
-        controls.dynamicDampingFactor = 0.3; */
+    props.orbitControls.rotateSpeed = 13.0;
+    props.orbitControls.zoomSpeed = 1.2;
+    props.orbitControls.panSpeed = 0.8;
+    props.orbitControls.noZoom = false;
+    props.orbitControls.noPan = false;
+    props.orbitControls.staticMoving = true;
+    props.orbitControls.dynamicDampingFactor = 0.3; */
 }
 
 /**
@@ -137,6 +137,7 @@ const createOrbitControls = () => {
 
 function animate(){
     requestAnimationFrame(animate);
+    //props.orbitControls.update();
     render();
 }
 import { CameraObject } from './CameraObject';
@@ -157,12 +158,13 @@ function LoadCompleteScene(){
     props.scene.add(props.camera2D);
     props.camera2D.position.set(0, 0, 100); */
 
-    props.camera2D = CameraObject.Camera2D();
+    //props.camera2D = CameraObject.Camera2D();
+    props.camera2D = CameraObject.Camera3D();
     props.scene.add(props.camera2D);
     //props.camera2D.position.set(0, 0, 30);
     createRenderer();    
     createEnvironment();
-
+    //createOrbitControls();
 
     props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
         props.objectsArray, props.plane);
