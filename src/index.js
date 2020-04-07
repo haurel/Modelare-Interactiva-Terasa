@@ -6,6 +6,8 @@ import props from './Structure/config/defaults';
 import ObjectLoad from './Structure/ObjectLoad';
 import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh } from 'three/build/three.module';
 import { CameraObject } from './Structure/CameraObject';
+import { PaintObject } from './Structure/PaintObject';
+import chairTextureSettings from './Structure/config/chairTextureSettings';
 
 
 /* document.addEventListener('DOMContentLoaded', () => {
@@ -52,16 +54,21 @@ window.ChangeView = function( typeOfView ){
 
 function takeModel(name){
     props.addObjectsToScene.push(name);
-    console.warn(name + " Array: " + props.addObjectsToScene[0]);
-    console.log(props.objectsArray);
+    //console.warn(name + " Array: " + props.addObjectsToScene[0]);
+    //console.log(props.objectsArray);
     //if(props.addObjectsToScene[0] === 'chair_model_1' && !props.itemsPreviousLoaded.includes('chair_model_1')){
     var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
                 new Vector3(5, -30, 5.40),
                 new Vector3(2, 2, 2),
                 "Chair_002");
     var tempObject = chair.Load();
+
+    
     //console.log("temObject", tempObject);
     props.scene.add(tempObject);
+    //console.log(props.scene);
+    
+
 
         //console.log(props.objectsArray);
        /*  props.chair_model_01 = new Object3D();
