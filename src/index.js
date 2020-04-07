@@ -106,6 +106,24 @@ function Action( actionName ){
     console.log(props.objectActions);
 }
 
+function changeBackground(){
+    const barOuter = document.querySelector("#image-container");
+    const options = document.querySelectorAll("#image-container #image-right");
+    let current = 1;
+    options.forEach((option, i) => (option.index = i + 1));
+    options.forEach(option =>
+                    option.addEventListener("click", function() {
+    barOuter.className = "#image-container";
+    barOuter.classList.add(`pos${option.index}`);
+    if (option.index > current) {
+        barOuter.classList.add("right");
+    } else if (option.index < current) {
+        barOuter.classList.add("left");
+    }
+    current = option.index;
+    }));
+}
+
 window.Action = function( actionName ){
     Action( actionName );
 }

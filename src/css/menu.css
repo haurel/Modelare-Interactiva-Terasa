@@ -165,19 +165,25 @@ body, html{
 
 #image-container { 
   min-width:782px; /* width of 3 images (746px) plus images' padding and border (36px) */ 
-  border:1px solid #d3d2d2; 
   background-color:#f0f0f0; 
  } 
 #image-container img { 
   /* padding:5px;  */
-  border:1px solid #d3d2d2;  
+  /* border:1px solid #42f54e;  */
+  /* border: 2px solid #f54245; */
  } 
-#image-right { 
+.image-right { 
   float:right;
   display: block;
   margin-top: 10px;
   margin-right: 100px;
+  border:1px solid #f54245;
  } 
+
+ .active{
+  border:1px #42f54e; 
+ }
+
 
 
  .cameraDiv{
