@@ -10,7 +10,8 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Box3, Vector3, Group, BoxGeometry, MeshBasicMaterial, Mesh, BoxHelper } from "three";
 import props from './config/defaults';
-
+import { PaintObject } from './PaintObject';
+import chairTextureSettings from './config/chairTextureSettings';
 //ObjectLoad = function( objectPath, positionToScene, 
     //scaleObject, nameObject){
 export default class ObjectLoad{
@@ -59,6 +60,11 @@ export default class ObjectLoad{
             box.add( mesh );
             
             //console.log(props.scene);
+
+            var textureArray = PaintObject.LoadTextureArray(
+                chairTextureSettings.leather_chair_014
+            )
+            PaintObject.ObjectTexture( mesh, textureArray );
         });
         return this.group;
     };
@@ -98,7 +104,7 @@ export default class ObjectLoad{
 
         props.objectsArray.push( box );
 
-        console.log(props.objectsArray);
+        //console.log(props.objectsArray);
 
         /* props.objectsArray[0].helper.material.visible = true;
         props.objectsArray[0].helper.update(); */
