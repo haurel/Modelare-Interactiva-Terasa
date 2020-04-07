@@ -106,6 +106,13 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         }
     }
 
+    this.UpdateArrayObject = () =>{
+        props.objectsArray.some(( mesh, i )=>{
+            mesh.i = i;
+            //console.log(mesh);
+        });
+        props.allObject--;
+    }
 
 
 //#region Mouse Move, Down, Up
@@ -158,9 +165,9 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 props.objectsArray[ scope._INDEX ].helper.material.visible = false;
                 props.objectsArray[ scope._INDEX ].helper.update();
 
-                props.indexDeleteObject = scope._INDEX;
-
+                
                 props.objectsArray.splice( scope._INDEX, 1);
+                scope.UpdateArrayObject();
                 console.log(props.objectsArray);
             }
         }
@@ -186,7 +193,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 } 
 
                 scope.CheckCollision();
-                
+                //console.log(props.objectsArray);
                 return;
             }else if( props.objectActions['rotate'] === true && scope._isRotated === true ){
                 var angleRad = Math.atan2( scope._mouse.y - scope._SELECTED.position.y, scope._mouse.x - scope._SELECTED.position.x );
