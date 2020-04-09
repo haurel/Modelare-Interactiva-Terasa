@@ -54,47 +54,32 @@ window.ChangeView = function( typeOfView ){
 
 function takeModel(name){
     props.addObjectsToScene.push(name);
-    //console.warn(name + " Array: " + props.addObjectsToScene[0]);
-    //console.log(props.objectsArray);
-    //if(props.addObjectsToScene[0] === 'chair_model_1' && !props.itemsPreviousLoaded.includes('chair_model_1')){
     var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
                 new Vector3(5, -30, 5.40),
                 new Vector3(2, 2, 2),
                 "Chair_002");
     var tempObject = chair.Load();
+    console.log("Mesh loaded index.js", tempObject.children);
 
-    
-    //console.log("temObject", tempObject);
     props.scene.add(tempObject);
-    //console.log(props.scene);
-    
-
-
-        //console.log(props.objectsArray);
-       /*  props.chair_model_01 = new Object3D();
-        var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
-                new Vector3(5, -30, 3),
-                new Vector3(2, 2, 2),
-                "chair_model_1"
-        );
-        props.chair_model_01.add(chair.Load());
-        props.chair_model_01.name = "Chair_Model_01";
-        props.scene.add(props.chair_model_01);
-
-        
-        props.itemsPreviousLoaded.push('chair_model_1');
-        props.addObjectsToScene.pop();
-    }else{
-        var chair_temp = props.chair_model_01.clone();
-        //console.log("Nonclone: ", props.chair_model_01);
-        //console.log(chair_temp);    
-        props.scene.add(chair_temp);
-        */
-    //}   
 }
 
 window.takeModel = function(name){
     takeModel(name);
+}
+
+function ChangeColor(){
+    //console.log(props.objectsMeshOnlyArray[0].children);
+    //props.objectsMeshOnlyArray[0].children[1].material.visible = false;
+
+    var textureArray = PaintObject.LoadTextureArray(
+        chairTextureSettings.leather_chair_014
+    )
+    PaintObject.ObjectTexture( props.objectsMeshOnlyArray[0].children[1], textureArray );
+}
+
+window.ChangeColor = function(){
+    ChangeColor();
 }
 
 

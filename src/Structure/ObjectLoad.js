@@ -33,6 +33,9 @@ export default class ObjectLoad{
             const mesh = gltf.scene;
             //mesh.scale.set(30, 30,30);
             mesh.scale.set(2.5, 2.5, 2.5);
+            props.objectsMeshOnlyArray.push(mesh);
+            props.objectsMeshOnlyArray.push("1");
+            console.log("ObjectLoad-Mesh", props.objectsMeshOnlyArray);
             //mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
             //mesh.position.set( _position.x, _position.y, _position.z );
             mesh.name = this._name;
@@ -61,11 +64,12 @@ export default class ObjectLoad{
             
             //console.log(props.scene);
 
-            var textureArray = PaintObject.LoadTextureArray(
+            /* var textureArray = PaintObject.LoadTextureArray(
                 chairTextureSettings.leather_chair_014
             )
-            PaintObject.ObjectTexture( mesh, textureArray );
+            PaintObject.ObjectTexture( mesh, textureArray ); */
         });
+        
         return this.group;
     };
 
@@ -84,7 +88,7 @@ export default class ObjectLoad{
 
 
         box = new Mesh( geometry, material );
-
+        box.name = "box"
         //if( props.indexDeleteObject === null){
             box.i = props.allObject; props.allObject++;
 /*         }else{

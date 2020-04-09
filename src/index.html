@@ -46,17 +46,27 @@
                 <img src="./css/image/textures/house/2.jpg" onclick = "init(this.src)" class="img_select"> -->
             </section>
 
-            <input type="image" id="input_image" src="/src/css/image/upload.png"/>
-            <input type="file" id="input_file" style="display: none" onchange="readURL(this);" />
+            <input type="image" id="input_image" src="/src/css/image/upload.png" width="10%"/>
+            <input type="file" id="input_file" style="display: none" onchange="readURL(this);"/>
         </div>
         <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
         <!-- OBJECTS -->
-        <button class="dropdown-btn">Dropdown
+        <button class="dropdown-btn">Objects
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
             <section id="objects">
                 <input onclick="takeModel('chair_model_1')" type="image" id="model" src="/src/css/image/upload.png"/>
+            </section>
+        </div>
+        <button class="dropdown-btn">
+            Object texture
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <section id="photos">
+                <img src="../dist/img/chair/1.png" onClick='ChangeColor()' class="img_select"/>
+
             </section>
         </div>
         <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
@@ -100,13 +110,13 @@
         var image = '';
         //var src = "css/image/textures/house/";
         //var src = "./dist/img/";
-        var src = "dist/img/";
+        var src = "dist/img/house/";
         var ext = ".jpg";
         var srcComplete;
 
         for(var i = 0; i < 2; i++){
             srcComplete = src + (i+1) + ext;
-            console.log(srcComplete.toString());
+            //console.log(srcComplete.toString());
             var image = document.createElement("img");
             image.setAttribute("src", srcComplete);
             image.setAttribute("onclick", "init(this.src)");

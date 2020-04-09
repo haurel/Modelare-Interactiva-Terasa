@@ -92,7 +92,7 @@ export default {
     boundingBox: [],
     objectsArray: [],
     indexDeleteObject: null,
-
+    objectsMeshOnlyArray: [],
 
     /**
      * @type { THREE.TransformControl }

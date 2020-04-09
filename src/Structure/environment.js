@@ -66,7 +66,6 @@ export default createEnvironment  => {
     grass = InitializationStaticObjects.Grass();
     props.scene.add(grass);
 
-    console.log(props.scene.children.length);
     props.scene.children[4].scale.set(11.65, 12.10, 1)
 
 
