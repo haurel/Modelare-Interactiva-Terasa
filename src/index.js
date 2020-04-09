@@ -72,10 +72,19 @@ function ChangeColor(){
     //console.log(props.objectsMeshOnlyArray[0].children);
     //props.objectsMeshOnlyArray[0].children[1].material.visible = false;
 
-    var textureArray = PaintObject.LoadTextureArray(
-        chairTextureSettings.leather_chair_014
-    )
-    PaintObject.ObjectTexture( props.objectsMeshOnlyArray[0].children[1], textureArray );
+    if(props.objectsMeshIndexTextureChange === null){
+        alert("Please select an object!!");
+    }else{  
+        var textureArray = PaintObject.LoadTextureArray(
+            chairTextureSettings.leather_chair_014
+        )
+
+        console.log(props.objectsMeshIndexTextureChange);
+        console.log(props.objectsMeshIndexTextureChange);
+        PaintObject.ObjectTexture( props.objectsMeshOnlyArray[props.objectsMeshIndexTextureChange]
+                                .children[1], textureArray 
+            );
+    }
 }
 
 window.ChangeColor = function(){

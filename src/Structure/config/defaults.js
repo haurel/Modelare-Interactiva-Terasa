@@ -93,6 +93,7 @@ export default {
     objectsArray: [],
     indexDeleteObject: null,
     objectsMeshOnlyArray: [],
+    objectsMeshIndexTextureChange: null,
 
     /**
      * @type { THREE.TransformControl }

@@ -50,6 +50,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     this._isRotated = false, 
     this._itsCollision = false, 
     this._isMoved = false;
+    this._isSelect = false;
     this._originalObjectPosition = new Vector3();
 
     this.activate = function(){
@@ -129,7 +130,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
         _raycaster.setFromCamera(scope._mouse, props.camera2D);
 
-        //if( props.parameters.translate ){
+
         if( props.objectActions['drag'] === true){
 
             var intersects = _raycaster.intersectObjects( props.objectsArray );
@@ -170,6 +171,24 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 scope.UpdateArrayObject();
                 console.log(props.objectsArray);
             }
+        }else if( props.objectActions['paint'] === true){
+            var intersects = _raycaster.intersectObjects( props.objectsArray );
+            if(scope._isSelect === false){
+                if(intersects.length > 0){
+                    props.objectsArray[ scope._INDEX ].helper.material.visible = true;
+                    props.objectsArray[ scope._INDEX ].helper.update();
+
+                    props.objectsMeshIndexTextureChange = scope._INDEX;
+                    scope._isSelect = true;
+                }
+            }else if(scope._isSelect === true){
+                props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                props.objectsArray[ scope._INDEX ].helper.update();
+                scope._INDEX = null;
+                scope._SELECTED = null;
+                props.objectsMeshIndexTextureChange = null;
+                scope._isSelect = false;
+            }
         }
     }
 
@@ -204,7 +223,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         }
 
         var intersects = _raycaster.intersectObjects( props.objectsArray );
-
+        //console.log(intersects);
         if( intersects.length > 0 && scope._SELECTED === null){
             if( props.objectActions['drag'] === true ){
                 if( scope._INTERSECTED != intersects[0].object ){
@@ -240,6 +259,18 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 domElement.style.cursor = 'pointer';
                 props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                 props.objectsArray[ scope._INDEX ].helper.update();
+            }else if( props.objectActions['paint'] === true && scope._isSelect === false){
+                if( scope._INTERSECTED != intersects[0].object ){
+                    scope._INTERSECTED = intersects[0].object;
+                    scope._INDEX = intersects[0].object.i;
+
+                    planeTest.applyMatrix3 = new Matrix4().makeRotationZ( -Math.PI / 2);
+                    planeTest.position.copy( scope._INTERSECTED.position );
+
+                }
+                domElement.style.cursor = 'pointer';
+                props.objectsArray[ scope._INDEX ].helper.material.visible = true;
+                props.objectsArray[ scope._INDEX ].helper.update();
             }
         }else{
             if( props.objectActions['drag'] === true){
@@ -266,6 +297,16 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._objectForCheckCollision = [];
                 }
             }else if( props.objectActions['delete'] === true){
+                if(scope._INDEX !== null){
+                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    props.objectsArray[ scope._INDEX ].helper.update();
+
+                    domElement.style.cursor = 'auto';
+
+                    scope._INTERSECTED = null;
+                    scope._INDEX = null;
+                }
+            }else if( props.objectActions['paint'] === true && scope._isSelect === false){
                 if(scope._INDEX !== null){
                     props.objectsArray[ scope._INDEX ].helper.material.visible = false;
                     props.objectsArray[ scope._INDEX ].helper.update();
