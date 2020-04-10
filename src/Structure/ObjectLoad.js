@@ -61,6 +61,7 @@ export default class ObjectLoad{
             props.scene.add( box.helper );
             box.add( mesh );
             
+
             //console.log(props.scene);
 
             /* var textureArray = PaintObject.LoadTextureArray(
@@ -104,7 +105,11 @@ export default class ObjectLoad{
         box.helper.material.visible = false;
         box.helper.update();
         box.helper.matrixAutoUpdate = true;
-
+        
+        box.width = width;
+        box.height = height;
+        box.depth = depth;
+        
         props.objectsArray.push( box );
 
         //console.log(props.objectsArray);

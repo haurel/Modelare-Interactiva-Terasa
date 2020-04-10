@@ -9,7 +9,7 @@
 
 import { Vector3, Vector2, Raycaster, Box3, BoxHelper, Matrix4, EventDispatcher, Mesh} from 'three';
 import props from './config/defaults';
-import { PlaneGeometry, MeshBasicMaterial } from 'three/build/three.module';
+import { PlaneGeometry, MeshBasicMaterial, BoxGeometry } from 'three/build/three.module';
 
 
 
@@ -52,6 +52,12 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     this._isSelect = false;
     this._originalObjectPosition = new Vector3();
 
+
+
+    this._mouseXOnMouseDown = null;
+    this._targetRotationOnMouseDown = null;
+    this._targetRotation = null;
+    this._windowHalfX = props.renderer.domElement.clientWidth / 2;
     this.activate = function(){
         props.renderer.domElement.addEventListener('mousedown', mouseDown, false);
         props.renderer.domElement.addEventListener('mousemove', mouseMove, false);
@@ -153,6 +159,9 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
             else if( props.objectActions['rotate'] ){
                 scope._isRotated = true;
                 domElement.style.cursor = 'crosshair';
+
+                scope._mouseXOnMouseDown = event.clientX - scope._windowHalfX;
+				scope._targetRotationOnMouseDown = scope._targetRotation;
             }
             else if( props.objectActions['delete'] ){
                     props.scene.remove( intersects[0].object.parent );
@@ -226,10 +235,27 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 scope.CheckCollision();
                 return;
             }else if( props.objectActions['rotate'] && scope._isRotated ){
-                var angleRad = Math.atan2( scope._mouse.y - scope._SELECTED.position.y, scope._mouse.x - scope._SELECTED.position.x );
+                /* var angleRad = Math.atan2( scope._mouse.y - scope._SELECTED.position.y, scope._mouse.x - scope._SELECTED.position.x );
                 var angleOfRotation = ( 180 / Math.PI ) * angleRad;
+                scope._SELECTED.rotation.y += angleOfRotation * 0.00005; */
+                var mouseX = event.clientX - scope._windowHalfX;
+
+                scope._targetRotation = scope._targetRotationOnMouseDown + ( mouseX - scope._mouseXOnMouseDown ) * 0.2;
+
                 
-                scope._SELECTED.rotation.y = angleOfRotation;
+                scope._SELECTED.rotation.y += ( scope._targetRotation - scope._SELECTED.rotation.y ) * 0.09;
+                var geometry;
+                geometry = new BoxGeometry(
+                    scope._SELECTED.width, scope._SELECTED.height, scope._SELECTED.depth
+                );
+                scope._SELECTED.updateMatrix(); 
+                scope._SELECTED.geometry.applyMatrix( scope._SELECTED.matrix );
+                
+
+                scope._SELECTED.geometry = geometry;
+                scope._SELECTED.box= new Box3().setFromObject( scope._SELECTED );
+                scope._SELECTED.updateMatrixWorld( true );
+
             }
         }
 
