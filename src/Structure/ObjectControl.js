@@ -9,7 +9,6 @@
 
 import { Vector3, Vector2, Raycaster, Box3, BoxHelper, Matrix4, EventDispatcher, Mesh} from 'three';
 import props from './config/defaults';
-import prepare from './prepare';
 import { PlaneGeometry, MeshBasicMaterial } from 'three/build/three.module';
 
 
@@ -113,6 +112,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
             //console.log(mesh);
         });
         props.allObject--;
+
+        props.objectsMeshOnlyArray.some((mesh, i)=>{
+
+        })
     }
 
 
@@ -121,7 +124,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         event.preventDefault();
         MouseLocation( event );
         scope.dispatchEvent( { type: 'down' } );
-
+        if( !scope._isSelect ){
         if( scope._SELECTED_PREVIOUS !== scope._SELECTED ){
             props.objectsArray.some( ( mesh, i) => {
                 if( i !== scope._INDEX ) scope._objectForCheckCollision.push( mesh );
@@ -130,66 +133,75 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
         _raycaster.setFromCamera(scope._mouse, props.camera2D);
 
-
-        if( props.objectActions['drag'] === true){
-
-            var intersects = _raycaster.intersectObjects( props.objectsArray );
-            if( intersects.length > 0 ){
-                props.orbitControls.enabled = false;
-                scope._SELECTED = intersects[0].object;
+        var intersects = _raycaster.intersectObjects( props.objectsArray );
+        if( intersects.length > 0 ){
+            props.orbitControls.enabled = false;
+            scope._SELECTED = intersects[0].object;
+            
+            if( props.objectActions['drag'] ){
                 scope._originalObjectPosition.copy( scope._SELECTED.position );
-                
+            
+            
+                var intersectPlane = _raycaster.intersectObject( planeTest );
+                scope._offset.copy( intersectPlane[0].point ).sub( planeTest.position );
                 scope._isDragged = true;
-                var intersects = _raycaster.intersectObject( planeTest );
-                scope._offset.copy( intersects[0].point ).sub( planeTest.position );
-
                 domElement.style.cursor = 'move';
-
                 props.objectsArray.some(( mesh, i )=>{
                     if(i !== scope._INDEX) scope._objectForCheckCollision.push(mesh);
                 });
             }
-        }else if( props.objectActions['rotate'] === true ){
-            var intersects = _raycaster.intersectObjects( props.objectsArray );
-            if( intersects.length > 0){
-                //props.orbitControls.enabled = false;
-                scope._SELECTED = intersects[0].object;
-                
+            else if( props.objectActions['rotate'] ){
                 scope._isRotated = true;
-
                 domElement.style.cursor = 'crosshair';
             }
-        }else if( props.objectActions['delete'] === true){
-            var intersects = _raycaster.intersectObjects( props.objectsArray );
-            if(intersects.length > 0){
-                props.scene.remove( intersects[0].object.parent );
-                props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                props.objectsArray[ scope._INDEX ].helper.update();
+            else if( props.objectActions['delete'] ){
+                    props.scene.remove( intersects[0].object.parent );
+                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    props.objectsArray[ scope._INDEX ].helper.update();
 
-                
-                props.objectsArray.splice( scope._INDEX, 1);
-                scope.UpdateArrayObject();
-                console.log(props.objectsArray);
+                    props.objectsArray.splice( scope._INDEX, 1);
+                    props.objectsMeshOnlyArray.splice( scope._INDEX , 1);
+                    scope.UpdateArrayObject();
             }
-        }else if( props.objectActions['paint'] === true){
-            var intersects = _raycaster.intersectObjects( props.objectsArray );
-            if(scope._isSelect === false){
-                if(intersects.length > 0){
+            else if( props.objectActions['paint'] ){
+                if( !scope._isSelect){
+                    
                     props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                     props.objectsArray[ scope._INDEX ].helper.update();
 
                     props.objectsMeshIndexTextureChange = scope._INDEX;
                     scope._isSelect = true;
+                }else if( scope._isSelect ){
+                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    props.objectsArray[ scope._INDEX ].helper.update();
+                    scope._INDEX = null;
+                    scope._INTERSECTED = null;
+                    scope._SELECTED = null;
+                    props.objectsMeshIndexTextureChange = null;
+                    scope._isSelect = false;
                 }
-            }else if(scope._isSelect === true){
-                props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                props.objectsArray[ scope._INDEX ].helper.update();
-                scope._INDEX = null;
-                scope._SELECTED = null;
-                props.objectsMeshIndexTextureChange = null;
-                scope._isSelect = false;
             }
         }
+        }else{
+            _raycaster.setFromCamera(scope._mouse, props.camera2D);
+
+            var intersects = _raycaster.intersectObjects( props.objectsArray );
+            if( intersects.length > 0 ){
+                console.log(scope._SELECTED, intersects.object);
+                if( intersects[0].object === scope._SELECTED){
+                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    props.objectsArray[ scope._INDEX ].helper.update();
+                    scope._INDEX = null;
+                    scope._INTERSECTED = null;
+                    scope._SELECTED = null;
+                    props.objectsMeshIndexTextureChange = null;
+                    scope._isSelect = false;
+                }else{
+                    alert("Exista un obiect selectat deja!");
+                }
+            }
+            
+        } 
     }
 
     function mouseMove( event ){
@@ -200,7 +212,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         _raycaster.setFromCamera( scope._mouse, props.camera2D);
         
         if( scope._SELECTED ){
-            if( props.objectActions['drag'] === true){
+            if( props.objectActions['drag'] ){
                 var intersects = _raycaster.intersectObject( planeTest );
 
                 if( scope._SELECTED_TEMP === null){
@@ -212,9 +224,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 } 
 
                 scope.CheckCollision();
-                //console.log(props.objectsArray);
                 return;
-            }else if( props.objectActions['rotate'] === true && scope._isRotated === true ){
+            }else if( props.objectActions['rotate'] && scope._isRotated ){
                 var angleRad = Math.atan2( scope._mouse.y - scope._SELECTED.position.y, scope._mouse.x - scope._SELECTED.position.x );
                 var angleOfRotation = ( 180 / Math.PI ) * angleRad;
                 
@@ -223,111 +234,62 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         }
 
         var intersects = _raycaster.intersectObjects( props.objectsArray );
-        //console.log(intersects);
         if( intersects.length > 0 && scope._SELECTED === null){
-            if( props.objectActions['drag'] === true ){
-                if( scope._INTERSECTED != intersects[0].object ){
-                    scope._INDEX = intersects[0].object.i;
+            if( scope._INTERSECTED != intersects[0].object ){
+                scope._INDEX = intersects[0].object.i;
+                scope._INTERSECTED = intersects[0].object;
+        
+                planeTest.applyMatrix3 = new Matrix4().makeRotationZ( -Math.PI / 2);
+                planeTest.position.copy( scope._INTERSECTED.position );
+            }
 
-                    scope._INTERSECTED = intersects[0].object;
-
-                    planeTest.applyMatrix3 = new Matrix4().makeRotationZ( -Math.PI / 2);
-                    planeTest.position.copy( scope._INTERSECTED.position );
-
-                }
-
-                domElement.style.cursor = 'pointer';
-
-                props.objectsArray[ scope._INDEX ].helper.material.visible = true;
-                props.objectsArray[ scope._INDEX ].helper.update();
-                
-            }else if( props.objectActions['rotate'] === true ){
-                if( scope._INTERSECTED != intersects[0].object ){
-                    scope._INTERSECTED = intersects[0].object;
-                    scope._INDEX = intersects[0].object.i;
-
-                }
+            if( props.objectActions['paint'] && !scope._isSelect){
                 domElement.style.cursor = 'pointer';
                 props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                 props.objectsArray[ scope._INDEX ].helper.update();
-            }else if( props.objectActions['delete'] === true){
-                if( scope._INTERSECTED != intersects[0].object ){
-                    scope._INTERSECTED = intersects[0].object;
-                    scope._INDEX = intersects[0].object.i;
-
-                }
-                domElement.style.cursor = 'pointer';
-                props.objectsArray[ scope._INDEX ].helper.material.visible = true;
-                props.objectsArray[ scope._INDEX ].helper.update();
-            }else if( props.objectActions['paint'] === true && scope._isSelect === false){
-                if( scope._INTERSECTED != intersects[0].object ){
-                    scope._INTERSECTED = intersects[0].object;
-                    scope._INDEX = intersects[0].object.i;
-
-                    planeTest.applyMatrix3 = new Matrix4().makeRotationZ( -Math.PI / 2);
-                    planeTest.position.copy( scope._INTERSECTED.position );
-
-                }
+            }else if( !props.objectActions['paint'] ){
                 domElement.style.cursor = 'pointer';
                 props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                 props.objectsArray[ scope._INDEX ].helper.update();
             }
+
+
         }else{
-            if( props.objectActions['drag'] === true){
-                if( scope._INDEX !== null){
+            if( scope._INDEX !== null){
+                if( props.objectActions['rotate'] && !scope._isRotated){
                     props.objectsArray[ scope._INDEX ].helper.material.visible = false;
                     props.objectsArray[ scope._INDEX ].helper.update();
-
                     domElement.style.cursor = 'auto';
 
                     scope._INTERSECTED = null;
                     scope._INDEX = null;
                     scope._objectForCheckCollision = [];
-                }
-            }
-            else if(props.objectActions['rotate'] === true ){
-                if(scope._INDEX !== null && !scope._isRotated){
+                }else if( props.objectActions['paint'] && !scope._isSelect){
                     props.objectsArray[ scope._INDEX ].helper.material.visible = false;
                     props.objectsArray[ scope._INDEX ].helper.update();
+                    domElement.style.cursor = 'auto';
 
+                    scope._INTERSECTED = null;
+                    scope._INDEX = null;
+                }else if( !props.objectActions['rotate'] && !props.objectActions['paint']){
+                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    props.objectsArray[ scope._INDEX ].helper.update();
                     domElement.style.cursor = 'auto';
 
                     scope._INTERSECTED = null;
                     scope._INDEX = null;
                     scope._objectForCheckCollision = [];
-                }
-            }else if( props.objectActions['delete'] === true){
-                if(scope._INDEX !== null){
-                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                    props.objectsArray[ scope._INDEX ].helper.update();
-
-                    domElement.style.cursor = 'auto';
-
-                    scope._INTERSECTED = null;
-                    scope._INDEX = null;
-                }
-            }else if( props.objectActions['paint'] === true && scope._isSelect === false){
-                if(scope._INDEX !== null){
-                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                    props.objectsArray[ scope._INDEX ].helper.update();
-
-                    domElement.style.cursor = 'auto';
-
-                    scope._INTERSECTED = null;
-                    scope._INDEX = null;
                 }
             }
         }
-        //scope.dispatchEvent( { type: 'mouseMove', message: 'vroom vroom!' } );
     }
 
     function mouseUp( event ){
         event.preventDefault();
         MouseLocation( event );
-        console.log(scope._INTERSECTED);
+        
         if( scope._INTERSECTED ){
-            //if( props.parameters.translate ){
-            if( props.objectActions['drag'] === true){
+            if( props.objectActions['drag'] ){
                 if( scope._itsCollision ){
                     scope._SELECTED.position.copy( scope._originalObjectPosition );
                     scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
@@ -343,26 +305,21 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     
                     scope._SELECTED.helper.update();
                 }
-
                 props.scene.remove( scope._SELECTED_TEMP );
                 props.scene.remove ( scope._SELECTED_TEMP.helper );
-
-
-                scope._SELECTED_PREVIOUS = scope._SELECTED;
-
-                scope._SELECTED_TEMP = null; 
-                scope._SELECTED = null;
-                scope._isDragged = null; 
-                scope._isMoved = false;
-                scope._objectForCheckCollision.length = 0;
-            }else if( props.objectActions['rotate'] === true ){
-                scope._SELECTED = null;
-                scope._isRotated = false;
-                //console.log("AM RIDICAT MOUSUL", scope._isRotated, scope._SELECTED);
-            }else if( props.objectActions['delete'] === true){
-                scope._INDEX= null;
-
             }
+            
+            scope._SELECTED_PREVIOUS = scope._SELECTED;
+
+            scope._SELECTED_TEMP = null;
+            scope._isDragged = null; 
+            scope._isMoved = false;
+            scope._objectForCheckCollision.length = 0;
+                
+            if( scope._isRotated ) scope._isRotated = false;
+            if ( props.objectActions['delete'] ) scope._INDEX= null;
+            if ( !props.objectActions['paint'] ) scope._SELECTED = null;
+                
         }
         //props.orbitControls.enabled = true;
 
