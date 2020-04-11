@@ -4,7 +4,7 @@ import prepare from './Structure/prepare';
 import getSelectedColor from './Structure/functionForUI';
 import props from './Structure/config/defaults';
 import ObjectLoad from './Structure/ObjectLoad';
-import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh } from 'three/build/three.module';
+import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, ShaderMaterial, PlaneGeometry } from 'three/build/three.module';
 import { CameraObject } from './Structure/CameraObject';
 import { PaintObject } from './Structure/PaintObject';
 import chairTextureSettings from './Structure/config/chairTextureSettings';
@@ -17,6 +17,7 @@ import chairTextureSettings from './Structure/config/chairTextureSettings';
 }); */
 
 function init(src) {
+    console.warn(src);
     document.querySelectorAll('.img_select').forEach(item => {
         item.addEventListener('click', event => {
           //console.log(src);
@@ -25,8 +26,8 @@ function init(src) {
             //console.log(x);
             getSelectedColor(x);
          });
-        })
-   }
+    })
+}
 window.init = function(src){
     init(src);
 }
