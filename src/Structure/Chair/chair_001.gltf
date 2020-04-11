@@ -14,18 +14,8 @@
         }
     ],
     "nodes" : [
-        {
+		{
             "mesh" : 0,
-            "name" : "Cube",
-            "rotation" : [
-                0.7071068286895752,
-                0,
-                0,
-                0.7071067094802856
-            ]
-        },
-        {
-            "mesh" : 1,
             "name" : "Plane",
             "rotation" : [
                 0.7071068286895752,
@@ -37,6 +27,16 @@
                 0,
                 0.9983612298965454,
                 -0.20670047402381897
+            ]
+        },
+        {
+            "mesh" : 1,
+            "name" : "Cube",
+            "rotation" : [
+                0.7071068286895752,
+                0,
+                0,
+                0.7071067094802856
             ]
         }
     ],
@@ -81,6 +81,20 @@
         }
     ],
     "meshes" : [
+		{
+            "name" : "Plane",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
+                    },
+                    "indices" : 7,
+                    "material" : 1
+                }
+            ]
+        },
         {
             "name" : "Cube",
             "primitives" : [
@@ -92,20 +106,6 @@
                     },
                     "indices" : 3,
                     "material" : 0
-                }
-            ]
-        },
-        {
-            "name" : "Plane",
-            "primitives" : [
-                {
-                    "attributes" : {
-                        "POSITION" : 4,
-                        "NORMAL" : 5,
-                        "TEXCOORD_0" : 6
-                    },
-                    "indices" : 7,
-                    "material" : 1
                 }
             ]
         }
