@@ -4,7 +4,7 @@ import prepare from './Structure/prepare';
 import getSelectedColor from './Structure/functionForUI';
 import props from './Structure/config/defaults';
 import ObjectLoad from './Structure/ObjectLoad';
-import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, ShaderMaterial, PlaneGeometry } from 'three/build/three.module';
+import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, ShaderMaterial, PlaneGeometry, Vector2 } from 'three/build/three.module';
 import { CameraObject } from './Structure/CameraObject';
 import { PaintObject } from './Structure/PaintObject';
 import chairTextureSettings from './Structure/config/chairTextureSettings';
@@ -55,14 +55,26 @@ window.ChangeView = function( typeOfView ){
 
 function takeModel(name){
     props.addObjectsToScene.push(name);
-    var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
+    if(name === 'chair_model_1'){
+        //var chair = new ObjectLoad('/src/Structure/Chair/chair_002.gltf',
+        var chair = new ObjectLoad('/src/Structure/Chair/chair_005.gltf',
+                    new Vector3(5, -30, 5.40),
+                    new Vector3(2, 2, 2),
+                    "Chair_003");
+        var tempObject = chair.Load();
+        //console.log("Mesh loaded index.js", tempObject.children);
+
+        props.scene.add(tempObject);
+    }else {
+        var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
                 new Vector3(5, -30, 5.40),
                 new Vector3(2, 2, 2),
-                "Chair_002");
+                "Chair_001");
     var tempObject = chair.Load();
-    console.log("Mesh loaded index.js", tempObject.children);
+    //console.log("Mesh loaded index.js", tempObject.children);
 
     props.scene.add(tempObject);
+    }
 }
 
 window.takeModel = function(name){

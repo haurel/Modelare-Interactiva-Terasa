@@ -9,7 +9,7 @@
 
 import { Vector3, Vector2, Raycaster, Box3, BoxHelper, Matrix4, EventDispatcher, Mesh} from 'three';
 import props from './config/defaults';
-import { PlaneGeometry, MeshBasicMaterial, BoxGeometry } from 'three/build/three.module';
+import { PlaneGeometry, MeshBasicMaterial, BoxGeometry, Group } from 'three/build/three.module';
 
 
 
@@ -104,10 +104,22 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
         if( boxesCollision && scope._isMoved ){
             domElement.style.cursor = 'no-drop';
-            scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0xff0000);
+           // scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0xff0000);
+
+           if(scope._SELECTED_TEMP.children[0].children[0] instanceof Group){
+                for(let i = 0; i < scope._SELECTED_TEMP.children[0].children[0].length; i++){
+                    scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setHex(0xff0000);
+                }
+            }else scope._SELECTED_TEMP.children[0].children[0].material.color.setHex(0xff0000);
         }else if( scope._isMoved ){
             scope._itsCollision = false;
-            scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0x00ff00);
+
+            if(scope._SELECTED_TEMP.children[0].children[0] instanceof Group){
+                for(let i = 0; i < scope._SELECTED_TEMP.children[0].children[0].length; i++){
+                    scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setHex(0x00ff00);
+                }
+            }else scope._SELECTED_TEMP.children[0].children[0].material.color.setHex(0x00ff00);
+            //scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0x00ff00);
             domElement.style.cursor = 'move';
         }
     }
@@ -318,14 +330,22 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
             if( props.objectActions['drag'] ){
                 if( scope._itsCollision ){
                     scope._SELECTED.position.copy( scope._originalObjectPosition );
-                    scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
-                    scope._SELECTED.children[0].children[1].material.color.setHex(0xffffff);
+                    if(scope._SELECTED_TEMP.children[0].children[0] instanceof Group){
+                        for(let i = 0; i < scope._SELECTED_TEMP.children[0].children[0].length; i++){
+                            scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setHex(0xffffff);
+                        }
+                    }else scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
+                    //scope._SELECTED.children[0].children[1].material.color.setHex(0xffffff);
                 }else{
                     planeTest.position.copy( scope._INTERSECTED.position );
                     scope._SELECTED.position.copy( scope._SELECTED_TEMP.position );
 
-                    scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
-                    scope._SELECTED.children[0].children[1].material.color.setHex(0xffffff);
+                    if(scope._SELECTED_TEMP.children[0].children[0] instanceof Group){
+                        for(let i = 0; i < scope._SELECTED_TEMP.children[0].children[0].length; i++){
+                            scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setHex(0xffffff);
+                        }
+                    }else scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
+                    //scope._SELECTED.children[0].children[1].material.color.setHex(0xffffff);
                     scope._SELECTED.box = new Box3().setFromObject( scope._SELECTED );
                     scope._SELECTED.updateMatrixWorld( true );
                     
@@ -365,8 +385,12 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         scope._SELECTED_TEMP.helper.matrixAutoUpdate = true;
         scope._SELECTED_TEMP.helper.update();
 
-        scope._SELECTED_TEMP.children[0].children[0].material.color.setHex(0x00ff00);
-        scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0x00ff00);
+        if(scope._SELECTED_TEMP.children[0].children[0] instanceof Group){
+            for(let i = 0; i < scope._SELECTED_TEMP.children[0].children[0].length; i++){
+                scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setHex(0x00ff00);
+            }
+        }else scope._SELECTED_TEMP.children[0].children[0].material.color.setHex(0x00ff00);
+        //scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0x00ff00);
 
         props.scene.add( scope._SELECTED_TEMP );
         props.scene.add( scope._SELECTED_TEMP.helper );

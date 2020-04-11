@@ -31,10 +31,11 @@ export default class ObjectLoad{
         const loader = new GLTFLoader();
         loader.load( this._objectPath, ( gltf ) =>{
             const mesh = gltf.scene;
+            console.log(mesh);
             //mesh.scale.set(30, 30,30);
             mesh.scale.set(2.5, 2.5, 2.5);
             props.objectsMeshOnlyArray.push(mesh);
-            console.log("ObjectLoad-Mesh", props.objectsMeshOnlyArray);
+            //console.log("ObjectLoad-Mesh", props.objectsMeshOnlyArray);
             //mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
             //mesh.position.set( _position.x, _position.y, _position.z );
             mesh.name = this._name;
@@ -51,7 +52,9 @@ export default class ObjectLoad{
             objectwidth = objectwidth + parseInt(2);
             objectheight = objectheight + parseInt(2);
             objectdepth  = objectdepth + parseInt(1);
-            
+
+
+            console.log(objectwidth, objectheight, objectdepth);
             mesh.position.set( 0, -objectheight / 2, 0 );
             var box = this.DrawBox( objectwidth, objectheight, objectdepth );
             //console.log("BOX: ", box);
@@ -80,7 +83,7 @@ export default class ObjectLoad{
         );
         material = new MeshBasicMaterial({
             color: 0x000000,
-            transparent: true,
+            transparent: false,
             opacity: 0.0,
             wireframe: true,
             depthTest: true
