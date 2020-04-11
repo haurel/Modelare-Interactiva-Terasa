@@ -56,8 +56,12 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            <section id="objects">
-                <input onclick="takeModel('chair_model_1')" type="image" id="model" src="/src/css/image/upload.png"/>
+            <section id="photos">
+                <img src="/src/css/image/object-menu/chair_001.png"/>
+                <img src="/src/css/image/object-menu/chair_003.png"/>
+                <img src="/src/css/image/object-menu/chair_004.png"/>
+                <!-- <input onclick="takeModel('chair_model_1')" type="image" id="model" src="/src/css/image/object-menu/chair_003.png"/> -->
+                <input onclick="takeModel('chair_model_2')" type="image" id="model" src="/src/css/image/upload.png"/>
             </section>
         </div>
         <button class="dropdown-btn">
@@ -93,7 +97,6 @@
             var userImageURL = URL.createObjectURL( userImage );
 
             console.log(userImageURL);
-            
         }
 
         $("#image-container .image-right").click(function(){
