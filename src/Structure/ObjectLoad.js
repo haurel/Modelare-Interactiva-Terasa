@@ -22,7 +22,7 @@ export default class ObjectLoad{
             this._rotation = new Vector3(Math.PI / 2, 0, 0);
             this._position = positionToScene;
             //this._scale = scaleObject;
-            this._scale = new Vector3(10, 10, 10);
+            this._scale = scaleObject;
             this._name = nameObject;
             this.group = new Group();
     }
@@ -31,9 +31,10 @@ export default class ObjectLoad{
         const loader = new GLTFLoader();
         loader.load( this._objectPath, ( gltf ) =>{
             const mesh = gltf.scene;
-            console.log(mesh);
+            //console.log(mesh);
             //mesh.scale.set(30, 30,30);
-            mesh.scale.set(2.5, 2.5, 2.5);
+            //mesh.scale.set(2.5, 2.5, 2.5);
+            mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
             props.objectsMeshOnlyArray.push(mesh);
             //console.log("ObjectLoad-Mesh", props.objectsMeshOnlyArray);
             //mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
@@ -54,17 +55,17 @@ export default class ObjectLoad{
             objectdepth  = objectdepth + parseInt(1);
 
 
-            console.log(objectwidth, objectheight, objectdepth);
+            //console.log(objectwidth, objectheight, objectdepth);
             mesh.position.set( 0, -objectheight / 2, 0 );
+            mesh.matrixAutoUpdate = true;
             var box = this.DrawBox( objectwidth, objectheight, objectdepth );
-            //console.log("BOX: ", box);
+
             this.group.add( box );
             this.group.name = "Group of Mesh";
 
             props.scene.add( box.helper );
             box.add( mesh );
             
-
             //console.log(props.scene);
 
             /* var textureArray = PaintObject.LoadTextureArray(
@@ -72,7 +73,7 @@ export default class ObjectLoad{
             )
             PaintObject.ObjectTexture( mesh, textureArray ); */
         });
-        
+
         return this.group;
     };
 
@@ -92,16 +93,12 @@ export default class ObjectLoad{
 
         box = new Mesh( geometry, material );
         box.name = "box"
-        //if( props.indexDeleteObject === null){
-            box.i = props.allObject; props.allObject++;
-/*         }else{
-            box.i = props.indexDeleteObject;
-            props.indexDeleteObject = null;
-        }  */
+
+        box.i = props.allObject; props.allObject++;
 
         box.rotation.set( this._rotation.x, this._rotation.y, this._rotation.z );
-        box.box= new Box3().setFromObject( box );
         box.position.set( this._position.x, this._position.y, this._position.z );
+        box.box= new Box3().setFromObject( box );
         box.updateMatrixWorld( true );
         box.helper = new BoxHelper( box, 0xffff00 );
         
@@ -114,7 +111,7 @@ export default class ObjectLoad{
         box.depth = depth;
         
         props.objectsArray.push( box );
-
+        //console.log( props.objectsArray );
         //console.log(props.objectsArray);
 
         /* props.objectsArray[0].helper.material.visible = true;

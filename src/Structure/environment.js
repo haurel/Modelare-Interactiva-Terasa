@@ -10,6 +10,7 @@ import { CreateGUI } from './CreateGUI';
 import TextureLoad from './TextureSet';
 import Lights from './Lights';
 import { InitializationStaticObjects } from './InitializationStaticObjects';
+import { BoxHelper, MeshBasicMaterial, BoxGeometry, Mesh, Box3, Scene, MeshNormalMaterial } from 'three/build/three.module';
 
 /**
  * Build the environment.
@@ -41,16 +42,23 @@ const tempFunctionForChangeTexture = (event) =>{
 }
 
 window.addEventListener('keydown', tempFunctionForChangeTexture, false);
+import ObjectLoad from './ObjectLoad';
+
 
 export default createEnvironment  => {
     createHelpers();
     //props.scene.add(helpers);
+    
 
     const lights = new Lights();
     props.scene.add(lights);
 
     props.meshHouse = InitializationStaticObjects.House();
     props.scene.add(props.meshHouse);
+
+    
+        //console.log("Mesh loaded index.js", tempObject.children);
+
     
     var fancePosition = new Vector3(-30, 0, -80);
     var fanceScale = new Vector3(0, 0, 0);    
@@ -66,16 +74,17 @@ export default createEnvironment  => {
     grass = InitializationStaticObjects.Grass();
     props.scene.add(grass);
 
-    props.scene.children[4].scale.set(11.65, 12.10, 1)
+    props.scene.children[4].scale.set(11.65, 12.10, 1);
 
 
-
-
-    /* var datGUI = new CreateGUI();
-    var rotate = datGUI.GetRotate();
-    rotate.onChange(function() { datGUI.Update("rotate")});
-    var translate = datGUI.GetTranslate();
-    translate.onChange(function() { datGUI.Update("translate")}); */
+    var boundingBox = new ObjectLoad('/src/Structure/House/HouseCompressed/boundingbox.gltf',
+                    new Vector3(29.7, 27, 24),
+                    new Vector3(6, 6, 6),
+                    "Chair_003"
+                );
+    var boundingBoxTemp = boundingBox.Load();
+    
+    props.scene.add(boundingBoxTemp);
 }
 
 

@@ -758,7 +758,7 @@
             ]
         },
         {
-            "name" : "walls",
+            "name" : "textureToChange",
             "primitives" : [
                 {
                     "attributes" : {

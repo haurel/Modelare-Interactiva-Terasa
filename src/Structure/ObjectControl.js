@@ -90,17 +90,17 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
     this.CheckCollision = () =>{
         var boxesCollision = false;
-        //console.log("Check collisionLenght: ", scope._objectForCheckCollision);
         if(scope._objectForCheckCollision.length > 0){
             props.objectsArray.some(( mesh, i )=>{
                 if(_raycaster.ray.intersectBox( scope._objectForCheckCollision[i].box )){
+                    console.clear();
                     boxesCollision = true;
                     scope._itsCollision = true;
-                    console.clear();
+                    
                 }
             });
-            
         }
+            
 
         if( boxesCollision && scope._isMoved ){
             domElement.style.cursor = 'no-drop';
@@ -165,7 +165,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 scope._isDragged = true;
                 domElement.style.cursor = 'move';
                 props.objectsArray.some(( mesh, i )=>{
-                    if(i !== scope._INDEX) scope._objectForCheckCollision.push(mesh);
+                    console.log(i, "->", scope._INDEX);
+                    if(i !== scope._INDEX){
+                        scope._objectForCheckCollision.push(mesh);
+                    }
                 });
             }
             else if( props.objectActions['rotate'] ){
@@ -273,6 +276,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
         var intersects = _raycaster.intersectObjects( props.objectsArray );
         if( intersects.length > 0 && scope._SELECTED === null){
+            
             if( scope._INTERSECTED != intersects[0].object ){
                 scope._INDEX = intersects[0].object.i;
                 scope._INTERSECTED = intersects[0].object;
@@ -302,6 +306,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._INTERSECTED = null;
                     scope._INDEX = null;
                     scope._objectForCheckCollision = [];
+
                 }else if( props.objectActions['paint'] && !scope._isSelect){
                     props.objectsArray[ scope._INDEX ].helper.material.visible = false;
                     props.objectsArray[ scope._INDEX ].helper.update();
@@ -317,6 +322,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._INTERSECTED = null;
                     scope._INDEX = null;
                     scope._objectForCheckCollision = [];
+                   
                 }
             }
         }
