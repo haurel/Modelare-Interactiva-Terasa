@@ -94,7 +94,13 @@ export default {
     indexDeleteObject: null,
     objectsMeshOnlyArray: [],
     objectsMeshIndexTextureChange: null,
+    /**
+     * @type { var }
+     */
+    allObject: 0,
 
+    knot : null,
+    knotBBox: null,
     /**
      * @type { THREE.TransformControl }
      */
@@ -127,10 +133,7 @@ export default {
      */
     parameters : undefined,
 
-    /**
-     * @type { var }
-     */
-    allObject: 0,
+    
 
     /**
      * @type { var }

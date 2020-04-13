@@ -62,12 +62,12 @@ function takeModel(name){
                     new Vector3(2, 2, 2),
                     "Chair_003");
         var tempObject = chair.Load();
-        //console.log("Mesh loaded index.js", tempObject.children);
+        console.log("Mesh loaded index.js", tempObject);
 
         props.scene.add(tempObject);
     }else {
         var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
-                new Vector3(5, -30, 5.40),
+                new Vector3(20, -30, 5.40),
                 new Vector3(2, 2, 2),
                 "Chair_001");
     var tempObject = chair.Load();
