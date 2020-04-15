@@ -11,8 +11,8 @@ import { Vector3, Vector2, Raycaster, Box3, BoxHelper, Matrix4, EventDispatcher,
 import props from './config/defaults';
 import { PlaneGeometry, MeshBasicMaterial, BoxGeometry, Group } from 'three/build/three.module';
 import { MeshMaterial } from './MeshMaterial';
-
-
+import MeshMaterialCount from './config/MeshMaterial';
+import { PaintObject } from './PaintObject';
 
 var ObjectControl = function(domElement, camera, objectsArray, plane){ 
     //if ( domElement === undefined ) console.warn( 'THREE.OrbitControls: The second parameter "domElement" is now mandatory.' );
@@ -51,8 +51,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     this._itsCollision = false, 
     this._isMoved = false;
     this._isSelect = false;
+    this._sphereScene = false;
     this._originalObjectPosition = new Vector3();
 
+    this._originalCameraPositionX = null;
 
 
     this._mouseXOnMouseDown = null;
@@ -143,91 +145,130 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         event.preventDefault();
         MouseLocation( event );
         scope.dispatchEvent( { type: 'down' } );
+
+        
         if( !scope._isSelect ){
-        if( scope._SELECTED_PREVIOUS !== scope._SELECTED ){
-            props.objectsArray.some( ( mesh, i) => {
-                if( i !== scope._INDEX ) scope._objectForCheckCollision.push( mesh );
-            });
-        }
-
-        _raycaster.setFromCamera(scope._mouse, props.camera2D);
-
-        var intersects = _raycaster.intersectObjects( props.objectsArray );
-        if( intersects.length > 0 ){
-            props.orbitControls.enabled = false;
-            scope._SELECTED = intersects[0].object;
-            
-            if( props.objectActions['drag'] ){
-                scope._originalObjectPosition.copy( scope._SELECTED.position );
-            
-            
-                var intersectPlane = _raycaster.intersectObject( planeTest );
-                scope._offset.copy( intersectPlane[0].point ).sub( planeTest.position );
-                scope._isDragged = true;
-                domElement.style.cursor = 'move';
-                props.objectsArray.some(( mesh, i )=>{
-                    console.log(i, "->", scope._INDEX);
-                    if(i !== scope._INDEX){
-                        scope._objectForCheckCollision.push(mesh);
-                    }
+            if( scope._SELECTED_PREVIOUS !== scope._SELECTED ){
+                props.objectsArray.some( ( mesh, i) => {
+                    if( i !== scope._INDEX ) scope._objectForCheckCollision.push( mesh );
                 });
             }
-            else if( props.objectActions['rotate'] ){
-                scope._isRotated = true;
-                domElement.style.cursor = 'crosshair';
 
-                scope._mouseXOnMouseDown = event.clientX - scope._windowHalfX;
-				scope._targetRotationOnMouseDown = scope._targetRotation;
-            }
-            else if( props.objectActions['delete'] ){
-                    props.scene.remove( intersects[0].object.parent );
-                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                    props.objectsArray[ scope._INDEX ].helper.update();
+            _raycaster.setFromCamera(scope._mouse, props.camera2D);
 
-                    props.objectsArray.splice( scope._INDEX, 1);
-                    props.objectsMeshOnlyArray.splice( scope._INDEX , 1);
-                    scope.UpdateArrayObject();
-            }
-            else if( props.objectActions['paint'] ){
-                if( !scope._isSelect){
-                    
-                    props.objectsArray[ scope._INDEX ].helper.material.visible = true;
-                    props.objectsArray[ scope._INDEX ].helper.update();
+            
+            var intersects = _raycaster.intersectObjects( props.objectsArray );
+            if( intersects.length > 0 ){
+                props.orbitControls.enabled = false;
+                scope._SELECTED = intersects[0].object;
+                
+                if( props.objectActions['drag'] ){
+                    scope._originalObjectPosition.copy( scope._SELECTED.position );
+                
+                
+                    var intersectPlane = _raycaster.intersectObject( planeTest );
+                    scope._offset.copy( intersectPlane[0].point ).sub( planeTest.position );
+                    scope._isDragged = true;
+                    domElement.style.cursor = 'move';
+                    props.objectsArray.some(( mesh, i )=>{
+                        console.log(i, "->", scope._INDEX);
+                        if(i !== scope._INDEX){
+                            scope._objectForCheckCollision.push(mesh);
+                        }
+                    });
+                }
+                else if( props.objectActions['rotate'] ){
+                    scope._isRotated = true;
+                    domElement.style.cursor = 'crosshair';
 
-                    props.objectsMeshIndexTextureChange = scope._INDEX;
-                    scope._isSelect = true;
-                    console.log(props.objectsArray);
-                    MeshMaterial( props.objectsArray[ scope._INDEX ] );
-                }else if( scope._isSelect ){
-                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                    props.objectsArray[ scope._INDEX ].helper.update();
-                    scope._INDEX = null;
-                    scope._INTERSECTED = null;
-                    scope._SELECTED = null;
-                    props.objectsMeshIndexTextureChange = null;
-                    scope._isSelect = false;
+                    scope._mouseXOnMouseDown = event.clientX - scope._windowHalfX;
+                    scope._targetRotationOnMouseDown = scope._targetRotation;
+                }
+                else if( props.objectActions['delete'] ){
+                        props.scene.remove( intersects[0].object.parent );
+                        props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                        props.objectsArray[ scope._INDEX ].helper.update();
+
+                        props.objectsArray.splice( scope._INDEX, 1);
+                        props.objectsMeshOnlyArray.splice( scope._INDEX , 1);
+                        scope.UpdateArrayObject();
+                }
+                else if( props.objectActions['paint'] ){
+                    if( !scope._isSelect){
+                        
+                        props.objectsArray[ scope._INDEX ].helper.material.visible = true;
+                        props.objectsArray[ scope._INDEX ].helper.update();
+
+                        props.objectsMeshIndexTextureChange = scope._INDEX;
+                        scope._isSelect = true;
+                        //console.log(props.objectsArray);
+                        MeshMaterial( props.objectsArray[ scope._INDEX ] );
+
+                        scope._originalCameraPositionX = props.camera2D.position.x;
+                        props.camera2D.zoom = 3.5;
+                        props.camera2D.position.setX( scope._SELECTED.position.x );
+                        props.camera2D.updateProjectionMatrix();
+
+                        
+                    }else if( scope._isSelect ){
+                        props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                        props.objectsArray[ scope._INDEX ].helper.update();
+                        scope._INDEX = null;
+                        scope._INTERSECTED = null;
+                        scope._SELECTED = null;
+                        props.objectsMeshIndexTextureChange = null;
+                        scope._isSelect = false;
+                    }
                 }
             }
-        }
         }else{
             _raycaster.setFromCamera(scope._mouse, props.camera2D);
 
-            var intersects = _raycaster.intersectObjects( props.objectsArray );
-            if( intersects.length > 0 ){
-                console.log(scope._SELECTED, intersects.object);
-                if( intersects[0].object === scope._SELECTED){
-                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                    props.objectsArray[ scope._INDEX ].helper.update();
-                    scope._INDEX = null;
-                    scope._INTERSECTED = null;
-                    scope._SELECTED = null;
-                    props.objectsMeshIndexTextureChange = null;
-                    scope._isSelect = false;
-                }else{
-                    alert("Exista un obiect selectat deja!");
+            var intersects_material = _raycaster.intersectObjects( props.sphereScene );
+            console.log(intersects_material);
+            if(intersects_material.length > 0){
+                var _arrayTextureName = [];
+                var i = intersects_material[0].object.i;
+                for (let [key, value] of Object.entries(MeshMaterialCount.chair)) {
+                    if(key === props.objectsArray[ scope._INDEX ].name){
+                         _arrayTextureName.push( value[i] );
+                    } 
+                }
+                
+
+                var textureArray = PaintObject.LoadTextureArray( _arrayTextureName[0] );
+                PaintObject.ObjectTexture(props.objectsMeshOnlyArray[props.objectsMeshIndexTextureChange]
+                    .children[0], textureArray );
+                console.log("INTERSECT",_arrayTextureName);
+            }else{
+                var intersects = _raycaster.intersectObjects( props.objectsArray );
+                if( intersects.length > 0 ){
+                    console.log(scope._SELECTED, intersects.object);
+                    if( intersects[0].object === scope._SELECTED){
+                        props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                        props.objectsArray[ scope._INDEX ].helper.update();
+                        scope._INDEX = null;
+                        scope._INTERSECTED = null;
+                        scope._SELECTED = null;
+                        props.objectsMeshIndexTextureChange = null;
+                        scope._isSelect = false;
+
+                        props.sphereScene.forEach(element => {
+                            props.scene.remove( element );
+                        });
+                        props.sphereScene = [];
+
+                        props.camera2D.position.setX( scope._originalCameraPositionX );
+                        props.camera2D.zoom = 1;
+                        props.camera2D.updateProjectionMatrix();
+
+                        scope._originalCameraPositionX = null;
+                    }else{
+                        alert("Exista un obiect selectat deja!");
+                    }
                 }
             }
-            
+
         } 
     }
 
@@ -238,6 +279,17 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
         _raycaster.setFromCamera( scope._mouse, props.camera2D);
         
+
+        if( props.objectActions['paint'] && scope._isSelect ){
+            var intersects_materials = _raycaster.intersectObjects( props.sphereScene );
+            if( intersects_materials.length > 0){
+                domElement.style.cursor = 'crosshair';
+            }else{
+                domElement.style.cursor = 'auto';
+            }
+        }
+
+
         if( scope._SELECTED ){
             if( props.objectActions['drag'] ){
                 var intersects = _raycaster.intersectObject( planeTest );
@@ -325,10 +377,11 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._INTERSECTED = null;
                     scope._INDEX = null;
                     scope._objectForCheckCollision = [];
-                   
                 }
             }
         }
+
+        
     }
 
     function mouseUp( event ){

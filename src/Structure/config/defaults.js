@@ -94,6 +94,9 @@ export default {
     indexDeleteObject: null,
     objectsMeshOnlyArray: [],
     objectsMeshIndexTextureChange: null,
+
+    //sphere scene
+    sphereScene : [],
     /**
      * @type { var }
      */

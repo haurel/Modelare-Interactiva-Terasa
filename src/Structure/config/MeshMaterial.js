@@ -12,7 +12,7 @@ export default{
 
     chair:{
         'chair_001' : [
-                chairTetureSettings.leather_chair_002,
+                chairTetureSettings.leather_chair_014,
                 chairTetureSettings.material_001,
         ],
         'chair_002' : 4,

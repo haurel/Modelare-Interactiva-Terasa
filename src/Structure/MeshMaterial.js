@@ -12,7 +12,7 @@ var MeshMaterial = function( objectSelected ){
 
     var position = new Vector3();
     position.copy( objectSelected.position );
-    position.x += - 10;
+    position.x += - 5;
     console.log( _objectName );
     for (let [key, value] of Object.entries(MeshMaterialCount.chair)) {
         if(key === _objectName){
@@ -26,7 +26,7 @@ var MeshMaterial = function( objectSelected ){
     console.log( _arrayTextureName[0].diffuse_map)
 
     for(let i = 0; i <  _arrayTextureName.length; i++){
-        var geometry = new SphereGeometry(10, 32, 32);
+        var geometry = new SphereGeometry(2, 32, 32);
         var material = new MeshPhongMaterial();
 
         var texture = new TextureLoader().load(_arrayTextureName[i].diffuse_map);
@@ -35,9 +35,10 @@ var MeshMaterial = function( objectSelected ){
         var sphere = new Mesh( geometry, material );
         sphere.position.set(position.x, position.y - 10, position.z );
         sphere.i = i;
-        position.x += 10;
+        position.x += 5;
         props.scene.add( sphere );
 
+        props.sphereScene.push( sphere );
 
     }
 
