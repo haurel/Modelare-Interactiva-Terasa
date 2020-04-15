@@ -34,7 +34,7 @@ export default class Lights extends Group{
             //1.89
         );
         //this.directionalLight.position.set(3, 2.3, 2);
-        this.directionalLight.position.set(200, 250, 200);
+        this.directionalLight.position.set(200, 100, 200);
         //this.directionalLight.position.set(100, 520, 100);
         //this.directionalLight.position.multiplyScalar(0.2);
 
