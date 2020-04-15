@@ -10,6 +10,7 @@
 import { Vector3, Vector2, Raycaster, Box3, BoxHelper, Matrix4, EventDispatcher, Mesh} from 'three';
 import props from './config/defaults';
 import { PlaneGeometry, MeshBasicMaterial, BoxGeometry, Group } from 'three/build/three.module';
+import { MeshMaterial } from './MeshMaterial';
 
 
 
@@ -195,6 +196,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
                     props.objectsMeshIndexTextureChange = scope._INDEX;
                     scope._isSelect = true;
+                    console.log(props.objectsArray);
+                    MeshMaterial( props.objectsArray[ scope._INDEX ] );
                 }else if( scope._isSelect ){
                     props.objectsArray[ scope._INDEX ].helper.material.visible = false;
                     props.objectsArray[ scope._INDEX ].helper.update();
@@ -275,7 +278,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         }
 
         var intersects = _raycaster.intersectObjects( props.objectsArray );
-        if( intersects.length > 0 && scope._SELECTED === null){
+        if( intersects.length > 0 && scope._SELECTED === null && intersects[0].object.i !== 0){
             
             if( scope._INTERSECTED != intersects[0].object ){
                 scope._INDEX = intersects[0].object.i;
