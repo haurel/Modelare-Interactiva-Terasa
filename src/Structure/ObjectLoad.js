@@ -35,7 +35,8 @@ export default class ObjectLoad{
             //mesh.scale.set(30, 30,30);
             //mesh.scale.set(2.5, 2.5, 2.5);
             mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
-            props.objectsMeshOnlyArray.push(mesh);
+
+             props.objectsMeshOnlyArray.push(mesh);
             //console.log("ObjectLoad-Mesh", props.objectsMeshOnlyArray);
             //mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
             //mesh.position.set( _position.x, _position.y, _position.z );
@@ -58,7 +59,7 @@ export default class ObjectLoad{
             //console.log(objectwidth, objectheight, objectdepth);
             mesh.position.set( 0, -objectheight / 2, 0 );
             mesh.matrixAutoUpdate = true;
-            var box = this.DrawBox( objectwidth, objectheight, objectdepth );
+            var box = this.DrawBox( objectwidth, objectheight, objectdepth, mesh.name);
 
             this.group.add( box );
             this.group.name = "Group of Mesh";
@@ -77,7 +78,7 @@ export default class ObjectLoad{
         return this.group;
     };
 
-    DrawBox( width, height, depth ){
+    DrawBox( width, height, depth, name ){
         var geometry, material, box;
         geometry = new BoxGeometry(
             width, height, depth
@@ -92,7 +93,7 @@ export default class ObjectLoad{
 
 
         box = new Mesh( geometry, material );
-        box.name = "box"
+        box.name = name;
 
         box.i = props.allObject; props.allObject++;
 
