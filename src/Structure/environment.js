@@ -80,7 +80,7 @@ export default createEnvironment  => {
     var boundingBox = new ObjectLoad('/src/Structure/House/HouseCompressed/boundingbox.gltf',
                     new Vector3(29.7, 27, 24),
                     new Vector3(6, 6, 6),
-                    "Chair_003"
+                    "Perete_casa",
                 );
     var boundingBoxTemp = boundingBox.Load();
     

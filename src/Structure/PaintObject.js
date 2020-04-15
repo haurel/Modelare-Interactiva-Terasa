@@ -70,7 +70,7 @@ var PaintObject = {
                 child.material.map.anisotropy = 4;
                 child.material.map.repeat.set(6, 6);
                 
-                //child.material.normalMapType = TangentSpaceNormalMap;
+                child.material.normalMapType = TangentSpaceNormalMap;
                 child.material.displacementBias = - 0.48000408;
                 child.material.displacementScale = 0.9909636143;
                 child.material.normalScale = new Vector2( 1.8, - 1.8);

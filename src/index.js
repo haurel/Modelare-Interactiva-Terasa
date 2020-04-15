@@ -68,8 +68,9 @@ function takeModel(name){
     }else {
         var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
                 new Vector3(20, -30, 5.40),
+                //new Vector3(2, 2, 2),
                 new Vector3(2, 2, 2),
-                "Chair_001");
+                "chair_001");
     var tempObject = chair.Load();
     //console.log("Mesh loaded index.js", tempObject.children);
 
@@ -89,13 +90,13 @@ function ChangeColor(){
         alert("Please select an object!!");
     }else{  
         var textureArray = PaintObject.LoadTextureArray(
-            chairTextureSettings.leather_chair_014
+            //chairTextureSettings.leather_chair_014
+            chairTextureSettings.material_001
         )
-
         console.log(props.objectsMeshIndexTextureChange);
         console.log(props.objectsMeshIndexTextureChange);
         PaintObject.ObjectTexture( props.objectsMeshOnlyArray[props.objectsMeshIndexTextureChange]
-                                .children[1], textureArray 
+                                .children[0], textureArray 
             );
     }
 }
