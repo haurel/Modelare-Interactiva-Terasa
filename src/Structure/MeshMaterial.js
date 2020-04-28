@@ -22,8 +22,8 @@ var MeshMaterial = function( objectSelected ){
         } 
 
     }
-    console.log( _arrayTextureName );
-    console.log( _arrayTextureName[0].diffuse_map)
+    //console.log( _arrayTextureName );
+    //console.log( _arrayTextureName[0].diffuse_map)
 
     for(let i = 0; i <  _arrayTextureName.length; i++){
         var geometry = new SphereGeometry(2, 32, 32);
@@ -41,9 +41,7 @@ var MeshMaterial = function( objectSelected ){
         props.sphereScene.push( sphere );
 
     }
-
-
-    
 }
+
 MeshMaterial.prototype.constructor = MeshMaterial;
 export { MeshMaterial };

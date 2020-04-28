@@ -31,7 +31,7 @@ export default class ObjectLoad{
         const loader = new GLTFLoader();
         loader.load( this._objectPath, ( gltf ) =>{
             const mesh = gltf.scene;
-            //console.log(mesh);
+            console.log(mesh);
             //mesh.scale.set(30, 30,30);
             //mesh.scale.set(2.5, 2.5, 2.5);
             mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
@@ -63,6 +63,12 @@ export default class ObjectLoad{
 
             this.group.add( box );
             this.group.name = "Group of Mesh";
+
+            mesh.traverse((child)=>{
+                if(child.name === "Plane"){
+                    console.log(child);
+                }
+            })
 
             props.scene.add( box.helper );
             box.add( mesh );
