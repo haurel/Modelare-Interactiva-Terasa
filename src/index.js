@@ -8,6 +8,7 @@ import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh, T
 import { CameraObject } from './Structure/CameraObject';
 import { PaintObject } from './Structure/PaintObject';
 import chairTextureSettings from './Structure/config/chairTextureSettings';
+import objectPathLink from './Structure/config/objectPathLink';
 
 
 /* document.addEventListener('DOMContentLoaded', () => {
@@ -55,14 +56,32 @@ window.ChangeView = function( typeOfView ){
 
 function takeModel(name){
     props.addObjectsToScene.push(name);
-    if(name === 'chair_model_1'){
+    console.log(name);
+
+    for (let [key, value] of Object.entries(objectPathLink)) {
+        console.log("Key: " + key + "\nValue: " + value);
+        
+        if(name === key){
+            var chair = new ObjectLoad( 
+                        value, 
+                        new Vector3(5, -30, 5.40),
+                        new Vector3(2, 2, 2), 
+                        name 
+                    )
+            var tempObject = chair.Load();
+            props.scene.add(tempObject);    
+        }   
+    }
+
+
+    /* if(name === 'chair_model_1'){
         //var chair = new ObjectLoad('/src/Structure/Chair/chair_002.gltf',
-        var chair = new ObjectLoad('/src/Structure/Chair/chair_005.gltf',
+        var chair = new ObjectLoad('/src/Structure/Chair/masa_picnic.gltf',
                     new Vector3(5, -30, 5.40),
                     new Vector3(2, 2, 2),
-                    "Chair_003");
+                    "chair_003");
         var tempObject = chair.Load();
-        console.log("Mesh loaded index.js", tempObject);
+        //console.log("Mesh loaded index.js", tempObject);
 
         props.scene.add(tempObject);
     }else {
@@ -75,7 +94,7 @@ function takeModel(name){
     //console.log("Mesh loaded index.js", tempObject.children);
 
     props.scene.add(tempObject);
-    }
+    } */
 }
 
 window.takeModel = function(name){
