@@ -1,4 +1,4 @@
-import chairTetureSettings from './chairTextureSettings';
+import chairTextureSettings from './chairTextureSettings';
 
 
 export default{
@@ -12,9 +12,13 @@ export default{
 
     chair:{
         'chair_001' : [
-                chairTetureSettings.leather_chair_014,
-                chairTetureSettings.material_001,
+            chairTextureSettings.leather_chair_014,
+            chairTextureSettings.material_001,
+
         ],
-        'chair_002' : 4,
+        'chair_003' : [
+            chairTextureSettings.leather_chair_014,
+            chairTextureSettings.material_001,
+        ]
     }
 }
