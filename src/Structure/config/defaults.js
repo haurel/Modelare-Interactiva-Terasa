@@ -95,6 +95,15 @@ export default {
     objectsMeshOnlyArray: [],
     objectsMeshIndexTextureChange: null,
 
+    //sphere scene
+    sphereScene : [],
+    /**
+     * @type { var }
+     */
+    allObject: 0,
+
+    knot : null,
+    knotBBox: null,
     /**
      * @type { THREE.TransformControl }
      */
@@ -127,10 +136,7 @@ export default {
      */
     parameters : undefined,
 
-    /**
-     * @type { var }
-     */
-    allObject: 0,
+    
 
     /**
      * @type { var }

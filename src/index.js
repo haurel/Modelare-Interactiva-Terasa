@@ -4,10 +4,11 @@ import prepare from './Structure/prepare';
 import getSelectedColor from './Structure/functionForUI';
 import props from './Structure/config/defaults';
 import ObjectLoad from './Structure/ObjectLoad';
-import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh } from 'three/build/three.module';
+import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, ShaderMaterial, PlaneGeometry, Vector2 } from 'three/build/three.module';
 import { CameraObject } from './Structure/CameraObject';
 import { PaintObject } from './Structure/PaintObject';
 import chairTextureSettings from './Structure/config/chairTextureSettings';
+import objectPathLink from './Structure/config/objectPathLink';
 
 
 /* document.addEventListener('DOMContentLoaded', () => {
@@ -17,6 +18,7 @@ import chairTextureSettings from './Structure/config/chairTextureSettings';
 }); */
 
 function init(src) {
+    console.warn(src);
     document.querySelectorAll('.img_select').forEach(item => {
         item.addEventListener('click', event => {
           //console.log(src);
@@ -25,8 +27,8 @@ function init(src) {
             //console.log(x);
             getSelectedColor(x);
          });
-        })
-   }
+    })
+}
 window.init = function(src){
     init(src);
 }
@@ -54,14 +56,45 @@ window.ChangeView = function( typeOfView ){
 
 function takeModel(name){
     props.addObjectsToScene.push(name);
-    var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
-                new Vector3(5, -30, 5.40),
+    console.log(name);
+
+    for (let [key, value] of Object.entries(objectPathLink)) {
+        console.log("Key: " + key + "\nValue: " + value);
+        
+        if(name === key){
+            var chair = new ObjectLoad( 
+                        value, 
+                        new Vector3(5, -30, 5.40),
+                        new Vector3(2, 2, 2), 
+                        name 
+                    )
+            var tempObject = chair.Load();
+            props.scene.add(tempObject);    
+        }   
+    }
+
+
+    /* if(name === 'chair_model_1'){
+        //var chair = new ObjectLoad('/src/Structure/Chair/chair_002.gltf',
+        var chair = new ObjectLoad('/src/Structure/Chair/masa_picnic.gltf',
+                    new Vector3(5, -30, 5.40),
+                    new Vector3(2, 2, 2),
+                    "chair_003");
+        var tempObject = chair.Load();
+        //console.log("Mesh loaded index.js", tempObject);
+
+        props.scene.add(tempObject);
+    }else {
+        var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
+                new Vector3(20, -30, 5.40),
+                //new Vector3(2, 2, 2),
                 new Vector3(2, 2, 2),
-                "Chair_002");
+                "chair_001");
     var tempObject = chair.Load();
-    console.log("Mesh loaded index.js", tempObject.children);
+    //console.log("Mesh loaded index.js", tempObject.children);
 
     props.scene.add(tempObject);
+    } */
 }
 
 window.takeModel = function(name){
@@ -76,13 +109,13 @@ function ChangeColor(){
         alert("Please select an object!!");
     }else{  
         var textureArray = PaintObject.LoadTextureArray(
-            chairTextureSettings.leather_chair_014
+            //chairTextureSettings.leather_chair_014
+            chairTextureSettings.material_001
         )
-
         console.log(props.objectsMeshIndexTextureChange);
         console.log(props.objectsMeshIndexTextureChange);
         PaintObject.ObjectTexture( props.objectsMeshOnlyArray[props.objectsMeshIndexTextureChange]
-                                .children[1], textureArray 
+                                .children[0], textureArray 
             );
     }
 }

@@ -1,4 +1,4 @@
-import { MeshPhongMaterial, TextureLoader, Mesh, Vector2, MeshBasicMaterial, MeshStandardMaterial } from "three/build/three.module"
+import { MeshPhongMaterial, TextureLoader, Mesh, Vector2, MeshBasicMaterial, MeshStandardMaterial, ImageUtils } from "three/build/three.module"
 import { RepeatWrapping, ObjectSpaceNormalMap, TangentSpaceNormalMap } from "three";
 
 var PaintObject = {
@@ -10,6 +10,10 @@ var PaintObject = {
                     _texture[ Object.keys(_texture)[i] ]
                 );
         }
+
+        for(let i = 0; i < 5; i++){
+            texture[i] = ImageUtils.loadTexture( _texture[ Object.keys(_texture)[i] ]);
+        }
         //console.warn(texture);
         return texture;
     },
@@ -18,7 +22,8 @@ var PaintObject = {
         houseMesh.traverse(( child ) =>{
             if( child instanceof Mesh ){
                 if( child.name == "textureToChange"){
-                    child.material = new MeshPhongMaterial( {shininess: 5, 
+                    child.material = new MeshPhongMaterial( { 
+                     shininess: 5, 
                         lightMapIntensity: 0.9, 
                         flatShading: false,
                         metalness: 1.0,
@@ -27,6 +32,8 @@ var PaintObject = {
 				        aoMapIntensity: 1.0,
 				        envMapIntensity: 1.0,
                     });
+
+                    //child.material = new MeshStandardMaterial({});
                     child.material.map = texture[0];
                     child.material.displacementMap = texture[1];
                     child.material.normalMap = texture[2];
@@ -56,24 +63,28 @@ var PaintObject = {
 
     ObjectTexture: function( mesh, texture ){
         //const material = new MeshPhongMaterial();
+
         mesh.traverse((child)=>{
-            if(child.name === "Plane"){
-                child.material = new MeshPhongMaterial();
+            if(child.name === "change_material"){
+                console.warn(child);
+                //child.material = new MeshStandardMaterial();
                 child.material.map = texture[0];
-                child.material.displacementMap = texture[1];
+                //child.material.displacementMap = texture[1];
                 child.material.normalMap = texture[2];
                 child.material.aoMap = texture[3];
-                child.material.specularMap = texture[4];
+
+
+                //child.material.specularMap = texture[4];
         
-                child.material.map.wrapS = RepeatWrapping;
+                /* child.material.map.wrapS = RepeatWrapping;
                 child.material.map.wrapT = RepeatWrapping;
                 child.material.map.anisotropy = 4;
                 child.material.map.repeat.set(6, 6);
                 
-                //child.material.normalMapType = TangentSpaceNormalMap;
+                child.material.normalMapType = TangentSpaceNormalMap;
                 child.material.displacementBias = - 0.48000408;
                 child.material.displacementScale = 0.9909636143;
-                child.material.normalScale = new Vector2( 1.8, - 1.8);
+                child.material.normalScale = new Vector2( 1.8, - 1.8); */
         
                 child.material.needsUpdate = true;
             }

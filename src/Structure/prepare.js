@@ -113,12 +113,12 @@ const createCamera2D = () =>{
 
 
 const createOrbitControls = () => {
-    /* props.orbitControls = new OrbitControls(
+    props.orbitControls = new OrbitControls(
         props.camera2D,
         props.renderer.domElement
     )
     //props.orbitControls.update();
-    console.log(props.orbitControls); */
+    console.log(props.orbitControls);
 
     /* props.orbitControls = new TrackballControls( props.camera2D, 
         props.renderer.domElement);
@@ -128,7 +128,7 @@ const createOrbitControls = () => {
     props.orbitControls.noZoom = false;
     props.orbitControls.noPan = false;
     props.orbitControls.staticMoving = true;
-    props.orbitControls.dynamicDampingFactor = 0.3; */
+    props.orbitControls.dynamicDampingFactor = 0.3;*/
 }
 
 /**

@@ -16,27 +16,37 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Cube",
+            "name" : "chair_001_cube",
             "rotation" : [
-                0.7071068286895752,
+                1,
                 0,
                 0,
-                0.7071067094802856
+                -1.3435885648505064e-07
+            ],
+            "translation" : [
+                0.05418189615011215,
+                0.009123725816607475,
+                -0.005940208211541176
             ]
         },
         {
             "mesh" : 1,
-            "name" : "Plane",
+            "name" : "change_material",
             "rotation" : [
-                0.7071068286895752,
+                1,
                 0,
                 0,
-                0.7071067094802856
+                -1.3435885648505064e-07
+            ],
+            "scale" : [
+                1,
+                1,
+                1.2177560329437256
             ],
             "translation" : [
-                0,
-                0.9983612298965454,
-                -0.20670047402381897
+                0.05418189615011215,
+                1.0190911293029785,
+                -0.23599345982074738
             ]
         }
     ],
@@ -48,7 +58,11 @@
                 0,
                 0
             ],
-            "name" : "CubeMaterial",
+            "name" : "Material.003",
+            "normalTexture" : {
+                "index" : 0,
+                "texCoord" : 0
+            },
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
                     1,
@@ -56,8 +70,12 @@
                     1,
                     1
                 ],
-                "metallicFactor" : 1,
-                "roughnessFactor" : 1
+                "baseColorTexture" : {
+                    "index" : 1,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0.4416666626930237,
+                "roughnessFactor" : 0.7333333492279053
             }
         },
         {
@@ -67,47 +85,69 @@
                 0,
                 0
             ],
-            "name" : "PlaneMaterial",
+            "name" : "Mat",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
-                    1,
-                    1,
-                    1,
+                    0.7991029024124146,
+                    0.7758223414421082,
+                    0.5209956169128418,
                     1
                 ],
-                "metallicFactor" : 1,
-                "roughnessFactor" : 1
+                "metallicFactor" : 0.36666667461395264,
+                "roughnessFactor" : 0.625
             }
         }
     ],
     "meshes" : [
         {
-            "name" : "Cube",
+            "name" : "Cube.001",
             "primitives" : [
                 {
                     "attributes" : {
                         "POSITION" : 0,
                         "NORMAL" : 1,
-                        "TEXCOORD_0" : 2
+                        "TANGENT" : 2,
+                        "TEXCOORD_0" : 3
                     },
-                    "indices" : 3,
+                    "indices" : 4,
                     "material" : 0
                 }
             ]
         },
         {
-            "name" : "Plane",
+            "name" : "change_material",
             "primitives" : [
                 {
                     "attributes" : {
-                        "POSITION" : 4,
-                        "NORMAL" : 5,
-                        "TEXCOORD_0" : 6
+                        "POSITION" : 5,
+                        "NORMAL" : 6,
+                        "TANGENT" : 7,
+                        "TEXCOORD_0" : 8
                     },
-                    "indices" : 7,
+                    "indices" : 9,
                     "material" : 1
                 }
             ]
+        }
+    ],
+    "textures" : [
+        {
+            "source" : 0
+        },
+        {
+            "source" : 1
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "Image_0",
+            "uri" : "Image_0.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "Image_1",
+            "uri" : "Image_1.png"
         }
     ],
     "accessors" : [
@@ -117,13 +157,13 @@
             "count" : 2210,
             "max" : [
                 0.790420651435852,
-                0.8454914689064026,
-                -0.000604674220085144
+                -0.000604674220085144,
+                0.8454914689064026
             ],
             "min" : [
                 -0.790420651435852,
-                -0.8454914689064026,
-                -1.0396751165390015
+                -1.0396751165390015,
+                -0.8454914689064026
             ],
             "type" : "VEC3"
         },
@@ -137,44 +177,56 @@
             "bufferView" : 2,
             "componentType" : 5126,
             "count" : 2210,
-            "type" : "VEC2"
+            "type" : "VEC4"
         },
         {
             "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 2210,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 4,
             "componentType" : 5123,
             "count" : 2232,
             "type" : "SCALAR"
         },
         {
-            "bufferView" : 4,
+            "bufferView" : 5,
             "componentType" : 5126,
             "count" : 2932,
             "max" : [
                 1.0527915954589844,
-                1.0051040649414062,
-                0.051277756690979004
+                0.051277756690979004,
+                0.8318144083023071
             ],
             "min" : [
                 -1.0527915954589844,
-                -0.8318144083023071,
-                -1.3698811531066895
+                -1.3698811531066895,
+                -1.0051040649414062
             ],
-            "type" : "VEC3"
-        },
-        {
-            "bufferView" : 5,
-            "componentType" : 5126,
-            "count" : 2932,
             "type" : "VEC3"
         },
         {
             "bufferView" : 6,
             "componentType" : 5126,
             "count" : 2932,
-            "type" : "VEC2"
+            "type" : "VEC3"
         },
         {
             "bufferView" : 7,
+            "componentType" : 5126,
+            "count" : 2932,
+            "type" : "VEC4"
+        },
+        {
+            "bufferView" : 8,
+            "componentType" : 5126,
+            "count" : 2932,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 9,
             "componentType" : 5123,
             "count" : 15000,
             "type" : "SCALAR"
@@ -193,38 +245,48 @@
         },
         {
             "buffer" : 0,
-            "byteLength" : 17680,
+            "byteLength" : 35360,
             "byteOffset" : 53040
         },
         {
             "buffer" : 0,
+            "byteLength" : 17680,
+            "byteOffset" : 88400
+        },
+        {
+            "buffer" : 0,
             "byteLength" : 4464,
-            "byteOffset" : 70720
+            "byteOffset" : 106080
         },
         {
             "buffer" : 0,
             "byteLength" : 35184,
-            "byteOffset" : 75184
+            "byteOffset" : 110544
         },
         {
             "buffer" : 0,
             "byteLength" : 35184,
-            "byteOffset" : 110368
+            "byteOffset" : 145728
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 46912,
+            "byteOffset" : 180912
         },
         {
             "buffer" : 0,
             "byteLength" : 23456,
-            "byteOffset" : 145552
+            "byteOffset" : 227824
         },
         {
             "buffer" : 0,
             "byteLength" : 30000,
-            "byteOffset" : 169008
+            "byteOffset" : 251280
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 199008,
+            "byteLength" : 281280,
             "uri" : "chair_001.bin"
         }
     ]

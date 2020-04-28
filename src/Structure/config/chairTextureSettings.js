@@ -21,6 +21,24 @@ export default{
         nrm_map: "/src/Structure/Chair/Texture/Leather14_NRM.png",
         occ_map: "/src/Structure/Chair/Texture/Leather14_OCC.png",
         spec_map: "/src/Structure/Chair/Texture/Leather14_SPEC.png",
+    },
+
+    /* material_001:{
+        diffuse_map: "/src/Structure/Chair/Texture/material_COLOR.png",
+        disp_map: "/src/Structure/Chair/Texture/material_DISP.png",
+        nrm_map: "/src/Structure/Chair/Texture/material_NRM.png",
+        occ_map: "/src/Structure/Chair/Texture/material_OCC.png",
+        spec_map: "/src/Structure/Chair/Texture/material_SPEC.png",
     }
+    */
+    material_001:{
+        diffuse_map: "/src/Structure/Chair/Texture/material_COLOR_d.png",
+        disp_map: "/src/Structure/Chair/Texture/material_COLOR_h.png",
+        nrm_map: "/src/Structure/Chair/Texture/material_COLOR_n.png",
+        occ_map: "/src/Structure/Chair/Texture/material_COLOR_o.png",
+        spec_map: "/src/Structure/Chair/Texture/material_COLOR_s.png",
+    }
+
+    
 
 }

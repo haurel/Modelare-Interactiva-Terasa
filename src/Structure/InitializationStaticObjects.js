@@ -2,12 +2,14 @@ import otherTexture from "./config/otherTexture"
 import { BoxGeometry, Mesh, RepeatWrapping, TangentSpaceNormalMap } from "three";
 import { MeshPhongMaterial, TextureLoader, Group, Vector3, MeshStandardMaterial, 
         MeshBasicMaterial,
-        Vector2
+        Vector2,
+        Box3,
+        BoxHelper
     } from "three/build/three.module";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import teraceTextureSettings from "./config/teraceTextureSettings";
-
+import props from './config/defaults';
 
 var InitializationStaticObjects = {
 //#region Grass
@@ -148,6 +150,7 @@ var InitializationStaticObjects = {
 
         loader.load(location, (gltf) => {
             const mesh = gltf.scene;
+            //console.log("casa", mesh);
             mesh.position.set(_position.x, _position.y, _position.z);
             mesh.scale.set(_scale.x, _scale.y, _scale.z);
             mesh.rotation.set(Math.PI / 2, 0, 0);
@@ -157,17 +160,15 @@ var InitializationStaticObjects = {
                     if(child.name === "textureToChange"){
                         child.material = new MeshBasicMaterial({
                             color: 0x0f0f00,
-                        });
+                        });                        
                     }
                     child.receiveShadow = true;
                     child.castShadow = true;
                 }
             })
+            //console.log(mesh)
             meshHouse.add(mesh);
         })
-
-        
-
         return meshHouse;
     },
 //#endregion
