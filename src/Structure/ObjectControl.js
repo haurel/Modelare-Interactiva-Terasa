@@ -45,6 +45,11 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     this._SELECTED_PREVIOUS = null,
     this._INDEX = null, 
     this._SELECTED_TEMP = null;
+    this._CURRENTSELECTEDPOSITION = null;
+    this._PAINTSELECTEDPOSITION = new Vector3(-100, -30, 5.4);
+    this._TERASAPOSITION = null;
+    this._TERASAPOSITIONPAINT = new Vector3(-100, -15, 1);
+    this._MATERIAL_COLOR = null;
     this._objectForCheckCollision = [], 
     this._isDragged = false, 
     this._isRotated = false, 
@@ -195,24 +200,49 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 }
                 else if( props.objectActions['paint'] ){
                     if( !scope._isSelect){
-                        
+                        //console.log( props.objectsArray[ scope._INDEX ].position);
+                        scope._CURRENTSELECTEDPOSITION = new Vector3();
+                        scope._CURRENTSELECTEDPOSITION.setFromMatrixPosition(props.objectsArray[ scope._INDEX ].matrixWorld);
+                        console.log(scope._CURRENTSELECTEDPOSITION);
+
                         props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                         props.objectsArray[ scope._INDEX ].helper.update();
+
+
+                        props.objectsArray[ scope._INDEX ].position.set( scope._PAINTSELECTEDPOSITION.x, 
+                                scope._PAINTSELECTEDPOSITION.y,
+                                scope._PAINTSELECTEDPOSITION.z 
+                        );
 
                         props.objectsMeshIndexTextureChange = scope._INDEX;
                         scope._isSelect = true;
                         //console.log(props.objectsArray);
                         MeshMaterial( props.objectsArray[ scope._INDEX ] );
 
+
+                        
+                        scope._TERASAPOSITION = new Vector3();
+                        scope._TERASAPOSITION.setFromMatrixPosition( props.scene.children[4].matrixWorld);
+
+                        
+                        props.scene.children[4].position.set(
+                            scope._TERASAPOSITIONPAINT.x,
+                            scope._TERASAPOSITIONPAINT.y,
+                            scope._TERASAPOSITIONPAINT.z
+                        );
+
                         scope._originalCameraPositionX = props.camera2D.position.x;
                         props.camera2D.zoom = 3.5;
-                        props.camera2D.position.setX( scope._SELECTED.position.x );
+                        props.camera2D.position.setX( -100 );
                         props.camera2D.updateProjectionMatrix();
 
+                        console.log(props.scene);
                         
                     }else if( scope._isSelect ){
                         props.objectsArray[ scope._INDEX ].helper.material.visible = false;
                         props.objectsArray[ scope._INDEX ].helper.update();
+                        
+
                         scope._INDEX = null;
                         scope._INTERSECTED = null;
                         scope._SELECTED = null;
@@ -247,6 +277,19 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     if( intersects[0].object === scope._SELECTED){
                         props.objectsArray[ scope._INDEX ].helper.material.visible = false;
                         props.objectsArray[ scope._INDEX ].helper.update();
+
+                        props.objectsArray[ scope._INDEX ].position.set( scope._CURRENTSELECTEDPOSITION.x, 
+                            scope._CURRENTSELECTEDPOSITION.y,
+                            scope._CURRENTSELECTEDPOSITION.z 
+                        );
+
+                        props.scene.children[4].position.set(
+                            scope._TERASAPOSITION.x,
+                            scope._TERASAPOSITION.y,
+                            scope._TERASAPOSITION.z
+                       )
+
+
                         scope._INDEX = null;
                         scope._INTERSECTED = null;
                         scope._SELECTED = null;
@@ -263,6 +306,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                         props.camera2D.updateProjectionMatrix();
 
                         scope._originalCameraPositionX = null;
+                        
                     }else{
                         alert("Exista un obiect selectat deja!");
                     }
@@ -394,9 +438,11 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._SELECTED.position.copy( scope._originalObjectPosition );
                     if(scope._SELECTED_TEMP.children[0].children[0] instanceof Group){
                         for(let i = 0; i < scope._SELECTED_TEMP.children[0].children[0].length; i++){
-                            scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setHex(0xffffff);
+                            //scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setHex(0xffffff);
+                            scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setRGB(scope._MATERIAL_COLOR.x, scope._MATERIAL_COLOR.y, scope._MATERIAL_COLOR.z) 
                         }
-                    }else scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
+                    }else scope._SELECTED.children[0].children[0].children[i].material.color.setRGB(scope._MATERIAL_COLOR.x, scope._MATERIAL_COLOR.y, scope._MATERIAL_COLOR.z) 
+                    //scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
                     //scope._SELECTED.children[0].children[1].material.color.setHex(0xffffff);
                 }else{
                     planeTest.position.copy( scope._INTERSECTED.position );
@@ -404,9 +450,11 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
                     if(scope._SELECTED_TEMP.children[0].children[0] instanceof Group){
                         for(let i = 0; i < scope._SELECTED_TEMP.children[0].children[0].length; i++){
-                            scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setHex(0xffffff);
+                            scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setRGB(scope._MATERIAL_COLOR.x, scope._MATERIAL_COLOR.y, scope._MATERIAL_COLOR.z)
+                            //scope._SELECTED_TEMP.children[0].children[0].children[i].material.color.setHex(0xffffff);
                         }
-                    }else scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
+                    }else scope._SELECTED.children[0].children[0].material.color.setRGB(scope._MATERIAL_COLOR.x, scope._MATERIAL_COLOR.y, scope._MATERIAL_COLOR.z) 
+                    //scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
                     //scope._SELECTED.children[0].children[1].material.color.setHex(0xffffff);
                     scope._SELECTED.box = new Box3().setFromObject( scope._SELECTED );
                     scope._SELECTED.updateMatrixWorld( true );
@@ -437,6 +485,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
 
     function CloneToSelectedTemp( SELECTED ){
+        scope._MATERIAL_COLOR = new Vector3(SELECTED.children[0].children[0].material.color.r, 
+            SELECTED.children[0].children[0].material.color.g,
+            SELECTED.children[0].children[0].material.color.b)
+
         scope._SELECTED_TEMP = SELECTED.clone();
         scope._SELECTED_TEMP.box = new Box3().setFromObject( scope._SELECTED_TEMP );
         scope._SELECTED_TEMP.updateMatrixWorld( true );
