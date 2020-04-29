@@ -19,10 +19,11 @@ var PaintObject = {
     },
 //Mai am de facut setari la texturi.
     HouseSetTexture: function( houseMesh, texture){
+        console.log(houseMesh);
         houseMesh.traverse(( child ) =>{
             if( child instanceof Mesh ){
                 if( child.name == "textureToChange"){
-                    child.material = new MeshPhongMaterial( { 
+                    /* child.material = new MeshStandardMaterial( { 
                      shininess: 5, 
                         lightMapIntensity: 0.9, 
                         flatShading: false,
@@ -31,9 +32,9 @@ var PaintObject = {
 				        ambientIntensity: 0.2,
 				        aoMapIntensity: 1.0,
 				        envMapIntensity: 1.0,
-                    });
+                    }); */
 
-                    //child.material = new MeshStandardMaterial({});
+                    console.log(child.material);
                     child.material.map = texture[0];
                     child.material.displacementMap = texture[1];
                     child.material.normalMap = texture[2];

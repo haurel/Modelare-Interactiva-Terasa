@@ -150,11 +150,11 @@ var InitializationStaticObjects = {
     },
 //#endregion
 //#region House 
-    House: function( _scale = new Vector3(6, 6, 6), _position = new Vector3(1, -10, 1)){
+    House: function( _scale = new Vector3(6, 6, 6), _position = new Vector3(57, 45, 1)){
         const meshHouse = new Group();
         const loader = new GLTFLoader();
         const dracoLoader = new DRACOLoader();
-        const location = '/src/Structure/House/HouseCompressed/Cyprys_HouseGLTF_002.gltf';
+        const location = '/src/Structure/House/HouseCompressed/Cyprys_House.gltf';
         dracoLoader.setDecoderPath('./node_modules/three/examples/js/libs/draco/');
         loader.setDRACOLoader( dracoLoader );
 
@@ -164,11 +164,11 @@ var InitializationStaticObjects = {
             mesh.position.set(_position.x, _position.y, _position.z);
             mesh.scale.set(_scale.x, _scale.y, _scale.z);
             //mesh.scale.set(2, 2, 2);
-            mesh.rotation.set(Math.PI / 2, 0, 0);
+            mesh.rotation.set(Math.PI / 2, -Math.PI, 0);
 
-            console.log( mesh ); 
+            //console.log( mesh ); 
 
-            mesh.traverse(function (child){
+            /* mesh.traverse(function (child){
                 if(child instanceof Group){
 
                     if(child.children[1].name === "windows_1"){
@@ -188,7 +188,7 @@ var InitializationStaticObjects = {
                     child.receiveShadow = true;
                     child.castShadow = true;
                 }
-            })
+            }) */
             //console.log(mesh)
             meshHouse.add(mesh);
         })

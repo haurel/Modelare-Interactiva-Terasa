@@ -12,7 +12,10 @@ export default function getSelectedColor(_src){
     //console.log(textureCount[_src].wallTexture);
     //console.log(textureCount)
     if(_src === "1"){
-        TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_001, "BigMesh");
+        var textureArray = PaintObject.LoadTextureArray(
+            wallTextureSettings.texture_wall_001
+        )
+        PaintObject.HouseSetTexture( props.meshHouse.children[0], textureArray );
     }else if(_src === "2"){
         var textureArray = PaintObject.LoadTextureArray(
             wallTextureSettings.model_brick_002

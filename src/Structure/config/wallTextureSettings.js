@@ -2,12 +2,11 @@ import { RepeatWrapping } from "three";
 
 export default{
     texture_wall_001:{
-        diffuse_map: "/src/Structure/House/HouseTexture/brick_001_diffuse.jpg",
-        disp_map: "/src/Structure/House/HouseTexture/brick_001_displacement.jpg",
-        nrm_map: "/src/Structure/House/HouseTexture/brick_001_normal.jpg",
-        rgh_map: "/src/Structure/House/HouseTexture/brick_002_rgh.png",
-        occ_map: "/src/Structure/House/HouseTexture/brick_002_occ.png",
-        spec_map: "/src/Structure/House/HouseTexture/brick_002_spec.png",
+        diffuse_map: "/src/Structure/House/HouseTexture/brick_001_COLOR.jpg",
+        disp_map: "/src/Structure/House/HouseTexture/brick_001_DISP.jpg",
+        nrm_map: "/src/Structure/House/HouseTexture/brick_001_NRM.jpg",
+        occ_map: "/src/Structure/House/HouseTexture/brick_001_OCC.jpg",
+        spec_map: "/src/Structure/House/HouseTexture/brick_001_SPEC.jpg",
         anisotropy: 4,
         repeatSet: 1,
         wrapSorT: RepeatWrapping,
