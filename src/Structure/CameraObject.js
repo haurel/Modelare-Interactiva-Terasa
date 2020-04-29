@@ -40,7 +40,7 @@ var CameraObject = {
             _camera2D.far,
             _camera2D.near
         );
-        camera.position.set(0, 0, 100); //100
+        camera.position.set(0, -30, 100); //100
         return camera;
     },
 

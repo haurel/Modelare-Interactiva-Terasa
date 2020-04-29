@@ -65,7 +65,7 @@ function takeModel(name){
             var chair = new ObjectLoad( 
                         value, 
                         new Vector3(5, -30, 5.40),
-                        new Vector3(2, 2, 2), 
+                        new Vector3(3, 3, 3), 
                         name 
                     )
             var tempObject = chair.Load();

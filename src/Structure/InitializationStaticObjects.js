@@ -4,7 +4,8 @@ import { MeshPhongMaterial, TextureLoader, Group, Vector3, MeshStandardMaterial,
         MeshBasicMaterial,
         Vector2,
         Box3,
-        BoxHelper
+        BoxHelper,
+        PlaneGeometry
     } from "three/build/three.module";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
@@ -13,7 +14,7 @@ import props from './config/defaults';
 
 var InitializationStaticObjects = {
 //#region Grass
-    Grass: function(_scale = new Vector3(0.48, 0.48, 0.48), _position = new Vector3(-140, 50, -0.01)){
+    Grass: function(_scale = new Vector3(0.48, 0.48, 0.48), _position = new Vector3(-140, 50, 0.7)){
        /*  if( !_scale.isVector3 || !_position.isVector3 )
             console.warn("Grass Generation error, check scale or position."); */
         const rotation = new Vector3(Math.PI / 2, 0, 0);
@@ -38,7 +39,7 @@ var InitializationStaticObjects = {
         meshGrass.material.map = textureLoadGrass[0];
         meshGrass.material.displacementMap = textureLoadGrass[1];
         meshGrass.material.normalMap = textureLoadGrass[2];
-        meshGrass.material.aoMap = textureLoadGrass[3];
+        //meshGrass.material.aoMap = textureLoadGrass[3];
         meshGrass.material.specularMap = textureLoadGrass[4];
 
 
@@ -85,7 +86,13 @@ var InitializationStaticObjects = {
     Fence: function(_scale = new Vector3(0, 0, 0), _position = new Vector3(0, 0, 0)){
         const loader = new GLTFLoader();
         const fenceGroup = new Group();
-        loader.load('/src/Structure/House/OtherModels/gardCurte.gltf', (gltf) =>{
+        //loader.load('/src/Structure/House/OtherModels/gardCurte.gltf', (gltf) =>{
+        const dracoLoader = new DRACOLoader();
+        const location = '/src/Structure/House/OtherModels/gard_compresat.gltf';
+        dracoLoader.setDecoderPath('./node_modules/three/examples/js/libs/draco/');
+        loader.setDRACOLoader( dracoLoader );
+
+        loader.load(location, (gltf)=>{
             const mesh = gltf.scene;
 
             mesh.traverse( function (child ){
@@ -101,14 +108,15 @@ var InitializationStaticObjects = {
                         child.name = "Fence_1";
                         child.scale.set(2.5, 2.5, 2.5);
                         child.position.set(_position.x, _position.y, _position.z);
-                        child.rotateZ(Math.PI / 2);
+                        //child.rotateZ(Math.PI / 2);
+                        child.rotateY(Math.PI / 2);
                         var pozX = 0;
                         var pozZ = 5;
                         for(let i = 0; i < 16; i++){
                             if(i >= 10){
                                 var newModel = child.clone();
                                 newModel.name = "Fence_2"; 
-                                newModel.rotation.set(Math.PI / 2, 0, Math.PI /2);
+                                //newModel.rotation.set(Math.PI / 2, 0, Math.PI /2);
                                 newModel.position.set((_position.x + 12.5) + (pozX * 24.1), _position.y, _position.z + (pozZ * 28));
                                 fenceGroup.add(newModel);
                                 pozZ--;
@@ -116,7 +124,9 @@ var InitializationStaticObjects = {
                             else if(i >= 6 && i < 10){
                                 var newModel = child.clone();
                                 newModel.name = "Fence_3"; 
-                                newModel.rotation.set(Math.PI / 2, 0, 0);
+                                newModel.rotateY(Math.PI / 2);
+                                //newModel.rotation.set(Math.PI / 2, 0, 0);
+                                //newModel.rotation.set(Math.PI / 2, Math.PI / 2, 0);
                                 newModel.position.set((_position.x + 12.5) + (pozX * 28), _position.y, _position.z + (5 * 31));
                                 fenceGroup.add(newModel);
                                 pozX++;
@@ -140,7 +150,7 @@ var InitializationStaticObjects = {
     },
 //#endregion
 //#region House 
-    House: function( _scale = new Vector3(6, 6, 6), _position = new Vector3(0, 0, 0)){
+    House: function( _scale = new Vector3(6, 6, 6), _position = new Vector3(1, -10, 1)){
         const meshHouse = new Group();
         const loader = new GLTFLoader();
         const dracoLoader = new DRACOLoader();
@@ -153,14 +163,27 @@ var InitializationStaticObjects = {
             //console.log("casa", mesh);
             mesh.position.set(_position.x, _position.y, _position.z);
             mesh.scale.set(_scale.x, _scale.y, _scale.z);
+            //mesh.scale.set(2, 2, 2);
             mesh.rotation.set(Math.PI / 2, 0, 0);
 
+            console.log( mesh ); 
+
             mesh.traverse(function (child){
+                if(child instanceof Group){
+
+                    if(child.children[1].name === "windows_1"){
+
+                        var texutre = new TextureLoader().load('/src/Structure/House/HouseCompressed/glass.png');
+                        child.children[1].material = new MeshStandardMaterial();
+                        child.children[1].material.map = texutre;
+                    }
+                }
                 if(child instanceof Mesh){
                     if(child.name === "textureToChange"){
                         child.material = new MeshBasicMaterial({
                             color: 0x0f0f00,
-                        });                        
+                        }); 
+                                              
                     }
                     child.receiveShadow = true;
                     child.castShadow = true;
@@ -173,9 +196,9 @@ var InitializationStaticObjects = {
     },
 //#endregion
 //#region Terrace
-    Terrace: function(_scale = new Vector3(10, 10, 10), _position = new Vector3(28, -15, 1)){
-        //const geometry = new BoxGeometry(7 ,7, 0.10, 30, 30, 30);
-        const geometry = new BoxGeometry(7, 7, 0.10);
+    Terrace: function(_scale = new Vector3(0, 0, 0), _position = new Vector3(28, -39, 1)){
+        const geometry = new PlaneGeometry(7 ,5, 30, 30);
+        //const geometry = new BoxGeometry(2, 2, 0.10);
         const material = new MeshStandardMaterial({
             metalness: teraceTextureSettings.default_material_settings.metalness,
             roughness: teraceTextureSettings.default_material_settings.roughness,

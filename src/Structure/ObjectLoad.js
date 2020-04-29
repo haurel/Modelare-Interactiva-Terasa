@@ -36,7 +36,7 @@ export default class ObjectLoad{
             //mesh.scale.set(2.5, 2.5, 2.5);
             mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
 
-             props.objectsMeshOnlyArray.push(mesh);
+            props.objectsMeshOnlyArray.push(mesh);
             //console.log("ObjectLoad-Mesh", props.objectsMeshOnlyArray);
             //mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
             //mesh.position.set( _position.x, _position.y, _position.z );
@@ -65,15 +65,15 @@ export default class ObjectLoad{
             this.group.name = "Group of Mesh";
 
             mesh.traverse((child)=>{
-                if(child.name === "Plane"){
-                    console.log(child);
-                }
+                child.castShadow = true;
+                child.receiveShadow = true;
             })
 
             props.scene.add( box.helper );
             box.add( mesh );
             
-            //console.log(props.scene);
+            
+            console.log(props.scene);
 
             /* var textureArray = PaintObject.LoadTextureArray(
                 chairTextureSettings.leather_chair_014

@@ -1,4 +1,4 @@
-import { AxesHelper, GridHelper, Group, Vector3 } from 'three';
+import { AxesHelper, GridHelper, Group, Vector3, LinePieces } from 'three';
 
 import props from './config/defaults';
 import settings from './config/settings';
@@ -10,7 +10,7 @@ import { CreateGUI } from './CreateGUI';
 import TextureLoad from './TextureSet';
 import Lights from './Lights';
 import { InitializationStaticObjects } from './InitializationStaticObjects';
-import { BoxHelper, MeshBasicMaterial, BoxGeometry, Mesh, Box3, Scene, MeshNormalMaterial } from 'three/build/three.module';
+import { BoxHelper, MeshBasicMaterial, BoxGeometry, Mesh, Box3, Scene, MeshNormalMaterial, Geometry, LineBasicMaterial, Line, LineSegments } from 'three/build/three.module';
 
 /**
  * Build the environment.
@@ -43,6 +43,7 @@ const tempFunctionForChangeTexture = (event) =>{
 
 window.addEventListener('keydown', tempFunctionForChangeTexture, false);
 import ObjectLoad from './ObjectLoad';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 
 export default createEnvironment  => {
@@ -55,7 +56,6 @@ export default createEnvironment  => {
 
     props.meshHouse = InitializationStaticObjects.House();
     props.scene.add(props.meshHouse);
-
     
         //console.log("Mesh loaded index.js", tempObject.children);
 
@@ -78,13 +78,14 @@ export default createEnvironment  => {
 
 
     var boundingBox = new ObjectLoad('/src/Structure/House/HouseCompressed/boundingbox.gltf',
-                    new Vector3(29.7, 27, 24),
+                    new Vector3(29.7, 18, 24),
                     new Vector3(6, 6, 6),
                     "Perete_casa",
                 );
     var boundingBoxTemp = boundingBox.Load();
     
     props.scene.add(boundingBoxTemp);
+
 }
 
 
