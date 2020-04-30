@@ -11,7 +11,7 @@ var PaintObject = {
                 );
         }
 
-        for(let i = 0; i < 5; i++){
+        for(let i = 0; i < 3; i++){
             texture[i] = ImageUtils.loadTexture( _texture[ Object.keys(_texture)[i] ]);
         }
         //console.warn(texture);
@@ -22,7 +22,7 @@ var PaintObject = {
         console.log(houseMesh);
         houseMesh.traverse(( child ) =>{
             if( child instanceof Mesh ){
-                if( child.name == "textureToChange"){
+                if( child.name == "walls"){
                     /* child.material = new MeshStandardMaterial( { 
                      shininess: 5, 
                         lightMapIntensity: 0.9, 
@@ -34,9 +34,15 @@ var PaintObject = {
 				        envMapIntensity: 1.0,
                     }); */
 
-                    console.log(child.material);
+                    //console.log(child.material);
                     child.material.map = texture[0];
-                    child.material.displacementMap = texture[1];
+                    child.material.normalMap = texture[1];
+                    child.material.aoMap = texture[2];
+
+                    child.material.map.wrapS = RepeatWrapping;
+                    child.material.map.wrapT = RepeatWrapping;
+
+                   /*  child.material.displacementMap = texture[1];
                     child.material.normalMap = texture[2];
                     child.material.aoMap = texture[3];
                     child.material.specularMap = texture[4];
@@ -54,7 +60,7 @@ var PaintObject = {
                     child.material.displacementBias = - 0.528408;
                     child.material.displacementScale = 1.0236143;
                     child.material.normalScale = new Vector2( 1, - 1 );
-
+ */
                 
                     child.material.needsUpdate = true;
                 }
@@ -71,8 +77,8 @@ var PaintObject = {
                 //child.material = new MeshStandardMaterial();
                 child.material.map = texture[0];
                 //child.material.displacementMap = texture[1];
-                child.material.normalMap = texture[2];
-                child.material.aoMap = texture[3];
+                child.material.normalMap = texture[1];
+                child.material.aoMap = texture[2];
 
 
                 //child.material.specularMap = texture[4];
@@ -90,6 +96,25 @@ var PaintObject = {
                 child.material.needsUpdate = true;
             }
         })
+    },
+
+    TeraceChangeTexture: function( mesh, texture ){
+        mesh.material.map = texture[0];
+        mesh.material.normalMap = texture[1];
+        //mesh.material.aoMap = texture[2];
+
+
+        mesh.material.map.wrapS = RepeatWrapping;
+        mesh.material.map.wrapT = RepeatWrapping;
+        mesh.material.map.anisotropy = 4;
+        mesh.material.map.repeat.set(6, 6);
+
+
+        mesh.material.normalMapType = TangentSpaceNormalMap;
+        mesh.material.normalScale = new Vector2(0.7, 0.9);
+
+        mesh.material.normalMap.wrapS = RepeatWrapping;
+        mesh.material.normalMap.wrapT = RepeatWrapping;
     }
 }
 

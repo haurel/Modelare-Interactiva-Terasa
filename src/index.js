@@ -1,7 +1,7 @@
 import './css/wave.scss';
 
 import prepare from './Structure/prepare';
-import getSelectedColor from './Structure/functionForUI';
+import * as functionForUI from './Structure/functionForUI';
 import props from './Structure/config/defaults';
 import ObjectLoad from './Structure/ObjectLoad';
 import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, ShaderMaterial, PlaneGeometry, Vector2 } from 'three/build/three.module';
@@ -18,20 +18,35 @@ import objectPathLink from './Structure/config/objectPathLink';
 }); */
 
 function init(src) {
-    console.warn(src);
+    //console.warn(src);
     document.querySelectorAll('.img_select').forEach(item => {
         item.addEventListener('click', event => {
           //console.log(src);
             var _src = item.getAttribute('src').replace(/^.*[\\\/]/, '');
             var x = _src.substr(0, _src.lastIndexOf('.'));
-            //console.log(x);
-            getSelectedColor(x);
+            //console.log();
+            functionForUI.getSelectedColor(x);
          });
     })
 }
 window.init = function(src){
     init(src);
 }
+
+function teraceChange(src){
+    document.querySelectorAll('.img_select').forEach(item =>{
+        item.addEventListener('click', event =>{
+            var _src= item.getAttribute('src').replace(/^.*[\\\/]/, '');
+            var x = _src.substr(0, _src.lastIndexOf('.'));
+            functionForUI.getTeraceColor( x );
+        })
+    })
+}
+
+window.teraceChange = function(src){
+    teraceChange(src);
+}
+
 
 function ChangeView( typeOfView ){
     if( typeOfView === '2D'){

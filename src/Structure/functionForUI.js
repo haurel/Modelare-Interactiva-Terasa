@@ -3,24 +3,32 @@ import TextureLoad from './TextureSet';
 import props from './config/defaults';
 import wallTextureSettings from './config/wallTextureSettings';
 import { PaintObject } from './PaintObject';
+import teraceTextureSettings from './config/teraceTextureSettings';
 
 
-export default function getSelectedColor(_src){
-    /* _src = _src.replace(/^.*[\\\/]/, '');
-    var x = _src.substr(0, _src.lastIndexOf('.')); */
-    //console.log(_src);
-    //console.log(textureCount[_src].wallTexture);
-    //console.log(textureCount)
-    if(_src === "1"){
-        var textureArray = PaintObject.LoadTextureArray(
-            wallTextureSettings.texture_wall_001
-        )
-        PaintObject.HouseSetTexture( props.meshHouse.children[0], textureArray );
-    }else if(_src === "2"){
-        var textureArray = PaintObject.LoadTextureArray(
-            wallTextureSettings.model_brick_002
-        )
-        PaintObject.HouseSetTexture( props.meshHouse.children[0], textureArray );
-        //TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_002, "BigMesh");
+export function getSelectedColor(_src){
+
+    for (let [key,value] of Object.entries(wallTextureSettings)) {
+        if(key === _src){
+            var textureArray = PaintObject.LoadTextureArray(
+                value
+            )
+            PaintObject.HouseSetTexture( props.meshHouse.children[0], textureArray );
+        }
+    }
+
+}
+
+export function getTeraceColor(_src){
+    for(let [key, value] of Object.entries(teraceTextureSettings)){
+        if(key === _src){
+            var textureArray = PaintObject.LoadTextureArray(
+                value
+            );
+            PaintObject.TeraceChangeTexture( props.terace, textureArray );
+        }
     }
 }
+
+
+

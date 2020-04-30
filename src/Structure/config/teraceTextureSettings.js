@@ -5,59 +5,49 @@ import { RepeatWrapping, TangentSpaceNormalMap, Vector2, MeshStandardMaterial } 
 export default{
     default_material_settings:{
         //MeshStandarMaterial
-        metalness: 0.2,
+        metalness: 0.5,
         roughness: 0.8,
         bumpScale: 0.5,
         displacementScale: 0.4,
         displacementBias: 0.001,
         emissiveIntensity: 0.1,
     },
-    ceramic_terace_001:{
-        diffuse_map: "/src/Structure/House/Terasa/ceramic_1_diffuse.jpg",
-        disp_map: "/src/Structure/House/Terasa/ceramic_1_displacement.jpg",
-        nrm_map: "/src/Structure/House/Terasa/ceramic_1_normal.jpg",
-        metalness: "",
-        anisotropy: 4,
-        repeatSet: 3,
-        wrapSorT: RepeatWrapping,
-        normalMapType: TangentSpaceNormalMap,
-        //normalScale: Vector2(0.7, 0.9),
+
+    default_texture:{
+        diffuse_map: "/src/Structure/House/Terasa/biscuiti_001_col.png",
+        nrm_map: "/src/Structure/House/Terasa/biscuiti_001_nrm.png",
+        occ_map: "/src/Structure/House/Terasa/biscuiti_001_occ.png",
+    },
+    
+    1:{
+        diffuse_map: "/src/Structure/House/Terasa/biscuiti_001_col.png",
+        nrm_map: "/src/Structure/House/Terasa/biscuiti_001_nrm.png",
+        occ_map: "/src/Structure/House/Terasa/biscuiti_001_occ.png",
     },
 
-    parchet_terace_001:{                             
-        diffuse_map: "/src/Structure/House/Terasa/parchet_1_diffuse.jpg",
-        disp_map: "/src/Structure/House/Terasa/parchet_1_displacement.jpg",
-        nrm_map: "/src/Structure/House/Terasa/parchet_1_normal.jpg",
-        metalness_map: "",
-        anisotropy: 4,
-        repeatSet: 3,
-        wrapSorT: RepeatWrapping,
-        normalMapType: TangentSpaceNormalMap,
-        //normalScale: Vector2(0.7, 0.9),
+    2:{
+        diffuse_map: "/src/Structure/House/Terasa/biscuiti_002_col.png",
+        nrm_map: "/src/Structure/House/Terasa/biscuiti_002_nrm.png",
+        occ_map: "/src/Structure/House/Terasa/biscuiti_002_occ.png",
     },
 
-    parchet_terace_002:{                             
-        diffuse_map: "/src/Structure/House/Terasa/parchet_2_diffuse.jpg",
-        disp_map: "/src/Structure/House/Terasa/parchet_2_displacement.jpg",
-        nrm_map: "/src/Structure/House/Terasa/parchet_2_normal.jpg",
-        metalness_map: "/src/Structure/House/Terasa/parchet_2_metalic.jpg",
-        anisotropy: 4,
-        repeatSet: 3,
-        wrapSorT: RepeatWrapping,
-        normalMapType: TangentSpaceNormalMap,
-        //normalScale: Vector2(0.7, 0.9),
+
+    3:{
+        diffuse_map: "/src/Structure/House/Terasa/parchet_001_col.png",
+        nrm_map: "/src/Structure/House/Terasa/parchet_001_nrm.png",
+        occ_map: "/src/Structure/House/Terasa/parchet_001_occ.png", 
     },
 
-    travertine_terace_002:{                             
-        diffuse_map: "/src/Structure/House/Terasa/wood_travertine_1_diffuse.jpg",
-        disp_map: "/src/Structure/House/Terasa/wood_travertine_1_displacement.jpg",
-        nrm_map: "/src/Structure/House/Terasa/wood_travertine_1_normal.jpg",
-        metalness_map: "",
-        anisotropy: 4,
-        repeatSet: 3,
-        wrapSorT: RepeatWrapping,
-        normalMapType: TangentSpaceNormalMap,
-        //normalScale: Vector2(0.7, 0.9),
+    4:{
+        diffuse_map: "/src/Structure/House/Terasa/ceramic_001_col.png",
+        nrm_map: "/src/Structure/House/Terasa/ceramic_001_nrm.png",
+        occ_map: "/src/Structure/House/Terasa/ceramic_001_occ.png", 
     },
+
+    5:{
+        diffuse_map: "/src/Structure/House/Terasa/parchet_002_col.png",
+        nrm_map: "/src/Structure/House/Terasa/parchet_002_nrm.png",
+        occ_map: "/src/Structure/House/Terasa/parchet_002_occ.png", 
+    }
 
 }

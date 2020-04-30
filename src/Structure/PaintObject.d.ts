@@ -17,4 +17,6 @@ export namespace PaintObject{
      * @param texture array of texture loaded from LoadTextureArray method
      */
     export function ObjectTexture( mesh,  texture);
+
+    export function TeraceChangeTexture( mesh, texture );
 }

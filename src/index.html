@@ -41,9 +41,23 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            <section id="photos">
+            <section id="photos" class="house">
                 <!-- <img src="./css/image/textures/house/1.jpg" onclick = "init(this.src)" class="img_select">
                 <img src="./css/image/textures/house/2.jpg" onclick = "init(this.src)" class="img_select"> -->
+            </section>
+
+            <input type="image" id="input_image" src="/src/css/image/upload.png" width="10%"/>
+            <input type="file" id="input_file" style="display: none"/>
+            <!--onchange="readURL(this);" -->
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+        <!-- HOUSE -->
+        <button class="dropdown-btn">Terace Model
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <section id="photos" class="terace">
+                
             </section>
 
             <input type="image" id="input_image" src="/src/css/image/upload.png" width="10%"/>
@@ -134,7 +148,7 @@
             });
         }
         
-        var sectionImage = document.getElementById('photos');
+        var sectionImage = document.getElementsByClassName('house');
 
         var image = '';
         //var src = "css/image/textures/house/";
@@ -158,6 +172,25 @@
             //console.log(image);
         }
         //document.getElementById('photos').innerHTML += image;
+
+
+        var sectionImage = document.getElementsByClassName('terace');
+
+        var image = '';
+        var src = "dist/img/terace/";
+        var ext = ".png";
+        var srcComplete;
+
+        for(var i = 0; i < 5; i++){
+            srcComplete = src + (i+1) + ext;
+            console.log(srcComplete.toString());
+            var image = document.createElement("img");
+            image.setAttribute("src", srcComplete);
+            image.setAttribute("onclick", "teraceChange(this.src)");
+            image.setAttribute("class", "img_select");
+            //image.setAttribute("onclick", "getSelectedColor(this.src)");
+            document.getElementsByClassName('terace')[0].appendChild(image);
+        }
 
         $("input[id='input_image']").click(function() {
             $("input[id='input_file']").click();

@@ -196,17 +196,17 @@ var InitializationStaticObjects = {
     },
 //#endregion
 //#region Terrace
-    Terrace: function(_scale = new Vector3(0, 0, 0), _position = new Vector3(28, -39, 1)){
+    Terrace: function(_scale = new Vector3(1, 1, 1), _position = new Vector3(28, -39, 1)){
         const geometry = new PlaneGeometry(7 ,5, 30, 30);
         //const geometry = new BoxGeometry(2, 2, 0.10);
         const material = new MeshStandardMaterial({
-            metalness: teraceTextureSettings.default_material_settings.metalness,
+            /* metalness: teraceTextureSettings.default_material_settings.metalness,
             roughness: teraceTextureSettings.default_material_settings.roughness,
             bumpScale: teraceTextureSettings.default_material_settings.bumpScale,
             displacementScale: teraceTextureSettings.default_material_settings.displacementScale,
             displacementBias: teraceTextureSettings.default_material_settings.displacementBias,
-            emissiveIntensity: teraceTextureSettings.default_material_settings.emissiveIntensity,
-            refractionRatio : -1,
+            emissiveIntensity: teraceTextureSettings.default_material_settings.emissiveIntensity, */
+            //refractionRatio : -1,
         });
 
         const meshTerrace = new Mesh( geometry, material );
@@ -215,37 +215,47 @@ var InitializationStaticObjects = {
         meshTerrace.position.set( _position.x, _position.y, _position.z );
         meshTerrace.scale.set( _scale.x, _scale.y, _scale.z );
 
-        var texture = teraceTextureSettings.parchet_terace_002;
+        var texture = teraceTextureSettings.default_texture;
         var textureLoadTerrace = [];
-        for(let i = 0;i < 4; i++){
+        for(let i = 0;i < 3; i++){
             textureLoadTerrace[i] = new TextureLoader().load(texture[Object.keys(texture)[i]]);
         }
 
         meshTerrace.material.map = textureLoadTerrace[0];
         meshTerrace.material.map.wrapS = RepeatWrapping;
         meshTerrace.material.map.wrapT = RepeatWrapping;
-        meshTerrace.material.map.anisotropy = 4;
-        meshTerrace.material.map.repeat.set(3,3);
+       // meshTerrace.material.map.anisotropy = 4;
+        meshTerrace.material.map.repeat.set(6, 6);
         
-        meshTerrace.material.displacementMap = textureLoadTerrace[1];
-        meshTerrace.material.displacementMap.wrapS = RepeatWrapping;
-        meshTerrace.material.displacementMap.wrapT = RepeatWrapping;
-        meshTerrace.material.displacementMap.anisotropy = 4;
-        meshTerrace.material.displacementMap.repeat.set(3,3);
 
-        meshTerrace.material.normalMap = textureLoadTerrace[2];
+        meshTerrace.material.normalMap = textureLoadTerrace[1];
+        meshTerrace.material.normalMap.wrapS = RepeatWrapping;
+        meshTerrace.material.normalMap.wrapT = RepeatWrapping;
+        meshTerrace.material.aoMap = textureLoadTerrace[2];
         meshTerrace.material.normalMapType = TangentSpaceNormalMap;
         meshTerrace.material.normalScale = new Vector2(0.7, 0.9);
+
+                //meshTerrace.material.displacementMap = textureLoadTerrace[1];
+/*         meshTerrace.material.displacementMap.wrapS = RepeatWrapping;
+        meshTerrace.material.displacementMap.wrapT = RepeatWrapping;
+        meshTerrace.material.displacementMap.anisotropy = 4;
+        meshTerrace.material.displacementMap.repeat.set(3,3); */
+
+
+        //meshTerrace.material.normalMap.repeat.set(6, 6);
+        //
+        //
+/*        meshTerrace.material.normalScale = new Vector2(0.7, 0.9);
         meshTerrace.material.normalMap.wrapS = RepeatWrapping;
         meshTerrace.material.normalMap.wrapT = RepeatWrapping;
         meshTerrace.material.normalMap.anisotropy = 4;
-        meshTerrace.material.normalMap.repeat.set(3, 3);
+        meshTerrace.material.normalMap.repeat.set(3, 3); */
 
-        meshTerrace.material.metalnessMap = textureLoadTerrace[3];
-        meshTerrace.material.metalnessMap.wrapS = RepeatWrapping;
+        //meshTerrace.material.metalnessMap = textureLoadTerrace[3];
+/*         meshTerrace.material.metalnessMap.wrapS = RepeatWrapping;
         meshTerrace.material.metalnessMap.wrapT = RepeatWrapping;
         meshTerrace.material.metalnessMap.anisotropy = 4;
-        meshTerrace.material.metalnessMap.repeat.set(3, 3);
+        meshTerrace.material.metalnessMap.repeat.set(3, 3); */
 
         meshTerrace.material.needsUpdate = true;
 
