@@ -55,7 +55,6 @@ export default class ObjectLoad{
             objectheight = objectheight + parseInt(2);
             objectdepth  = objectdepth + parseInt(1);
 
-
             //console.log(objectwidth, objectheight, objectdepth);
             mesh.position.set( 0, -objectheight / 2, 0 );
             mesh.matrixAutoUpdate = true;
@@ -69,11 +68,11 @@ export default class ObjectLoad{
                 child.receiveShadow = true;
             })
 
-            props.scene.add( box.helper );
+            //props.scene.add( box.helper );
             box.add( mesh );
             
             
-            console.log(props.scene);
+            //console.log(props.scene);
 
             /* var textureArray = PaintObject.LoadTextureArray(
                 chairTextureSettings.leather_chair_014
@@ -107,11 +106,11 @@ export default class ObjectLoad{
         box.position.set( this._position.x, this._position.y, this._position.z );
         box.box= new Box3().setFromObject( box );
         box.updateMatrixWorld( true );
-        box.helper = new BoxHelper( box, 0xffff00 );
+        //box.helper = new BoxHelper( box, 0xffff00 );
         
-        box.helper.material.visible = false;
-        box.helper.update();
-        box.helper.matrixAutoUpdate = true;
+        //box.helper.material.visible = false;
+        //box.helper.update();
+        //box.helper.matrixAutoUpdate = true;
         
         box.width = width;
         box.height = height;

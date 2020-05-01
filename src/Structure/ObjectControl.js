@@ -201,8 +201,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 }
                 else if( props.objectActions['delete'] ){
                         props.scene.remove( intersects[0].object.parent );
-                        props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                        props.objectsArray[ scope._INDEX ].helper.update();
+                        //props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                        //props.objectsArray[ scope._INDEX ].helper.update();
 
                         props.objectsArray.splice( scope._INDEX, 1);
                         props.objectsMeshOnlyArray.splice( scope._INDEX , 1);
@@ -215,8 +215,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                         scope._CURRENTSELECTEDPOSITION.setFromMatrixPosition(props.objectsArray[ scope._INDEX ].matrixWorld);
                         console.log(scope._CURRENTSELECTEDPOSITION);
 
-                        props.objectsArray[ scope._INDEX ].helper.material.visible = true;
-                        props.objectsArray[ scope._INDEX ].helper.update();
+                        //props.objectsArray[ scope._INDEX ].helper.material.visible = true;
+                        //props.objectsArray[ scope._INDEX ].helper.update();
 
 
                         props.objectsArray[ scope._INDEX ].position.set( scope._PAINTSELECTEDPOSITION.x, 
@@ -249,8 +249,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                         console.log(props.scene);
                         
                     }else if( scope._isSelect ){
-                        props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                        props.objectsArray[ scope._INDEX ].helper.update();
+                        //props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                        //props.objectsArray[ scope._INDEX ].helper.update();
                         
 
                         scope._INDEX = null;
@@ -285,8 +285,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 if( intersects.length > 0 ){
                     console.log(scope._SELECTED, intersects.object);
                     if( intersects[0].object === scope._SELECTED){
-                        props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                        props.objectsArray[ scope._INDEX ].helper.update();
+                        //props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                        //props.objectsArray[ scope._INDEX ].helper.update();
 
                         props.objectsArray[ scope._INDEX ].position.set( scope._CURRENTSELECTEDPOSITION.x, 
                             scope._CURRENTSELECTEDPOSITION.y,
@@ -353,7 +353,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._isMoved = true;
                 }else{
                     scope._SELECTED_TEMP.position.copy( intersects[0].point.sub( scope._offset ));
-                    scope._SELECTED_TEMP.helper.update();
+                    //scope._SELECTED_TEMP.helper.update();
                 } 
 
                 scope.CheckCollision(scope._SELECTED_TEMP);
@@ -374,11 +374,12 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 );
                 scope._SELECTED.updateMatrix(); 
                 scope._SELECTED.geometry.applyMatrix( scope._SELECTED.matrix );
+                scope._SELECTED.updateMatrixWorld( true );
                 
 
                 scope._SELECTED.geometry = geometry;
                 scope._SELECTED.box= new Box3().setFromObject( scope._SELECTED );
-                scope._SELECTED.updateMatrixWorld( true );
+                
 
             }
         }
@@ -392,24 +393,29 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         
                 planeTest.applyMatrix3 = new Matrix4().makeRotationZ( -Math.PI / 2);
                 planeTest.position.copy( scope._INTERSECTED.position );
+
+                //props.objectsArray[ scope._INDEX ].helper.material.visible = true;
+                //props.objectsArray[ scope._INDEX ].helper.update();
+
+                //props.scene.add( props.objectsArray [ scope._INDEX].helper);
             }
 
             if( props.objectActions['paint'] && !scope._isSelect){
                 domElement.style.cursor = 'pointer';
-                props.objectsArray[ scope._INDEX ].helper.material.visible = true;
-                props.objectsArray[ scope._INDEX ].helper.update();
+                //props.objectsArray[ scope._INDEX ].helper.material.visible = true;
+                //props.objectsArray[ scope._INDEX ].helper.update();
             }else if( !props.objectActions['paint'] ){
                 domElement.style.cursor = 'pointer';
-                props.objectsArray[ scope._INDEX ].helper.material.visible = true;
-                props.objectsArray[ scope._INDEX ].helper.update();
+                //props.objectsArray[ scope._INDEX ].helper.material.visible = true;
+                //props.objectsArray[ scope._INDEX ].helper.update();
             }
 
 
         }else{
             if( scope._INDEX !== null){
                 if( props.objectActions['rotate'] && !scope._isRotated){
-                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                    props.objectsArray[ scope._INDEX ].helper.update();
+                    //props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    //props.objectsArray[ scope._INDEX ].helper.update();
                     domElement.style.cursor = 'auto';
 
                     scope._INTERSECTED = null;
@@ -417,15 +423,15 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._objectForCheckCollision = [];
 
                 }else if( props.objectActions['paint'] && !scope._isSelect){
-                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                    props.objectsArray[ scope._INDEX ].helper.update();
+                    //props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    //props.objectsArray[ scope._INDEX ].helper.update();
                     domElement.style.cursor = 'auto';
 
                     scope._INTERSECTED = null;
                     scope._INDEX = null;
                 }else if( !props.objectActions['rotate'] && !props.objectActions['paint']){
-                    props.objectsArray[ scope._INDEX ].helper.material.visible = false;
-                    props.objectsArray[ scope._INDEX ].helper.update();
+                    //props.objectsArray[ scope._INDEX ].helper.material.visible = false;
+                    //props.objectsArray[ scope._INDEX ].helper.update();
                     domElement.style.cursor = 'auto';
 
                     scope._INTERSECTED = null;
@@ -469,7 +475,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._SELECTED.box = new Box3().setFromObject( scope._SELECTED );
                     scope._SELECTED.updateMatrixWorld( true );
                     
-                    scope._SELECTED.helper.update();
+                    
                 }
                 props.scene.remove( scope._SELECTED_TEMP );
                 props.scene.remove ( scope._SELECTED_TEMP.helper );
@@ -482,7 +488,9 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
             scope._isMoved = false;
             scope._objectForCheckCollision.length = 0;
                 
-            if( scope._isRotated ) scope._isRotated = false;
+            if( scope._isRotated ){
+                scope._isRotated = false;
+            } 
             if ( props.objectActions['delete'] ) scope._INDEX= null;
             if ( !props.objectActions['paint'] ) scope._SELECTED = null;
                 
@@ -495,19 +503,19 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
 
     function CloneToSelectedTemp( SELECTED ){
-        scope._MATERIAL_COLOR = new Vector3(SELECTED.children[0].children[0].material.color.r, 
+       /*  scope._MATERIAL_COLOR = new Vector3(SELECTED.children[0].children[0].material.color.r, 
             SELECTED.children[0].children[0].material.color.g,
-            SELECTED.children[0].children[0].material.color.b)
+            SELECTED.children[0].children[0].material.color.b) */
 
         scope._SELECTED_TEMP = SELECTED.clone();
         scope._SELECTED_TEMP.box = new Box3().setFromObject( scope._SELECTED_TEMP );
         scope._SELECTED_TEMP.updateMatrixWorld( true );
-        scope._SELECTED_TEMP.helper = new BoxHelper( scope._SELECTED_TEMP, 0xffff00 );
+        //scope._SELECTED_TEMP.helper = new BoxHelper( scope._SELECTED_TEMP, 0xffff00 );
 
 
-        scope._SELECTED_TEMP.helper.material.visible = true;
-        scope._SELECTED_TEMP.helper.matrixAutoUpdate = true;
-        scope._SELECTED_TEMP.helper.update();
+        //scope._SELECTED_TEMP.helper.material.visible = true;
+        //scope._SELECTED_TEMP.helper.matrixAutoUpdate = true;
+        //scope._SELECTED_TEMP.helper.update();
 
         /* if(scope._SELECTED_TEMP.children[0].children[0] instanceof Group){
             for(let i = 0; i < scope._SELECTED_TEMP.children[0].children[0].length; i++){
