@@ -35,7 +35,10 @@ export default{
     3:{
         diffuse_map: "/src/Structure/House/Terasa/parchet_001_col.png",
         nrm_map: "/src/Structure/House/Terasa/parchet_001_nrm.png",
-        occ_map: "/src/Structure/House/Terasa/parchet_001_occ.png", 
+        occ_map: "/src/Structure/House/Terasa/parchet_001_occ.png",
+        lungime: 60,
+        latime: 60,
+        pret: 28.99,
     },
 
     4:{

@@ -3,7 +3,7 @@ import Stats from 'stats.js';
 
 import props from './config/defaults';
 import settings from './config/settings';
-
+import PriceCalculate from './PriceCalculate';
 /**
  * Update the environment
  */
@@ -15,6 +15,7 @@ import settings from './config/settings';
 //const canvas = document.getElementById('canvas');
 //const canvas = document.body;  
 const canvas = document.getElementById('scena');
+props.priceCalculate = new PriceCalculate();
 /**
  * @returns Scene FPS
  */
@@ -45,6 +46,8 @@ export default function render(){
     
     //props.orbitControls.update();
     props.renderer.render(props.scene, props.camera2D);
+
+    
 }
 
 /**

@@ -2,6 +2,7 @@ import { Object3D } from "three";
 import { NotEqualStencilFunc, Group } from "three/build/three.module";
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 
+
 export default {
 
     /**
@@ -158,6 +159,13 @@ export default {
      * @type { Array}
      */
     addObjectsToScene : [],
+
+
+    /**
+     * @type { PriceCalculate }
+     */
+    priceCalculate : undefined,
+
 
 //#endregion
 
