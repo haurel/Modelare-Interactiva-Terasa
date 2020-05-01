@@ -57,7 +57,36 @@
         </button>
         <div class="dropdown-container">
             <section id="photos" class="terace">
-                
+                <div class="hvrbox">
+                    <img src="css/image/terasa/1.png">
+                    <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/1.png')">
+                        <div class="hvrbox-text"> 30x30cm &nbsp; 32.32lei/m<sup>2</sup></div>
+                    </div>
+                </div>
+                <div class="hvrbox">
+                    <img src="css/image/terasa/2.png" class="img_select">
+                    <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/2.png')">
+                        <div class="hvrbox-text" > 30x30cm &nbsp; 17.32lei/m<sup>2</sup></div>
+                    </div>
+                </div>
+                <div class="hvrbox">
+                    <img src="css/image/terasa/3.png">
+                    <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/3.png')">
+                        <div class="hvrbox-text"> 30x30cm &nbsp; 32.32lei/m<sup>2</sup></div>
+                    </div>
+                </div>
+                <div class="hvrbox">
+                    <img src="css/image/terasa/4.png" class="img_select">
+                    <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/4.png')">
+                        <div class="hvrbox-text" > 30x30cm &nbsp; 17.32lei/m<sup>2</sup></div>
+                    </div>
+                </div>
+                <div class="hvrbox">
+                    <img src="css/image/terasa/5.png" class="img_select">
+                    <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/5.png')">
+                        <div class="hvrbox-text" > 30x30cm &nbsp; 17.32lei/m<sup>2</sup></div>
+                    </div>
+                </div>
             </section>
 
             <input type="image" id="input_image" src="/src/css/image/upload.png" width="10%"/>
@@ -71,11 +100,39 @@
         </button>
         <div class="dropdown-container">
             <section id="photos">
-                <img src="/src/css/image/object-menu/chair_001.png" onclick="takeModel('chair_001')"/>
-                <img src="/src/css/image/object-menu/chair_003.png" onclick="takeModel('chair_003')"/>
-                <img src="/src/css/image/object-menu/chair_004.png" onclick="takeModel('chair_004')"/>
-                <img src="/src/css/image/object-menu/chair_006.png" onclick="takeModel('chair_006')"/>
-                <img src="/src/css/image/object-menu/chair_007.png" onclick="takeModel('chair_007')"/>
+                <div class="hvrbox">
+                    <img src="/src/css/image/object-menu/chair_001.png" />
+                    <div class="hvrbox-layer_top" onclick="takeModel('chair_001')">
+                        <div class="hvrbox-text"> 78.32 lei</div>
+                    </div>
+                </div>
+                <div class="hvrbox">
+                    <img src="/src/css/image/object-menu/chair_003.png" />
+                    <div class="hvrbox-layer_top" onclick="takeModel('chair_003')">
+                        <div class="hvrbox-text"> 99.99 lei</div>
+                    </div>
+                </div>
+                <div class="hvrbox">
+                    <img src="/src/css/image/object-menu/chair_004.png" />
+                    <div class="hvrbox-layer_top" onclick="takeModel('chair_004')">
+                        <div class="hvrbox-text"> 128.99 lei</div>
+                    </div>
+                </div>
+                <div class="hvrbox">
+                    <img src="/src/css/image/object-menu/chair_006.png" />
+                    <div class="hvrbox-layer_top" onclick="takeModel('chair_006')">
+                        <div class="hvrbox-text"> 53.99 lei</div>
+                    </div>
+                </div>
+                <div class="hvrbox">
+                    <img src="/src/css/image/object-menu/chair_007.png" />
+                    <div class="hvrbox-layer_top" onclick="takeModel('chair_007')">
+                        <div class="hvrbox-text"> 102 lei</div>
+                    </div>
+                </div>
+                
+                
+                
                 <!-- <input onclick="takeModel('chair_model_1')" type="image" id="model" src="/src/css/image/object-menu/chair_003.png"/> -->
                 <!--<input onclick="takeModel('chair_model_2')" type="image" id="model" src="/src/css/image/upload.png"/>
                 <input onclick="takeModel('chair_model_1')" type="image" id="model" src="/src/css/image/upload.png"/>-->
@@ -174,7 +231,7 @@
         //document.getElementById('photos').innerHTML += image;
 
 
-        var sectionImage = document.getElementsByClassName('terace');
+        /* var sectionImage = document.getElementsByClassName('terace');
 
         var image = '';
         var src = "dist/img/terace/";
@@ -188,9 +245,19 @@
             image.setAttribute("src", srcComplete);
             image.setAttribute("onclick", "teraceChange(this.src)");
             image.setAttribute("class", "img_select");
+
+            var div = document.createElement('div');
+            div.setAttribute("class", "overlay");
+
+            var divText = document.createElement('div')
+            divText.innerText = "Salut";
+            divText.setAttribute("class", "text");
+
+            div.appendChild( divText );
+
             //image.setAttribute("onclick", "getSelectedColor(this.src)");
             document.getElementsByClassName('terace')[0].appendChild(image);
-        }
+        } */
 
         $("input[id='input_image']").click(function() {
             $("input[id='input_file']").click();

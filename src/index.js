@@ -34,13 +34,20 @@ window.init = function(src){
 }
 
 function teraceChange(src){
+    console.log(src);
+    src = src.replace(/^.*[\\\/]/, '');
+    var x = src.substr(0, src.lastIndexOf('.'));
+
+    functionForUI.getTeraceColor( x );
+    /* console.log(x);
     document.querySelectorAll('.img_select').forEach(item =>{
         item.addEventListener('click', event =>{
             var _src= item.getAttribute('src').replace(/^.*[\\\/]/, '');
             var x = _src.substr(0, _src.lastIndexOf('.'));
+            console.log(x);
             functionForUI.getTeraceColor( x );
         })
-    })
+    }) */
 }
 
 window.teraceChange = function(src){
@@ -84,7 +91,8 @@ function takeModel(name){
                         name 
                     )
             var tempObject = chair.Load();
-            props.scene.add(tempObject);    
+            props.scene.add(tempObject);  
+            console.log( props.scene );
         }   
     }
 
