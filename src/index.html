@@ -16,7 +16,7 @@
             Exterior Design
         </div>
         <div id="image-container">
-            <img class="image-right" src="./css/image/drag.png" onClick="Action('drag')"/>
+            <img class="image-right" src="./css/image/drag.png" style="border: 1px solid rgb(66, 245, 78);" onClick="Action('drag')"/>
             <img class="image-right" src="./css/image/rotate.png" onClick="Action('rotate')"/>
             <img class="image-right" src="./css/image/delete.png" onClick="Action('delete')"/>
             <img class="image-right" src="./css/image/paint.png" onClick="Action('paint')"/>
@@ -72,7 +72,7 @@
                 <div class="hvrbox">
                     <img src="css/image/terasa/3.png">
                     <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/3.png')">
-                        <div class="hvrbox-text"> 30x30cm &nbsp; 32.32lei/m<sup>2</sup></div>
+                        <div class="hvrbox-text"> 60x60cm &nbsp; 32.32lei/m<sup>2</sup></div>
                     </div>
                 </div>
                 <div class="hvrbox">
@@ -159,6 +159,11 @@
             </section>
         </div>
         <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+        <div class="totalPrice">
+            <p id="price"> Price: </p>
+            <p id="materialNeeded"> Total Material Needed: </p>
+            <p id="objects"></p>
+        </div>
     </div>
       
     <!-- Use any element to open the sidenav -->

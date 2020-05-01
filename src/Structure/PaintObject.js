@@ -1,19 +1,27 @@
 import { MeshPhongMaterial, TextureLoader, Mesh, Vector2, MeshBasicMaterial, MeshStandardMaterial, ImageUtils } from "three/build/three.module"
 import { RepeatWrapping, ObjectSpaceNormalMap, TangentSpaceNormalMap } from "three";
+import props from './config/defaults';
+
 
 var PaintObject = {
     LoadTextureArray: function( _texture ){
         var texture = [];
-        for(let i = 0; i < 5; i++){
+        /* for(let i = 0; i < 3; i++){
             texture[i] = new TextureLoader().
                 load( 
                     _texture[ Object.keys(_texture)[i] ]
                 );
+        } */
+
+        for(let i = 0; i < 6; i++){
+            if(i >= 3){
+                texture[i] = _texture[ Object.keys(_texture)[i]];
+            }
+            else texture[i] = ImageUtils.loadTexture( _texture[ Object.keys(_texture)[i] ]);
+
         }
 
-        for(let i = 0; i < 3; i++){
-            texture[i] = ImageUtils.loadTexture( _texture[ Object.keys(_texture)[i] ]);
-        }
+        
         //console.warn(texture);
         return texture;
     },
@@ -115,6 +123,21 @@ var PaintObject = {
 
         mesh.material.normalMap.wrapS = RepeatWrapping;
         mesh.material.normalMap.wrapT = RepeatWrapping;
+
+        mesh.wlungime = texture[3];
+        mesh.wlantime = texture[4];
+        mesh.wpret = texture[5];
+
+        props.priceCalculate.UpdateTeraceMaterial(mesh.wpret, mesh.wlungime, mesh.wlantime, mesh);
+
+        var values = props.priceCalculate.GetTeraceInformation();
+
+
+        document.getElementById("price").textContent = "Price: ";
+        document.getElementById("materialNeeded").textContent = "Total Material needed";
+        document.getElementById("price").textContent += " " + values[0];
+        document.getElementById("materialNeeded").textContent += " " + values[1];
+        console.log( mesh );
     }
 }
 

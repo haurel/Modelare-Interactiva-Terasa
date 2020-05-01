@@ -81,43 +81,34 @@ function takeModel(name){
     console.log(name);
 
     for (let [key, value] of Object.entries(objectPathLink)) {
-        console.log("Key: " + key + "\nValue: " + value);
+        //console.log("Key: " + key + "\nValue: " + value[0]);
         
         if(name === key){
             var chair = new ObjectLoad( 
-                        value, 
+                        value[0], 
                         new Vector3(5, -30, 5.40),
                         new Vector3(3, 3, 3), 
                         name 
-                    )
+                    );
+
             var tempObject = chair.Load();
+            
+            tempObject.price = value[1];
+            tempObject.objectName = value[2];
+            props.priceCalculate.UpdateObjectsInScene(tempObject);
+
+            //console.log(props.priceCalculate.GetObjectsInformation());
+            document.getElementById("objects").textContent = "Objects: ";
+            for(const [key, value] of props.priceCalculate.GetObjectsInformation().entries()){
+                //console.log(key + ": " +value);
+                document.getElementById("objects").setAttribute('style', 'white-space: pre;');
+                document.getElementById("objects").textContent += key + ": " + value.toFixed(2) + "\r\n";
+            }
+            //document.getElementById("objects").textContent += " " + values[0];
             props.scene.add(tempObject);  
-            console.log( props.scene );
+            //console.log( tempObject);
         }   
     }
-
-
-    /* if(name === 'chair_model_1'){
-        //var chair = new ObjectLoad('/src/Structure/Chair/chair_002.gltf',
-        var chair = new ObjectLoad('/src/Structure/Chair/masa_picnic.gltf',
-                    new Vector3(5, -30, 5.40),
-                    new Vector3(2, 2, 2),
-                    "chair_003");
-        var tempObject = chair.Load();
-        //console.log("Mesh loaded index.js", tempObject);
-
-        props.scene.add(tempObject);
-    }else {
-        var chair = new ObjectLoad('/src/Structure/Chair/chair_001.gltf',
-                new Vector3(20, -30, 5.40),
-                //new Vector3(2, 2, 2),
-                new Vector3(2, 2, 2),
-                "chair_001");
-    var tempObject = chair.Load();
-    //console.log("Mesh loaded index.js", tempObject.children);
-
-    props.scene.add(tempObject);
-    } */
 }
 
 window.takeModel = function(name){
@@ -160,7 +151,7 @@ function Action( actionName ){
     }else if( actionName === 'delete'){
         props.objectActions['delete'] = true;
     }
-    console.log(props.objectActions);
+    //console.log(props.objectActions);
 }
 
 function changeBackground(){

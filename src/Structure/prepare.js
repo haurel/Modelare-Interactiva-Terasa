@@ -139,6 +139,7 @@ const createOrbitControls = () => {
 function animate(){
     requestAnimationFrame(animate);
     //props.orbitControls.update();
+    
     render();
 }
 import { CameraObject } from './CameraObject';
