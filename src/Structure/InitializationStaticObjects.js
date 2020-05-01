@@ -191,7 +191,14 @@ var InitializationStaticObjects = {
             }) */
             //console.log(mesh)
             meshHouse.add(mesh);
+            var bbox = new THREE.Box3().setFromObject(mesh);
+            
+            console.log( bbox);
         })
+
+        
+
+        
         return meshHouse;
     },
 //#endregion
