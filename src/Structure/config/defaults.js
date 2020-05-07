@@ -1,6 +1,7 @@
 import { Object3D } from "three";
 import { NotEqualStencilFunc, Group } from "three/build/three.module";
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
+import { TransformControls } from "three/examples/jsm/controls/TransformControls";
 
 
 export default {
@@ -43,6 +44,13 @@ export default {
      * @type { TrackballControls } from 'three/examples/jsm/controls/OrbitControls.js'
      */
     orbitControls: {},
+
+    /**
+     * Transform Control
+     * SpotLight 
+     * @type { TransformControls } from 'three/examples/jsm/controls/TransformControls.js'
+     */
+    transformControlLight : null,
 
 /**
  *  For objects from scene
@@ -166,6 +174,10 @@ export default {
      */
     priceCalculate : undefined,
 
+    /**
+     * @type { var }
+     */
+    planeIntersect: undefined,
 
 //#endregion
 

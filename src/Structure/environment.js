@@ -2,15 +2,13 @@ import { AxesHelper, GridHelper, Group, Vector3, LinePieces } from 'three';
 
 import props from './config/defaults';
 import settings from './config/settings';
-import wallTextureSettings from './config/wallTextureSettings';
 
-import { CreateGUI } from './CreateGUI';
-
-
-import TextureLoad from './TextureSet';
+import ObjectLoad from './ObjectLoad';
 import Lights from './Lights';
 import { InitializationStaticObjects } from './InitializationStaticObjects';
-import { BoxHelper, MeshBasicMaterial, BoxGeometry, Mesh, Box3, Scene, MeshNormalMaterial, Geometry, LineBasicMaterial, Line, LineSegments } from 'three/build/three.module';
+import { Mesh, PlaneGeometry, MeshBasicMaterial } from 'three/build/three.module';
+
+//import { BoxHelper, MeshBasicMaterial, BoxGeometry, Mesh, Box3, Scene, MeshNormalMaterial, Geometry, LineBasicMaterial, Line, LineSegments } from 'three/build/three.module';
 
 /**
  * Build the environment.
@@ -33,7 +31,7 @@ const createHelpers = () =>{
     //props.scene.add(props.helpersStructure.gridHelper, props.helpersStructure.axesHelper);
 };
 
-const tempFunctionForChangeTexture = (event) =>{
+/* const tempFunctionForChangeTexture = (event) =>{
     if(event.keyCode == 66){
         TextureLoad(props.meshHouse.children[1], wallTextureSettings.texture_wall_001, "BigMesh");
     }else if(event.keyCode == 65){
@@ -41,9 +39,18 @@ const tempFunctionForChangeTexture = (event) =>{
     }
 }
 
-window.addEventListener('keydown', tempFunctionForChangeTexture, false);
-import ObjectLoad from './ObjectLoad';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+window.addEventListener('keydown', tempFunctionForChangeTexture, false); */
+
+const setModeForLight = (event) =>{
+    if(event.keyCode === 82){
+        //R
+        props.transformControlLight.setMode('rotate');
+    }else if(event.keyCode === 84){
+        props.transformControlLight.setMode('translate');
+    }
+}
+
+window.addEventListener('keydown', setModeForLight);
 
 
 export default createEnvironment  => {
@@ -51,31 +58,49 @@ export default createEnvironment  => {
     //props.scene.add(helpers);
     
 
+    props.planeIntersect = new Mesh( 
+        new PlaneGeometry( 100, 100, 30, 30 ), 
+        new MeshBasicMaterial( { color: 0x03fc32, opacity: 0, transparent: false, wireframe: true } )
+    );
+    props.planeIntersect.visible = true;
+    props.planeIntersect.name = "PlaneIntersect";
+    props.planeIntersect.scale.set(10, 10, 10);
+    props.planeIntersect.position.z = 1.1;
+    props.scene.add( props.planeIntersect );  
+
+
     const lights = new Lights();
     props.scene.add(lights);
+    
 
     props.meshHouse = InitializationStaticObjects.House();
     props.scene.add(props.meshHouse);
     
-        //console.log("Mesh loaded index.js", tempObject.children);
+    //console.log("Mesh loaded index.js", tempObject.children);
 
     
+
     var fancePosition = new Vector3(-30, 0, -80);
     var fanceScale = new Vector3(0, 0, 0);    
     props.fance = InitializationStaticObjects.Fence(fanceScale, fancePosition);
     props.fance.rotation.set(Math.PI / 2, 0, 0);
     props.scene.add(props.fance);
 
-    props.terace = InitializationStaticObjects.Terrace();
-    props.scene.add(props.terace);
+    /* props.terace = InitializationStaticObjects.Terrace();
+    props.scene.add(props.terace); */
+
+    
 
     /* props.grass = InitializationStaticObjects.Grass(); */
     var grass = new Group();
     grass = InitializationStaticObjects.Grass();
     props.scene.add(grass);
+    
+    //props.scene.children[4].scale.set(11.65, 12.10, 1);
 
-    props.scene.children[4].scale.set(11.65, 12.10, 1);
-
+    console.log(props.scene);
+    
+    
 
     var boundingBox = new ObjectLoad('/src/Structure/House/HouseCompressed/boundingbox.gltf',
                     new Vector3(31, 16, 24),
@@ -86,6 +111,8 @@ export default createEnvironment  => {
     
     props.scene.add(boundingBoxTemp);
 
+
+    
 }
 
 

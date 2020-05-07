@@ -18,14 +18,13 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     //if ( domElement === undefined ) console.warn( 'THREE.OrbitControls: The second parameter "domElement" is now mandatory.' );
     //if ( domElement === document ) console.error( 'THREE.OrbitControls: "document" should not be used as the target "domElement". Please use "renderer.domElement" instead.' );
     
-    var planeTest = new Mesh( new PlaneGeometry( 100, 100, 30, 30 ), 
+    /* var planeTest = new Mesh( new PlaneGeometry( 100, 100, 30, 30 ), 
     new MeshBasicMaterial( { color: 0x03fc32, opacity: 0, transparent: false, wireframe: true } ) );
     planeTest.visible = true;
     //planeTest.rotateX(Math.PI / 2);
     planeTest.scale.set(10, 10, 10);
-    planeTest.name = "Plane Test";
-    props.scene.add( planeTest );  
-
+    //planeTest.name = "Plane Test";
+    props.scene.add( planeTest );   */
     
     this._dragObjects = objectsArray;
     this._camera = camera;
@@ -173,7 +172,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
             
             var intersects = _raycaster.intersectObjects( props.objectsArray );
-            if( intersects.length > 0 ){
+            if( intersects.length > 0 && intersects[0].object.i !== 0){
                 props.orbitControls.enabled = false;
                 scope._SELECTED = intersects[0].object;
                 
@@ -181,8 +180,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     scope._originalObjectPosition.copy( scope._SELECTED.position );
                 
                 
-                    var intersectPlane = _raycaster.intersectObject( planeTest );
-                    scope._offset.copy( intersectPlane[0].point ).sub( planeTest.position );
+                    var intersectPlane = _raycaster.intersectObject( props.planeIntersect); //planeTest );
+                    scope._offset.copy( intersectPlane[0].point ).sub( props.planeIntersect.position ); //planeTest.position );
                     scope._isDragged = true;
                     domElement.style.cursor = 'move';
                     props.objectsArray.some(( mesh, i )=>{
@@ -265,7 +264,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
             _raycaster.setFromCamera(scope._mouse, props.camera2D);
 
             var intersects_material = _raycaster.intersectObjects( props.sphereScene );
-            console.log(intersects_material);
+            //console.log(intersects_material);
             if(intersects_material.length > 0){
                 var _arrayTextureName = [];
                 var i = intersects_material[0].object.i;
@@ -292,8 +291,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                             scope._CURRENTSELECTEDPOSITION.y,
                             scope._CURRENTSELECTEDPOSITION.z 
                         );
-
-                        props.scene.children[4].position.set(
+                            // 4 daca nu e transformcontrol
+                        props.scene.children[5].position.set(
                             scope._TERASAPOSITION.x,
                             scope._TERASAPOSITION.y,
                             scope._TERASAPOSITION.z
@@ -346,7 +345,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
         if( scope._SELECTED ){
             if( props.objectActions['drag'] ){
-                var intersects = _raycaster.intersectObject( planeTest );
+                var intersects = _raycaster.intersectObject( props.planeIntersect ); //planeTest );
                 
                 if( scope._SELECTED_TEMP === null){
                     CloneToSelectedTemp( scope._SELECTED );
@@ -391,8 +390,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 scope._INDEX = intersects[0].object.i;
                 scope._INTERSECTED = intersects[0].object;
         
-                planeTest.applyMatrix3 = new Matrix4().makeRotationZ( -Math.PI / 2);
-                planeTest.position.copy( scope._INTERSECTED.position );
+                props.planeIntersect.applyMatrix3 = new Matrix4().makeRotationZ( -Math.PI / 2);
+                props.planeIntersect.position.copy( scope._INTERSECTED.position );
 
                 //props.objectsArray[ scope._INDEX ].helper.material.visible = true;
                 //props.objectsArray[ scope._INDEX ].helper.update();
@@ -461,7 +460,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     //scope._SELECTED.children[0].children[0].material.color.setHex(0xffffff);
                     //scope._SELECTED.children[0].children[1].material.color.setHex(0xffffff);
                 }else{
-                    planeTest.position.copy( scope._INTERSECTED.position );
+                    props.planeIntersect.position.copy( scope._INTERSECTED.position );
                     scope._SELECTED.position.copy( scope._SELECTED_TEMP.position );
 
                    /*  if(scope._SELECTED_TEMP.children[0].children[0] instanceof Group){
@@ -525,7 +524,7 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         //scope._SELECTED_TEMP.children[0].children[1].material.color.setHex(0x00ff00);
 
         props.scene.add( scope._SELECTED_TEMP );
-        props.scene.add( scope._SELECTED_TEMP.helper );
+        //props.scene.add( scope._SELECTED_TEMP.helper );
 
         scope._isMoved = true;
     }

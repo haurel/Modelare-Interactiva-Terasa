@@ -69,7 +69,7 @@ var InitializationStaticObjects = {
         //return meshGrass;
 
         const grassGroup = new Group();
-
+        grassGroup.name = "Grass Group";
         //grassGroup.add(meshGrass);
         for(let i = 0; i < 8; i++){
             for(let j = 0; j < 3; j++){
@@ -79,6 +79,7 @@ var InitializationStaticObjects = {
                 grassGroup.add(newGrass);
             }
         }
+        //grassGroup.scale.set(11.65, 12.10, 1);
         return grassGroup;
     },
 //#endregion 
@@ -160,7 +161,7 @@ var InitializationStaticObjects = {
 
         loader.load(location, (gltf) => {
             const mesh = gltf.scene;
-            //console.log("casa", mesh);
+            console.log("Casa:", mesh);
             mesh.position.set(_position.x, _position.y, _position.z);
             mesh.scale.set(_scale.x, _scale.y, _scale.z);
             //mesh.scale.set(2, 2, 2);
@@ -266,7 +267,8 @@ var InitializationStaticObjects = {
 
         meshTerrace.material.needsUpdate = true;
 
-
+        meshTerrace.name = "Terace";
+        meshTerrace.scale.set(11.65, 12.10, 1);
         return meshTerrace;
     },
 //#endregion

@@ -139,10 +139,11 @@ const createOrbitControls = () => {
 function animate(){
     requestAnimationFrame(animate);
     //props.orbitControls.update();
-    
+    //props.transformControlLight.updateMatrix();
     render();
 }
 import { CameraObject } from './CameraObject';
+import { CustomTerace } from './CustomTerace';
 
 function LoadCompleteScene(){
     createScene();
@@ -168,8 +169,9 @@ function LoadCompleteScene(){
     createEnvironment();
     //createOrbitControls();
 
-    props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
-        props.objectsArray, props.plane);
+    new CustomTerace();
+    /* props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
+        props.objectsArray, props.plane); */
     
     animate();
     

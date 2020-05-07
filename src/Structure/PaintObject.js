@@ -116,10 +116,11 @@ var PaintObject = {
         mesh.material.map.wrapT = RepeatWrapping;
         mesh.material.map.anisotropy = 4;
         mesh.material.map.repeat.set(6, 6);
+        //mesh.material.map.repeat.set(23, 16);
 
 
         mesh.material.normalMapType = TangentSpaceNormalMap;
-        mesh.material.normalScale = new Vector2(0.7, 0.9);
+        //mesh.material.normalScale = new Vector2(0.7, 0.9);
 
         mesh.material.normalMap.wrapS = RepeatWrapping;
         mesh.material.normalMap.wrapT = RepeatWrapping;
