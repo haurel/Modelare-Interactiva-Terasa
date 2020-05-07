@@ -1,16 +1,18 @@
 import { Group, HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper, Camera, CameraHelper, SpotLight } from "three";
-import { PointLight, AmbientLight, Color } from "three/build/three.module";
-
-
+import { PointLight, AmbientLight, Color, Object3D } from "three/build/three.module";
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import props from '../Structure/config/defaults';
 
 export default class Lights extends Group{
     constructor(){
         super();
         this.name = "Lights Settings";
+    
         this.CreateHemispehereLight();
         this.CreateDirectionalLight();
         this.CreateSpotLight();
-        this.CreateHelpersForLights();
+       
+        //this.CreateHelpersForLights();
     }
 
     CreateHemispehereLight(){
@@ -39,7 +41,7 @@ export default class Lights extends Group{
             1
             //1.89
         );
-        this.directionalLight.position.set(-3, 7, 2);
+        this.directionalLight.position.set(5, 8, 2);
         //this.directionalLight.position.set(200, 100, 200);
         //this.directionalLight.position.set(100, 520, 100);
         this.directionalLight.position.multiplyScalar(50);
@@ -68,24 +70,45 @@ export default class Lights extends Group{
     }
 
     CreateSpotLight(){
-        /* this.spotLight = new SpotLight(0xffffff, 30);
+        var geometry = new THREE.SphereGeometry( 1, 32, 32 );
+        var material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+        var sphere = new THREE.Mesh( geometry, material );
+        //sphere.position.set(40, -12, 10);
+
+        props.transformControlLight = new TransformControls(props.camera2D, props.renderer.domElement);
+        var group = new Group();
+
+        group.position.set(40, -12, 10);
+        this.spotLight = new SpotLight(0xffffff, 12);
         this.spotLight.castShadow = true;
         this.spotLight.shadow.mapSize.width = 4096;
         this.spotLight.shadow.mapSize.height = 4096;
+        this.spotLight.target.position.x = 28;
+        this.spotLight.target.position.y = -39;
+        this.spotLight.target.position.y = 1;
+        this.spotLight.updateMatrixWorld();
+        //this.spotLight.position.set(40, -12, 10);
 
-        this.spotLight.position.set(40, -15, 10);
+        group.add(this.spotLight);
+        group.add(sphere);
+        this.add(group);
 
-        this.add(this.spotLight); */
-        var color = new Color();
+        props.transformControlLight.setSize(0.4);
+        props.transformControlLight.attach( group );
+        props.scene.add( props.transformControlLight );
+        //console.log(props.scene);
+
+/*         var color = new Color();
         color.setHSL( 0.6, 0.75, 0.5 );
         console.log(  color.getHexString() );
+       
+        var light = new PointLight( color.getHexString(), 1000, 10 );
+        light.position.set( 40, -40, 10);
+        this.add(light); */
 
-        var light = new PointLight( color.getHexString(), 2, 40 );
-        light.position.set( 25, -15, 39);
-        this.add(light);
-
+        /*
         var lighta = new AmbientLight( color.getHexString(), 0.1 );
-        this.add(lighta);
+        this.add(lighta); */
     }
 
     CreateHelpersForLights(){
