@@ -16,7 +16,8 @@
             Exterior Design
         </div>
         <div id="image-container">
-            <img class="image-right" src="./css/image/drag.png" style="border: 1px solid rgb(66, 245, 78);" onClick="Action('drag')"/>
+            <!-- style="border: 1px solid rgb(66, 245, 78);" -->
+            <img class="image-right" src="./css/image/drag.png"  onClick="Action('drag')"/>
             <img class="image-right" src="./css/image/rotate.png" onClick="Action('rotate')"/>
             <img class="image-right" src="./css/image/delete.png" onClick="Action('delete')"/>
             <img class="image-right" src="./css/image/paint.png" onClick="Action('paint')"/>
@@ -24,15 +25,42 @@
     </div>
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
- 
+        <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+        <!-- Terace Size -->
+        <button class="dropdown-btn">Terace Settings
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <div class="button_div">
+                <button class="button_class" onClick="TeraceMode('custom')">Custom
+                    <span class="tooltiptext">Customizarea terasei prin plasare de puncte. Dupa plasarea punctelor se va
+                        apasa tasta 'z' si ce vor uni punctele cu o linie si pentru a finaliza operatia se va apasa tasta 'x'.
+                    </span>
+                </button>
+                <button class="button_class" onClick="TeraceMode('default')">Default
+                    <span class="tooltiptext">Plasare a unei terase care are dimensiuni statice de 7x5 metri.</span>
+                </button>
+            </div>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+        <!-- Camera -->
         <button class="dropdown-btn">Camera Position
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            <div class="cameraDiv">
-                <a class="cameraButton" onClick="ChangeView('2D')">2D</a>
-                <a class="cameraButton" onClick="ChangeView('3D')">3D</a>
-                <a class="cameraButton" onClick="ChangeView('Both')">Both</a>
+            <div class="button_div">
+                <button class="button_class" onClick="ChangeView('2D')">Top View
+                    <span class="tooltiptext cameratooltip">Modul de vizualizare a scenei cu vedere de sus.
+                    </span>
+                </button>
+                <button class="button_class" onClick="ChangeView('3D')">Front View
+                    <span class="tooltiptext cameratooltip">Modul de vizualizare a scenei <br />cu vedere a intregii curtii.
+                    </span>
+                </button>
+                <button class="button_class" onClick="ChangeView('Both')">Both
+                    <span class="tooltiptext cameratooltip">Combinate <br />cele 2 vizualizari.
+                    </span>
+                </button>
             </div>
         </div>
         <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->

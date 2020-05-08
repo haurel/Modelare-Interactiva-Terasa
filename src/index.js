@@ -115,6 +115,18 @@ window.takeModel = function(name){
     takeModel(name);
 }
 
+function TeraceMode( _input ){
+    if( _input === 'custom'){
+        props.teraceMode['custom'] = true;
+    }else if(_input === 'default'){
+        props.teraceMode['default'] = true;
+    }
+}
+
+window.TeraceMode = function( _input ){
+    TeraceMode(_input);
+}
+
 function ChangeColor(){
     //console.log(props.objectsMeshOnlyArray[0].children);
     //props.objectsMeshOnlyArray[0].children[1].material.visible = false;
