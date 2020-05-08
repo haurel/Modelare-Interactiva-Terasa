@@ -280,3 +280,66 @@ body, html{
   color: white;
   text-align: left;
 }
+
+.button_class {
+  color: #818181;
+  font-family: Open Sans;
+  font-size: 20px;
+  font-weight: 100;
+  padding: 15px;
+  background-color: #262626;
+  border: solid #337FED 1px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+}
+  
+.button_class:hover {
+  background: #262626;
+  border: dashed #337FED 1px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.button_div{
+  display: inline-block;
+  padding: 10px;
+}
+
+.button_div > .button_class:not(:last-child) {
+  margin-right: 10px;
+}
+
+div.hidden{ display: none; }
+.button_class:hover + div.hidden {
+  display:block;
+}
+
+
+
+.button_class .tooltiptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 2px 0;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 3;
+}
+
+.tooltiptext.cameratooltip{
+  width: 100px;
+}
+
+.button_class:hover .tooltiptext {
+  visibility: visible;
+}
+  
