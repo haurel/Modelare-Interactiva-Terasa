@@ -7,19 +7,14 @@ import { DragControls } from 'three/examples/jsm/controls/DragControls';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 
 
-
-
-
-
-
+import { InitializationStaticObjects } from './InitializationStaticObjects';
 import props from './config/defaults';
 import settings from './config/settings';
 
-
-
 import createEnvironment from './environment';
 import render from './render';
-
+import { CameraObject } from './CameraObject';
+import { CustomTerace } from './CustomTerace';
 
 import { ObjectControl } from './ObjectControl';
 /**
@@ -140,10 +135,27 @@ function animate(){
     requestAnimationFrame(animate);
     //props.orbitControls.update();
     //props.transformControlLight.updateMatrix();
+    if(props.teraceMode['custom'] === true){
+        console.log('s');
+        new CustomTerace();
+        if(props.obj !== null){
+            props.obj = null;
+        }
+        props.teraceMode['custom'] = false;
+        props.scene.remove(props.terace);
+    }else if( props.teraceMode['default'] === true){
+        props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
+                props.objectsArray, props.plane);
+        props.scene.remove(props.terace);
+        
+        props.terace = InitializationStaticObjects.Terrace();
+        props.scene.add(props.terace);
+        props.teraceMode['default'] = false;
+    }
+
     render();
 }
-import { CameraObject } from './CameraObject';
-import { CustomTerace } from './CustomTerace';
+
 
 function LoadCompleteScene(){
     createScene();
@@ -169,9 +181,8 @@ function LoadCompleteScene(){
     createEnvironment();
     //createOrbitControls();
 
-    new CustomTerace();
-    /* props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
-        props.objectsArray, props.plane); */
+    
+    
     
     animate();
     

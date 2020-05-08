@@ -128,10 +128,16 @@ var CustomTerace = function(){
         surface.lineTo(  _this._verticesPoints[0][0],  _this._verticesPoints[0][1] );
 
         var geometry = new ShapeGeometry( surface );
+
         geometry.computeBoundingBox();
+        boxUnwrapUVs(geometry);
+        //calculate UV coordinates, if uv attribute is not present, it will be added
+       
+
+        //geometry.computeBoundingBox();
 
         //calculare UV pentru texturare
-        var max = geometry.boundingBox.max,
+        /* var max = geometry.boundingBox.max,
             min = geometry.boundingBox.min;
         
         var offset = new Vector2(0 - min.x, 0 - min.y );
@@ -152,10 +158,11 @@ var CustomTerace = function(){
             ]);    
         }
 
-        geometry.uvsNeedUpdate = true;
+        geometry.uvsNeedUpdate = true; */
+
 
         var material = new MeshStandardMaterial({
-            side: DoubleSide,
+            //side: DoubleSide,
         })
 
         var texture = teraceTextureSettings.default_texture;
@@ -164,10 +171,11 @@ var CustomTerace = function(){
             textureLoadTerrace[i] = new TextureLoader().load(texture[Object.keys(texture)[i]]);
         }
 
+        material.wrapS = material.wrapT = RepeatWrapping;
         material.map = textureLoadTerrace[0];
         material.map.wrapS = RepeatWrapping;
         material.map.wrapT = RepeatWrapping;
-        //meshTerrace.material.map.anisotropy = 4;
+        material.map.anisotropy = 4;
         material.map.repeat.set(6, 6);
         
 
@@ -180,20 +188,20 @@ var CustomTerace = function(){
 
         material.needsUpdate = true;
 
+
+
         props.terace = new Mesh(geometry, material);
         props.terace.position.z = 1.2;
         props.scene.add(props.terace);
-
-
-        var hex  = 0xff0000;
+        /* var hex  = 0xff0000;
         var bbox = new THREE.BoxHelper( props.terace , hex );
         bbox.name = "TeraceBoundingBox";
 		bbox.update();
-		props.scene.add( bbox );
+		props.scene.add( bbox ); */
 
         
-		var boundingBox = new THREE.Box3().setFromObject(props.terace)
-		console.warn("BoudingBox.getSize()",boundingBox.getSize() );
+		/* var boundingBox = new THREE.Box3().setFromObject(props.terace)
+		console.warn("BoudingBox.getSize()",boundingBox.getSize() ); */
                     
         scene.traverse( function(child){
             if(child.name === "PointTerace" || child.name === "LineTerace"){
@@ -203,6 +211,38 @@ var CustomTerace = function(){
         })
     }
 
+    function boxUnwrapUVs(geometry) {
+        if (!geometry.boundingBox) geometry.computeBoundingBox();
+        var sz = geometry.boundingBox.getSize(new THREE.Vector3());
+        var center = geometry.boundingBox.getCenter(new THREE.Vector3())
+        var min = geometry.boundingBox.min;
+        if (geometry.faceVertexUvs[0].length == 0) {
+          for (var i = 0; i < geometry.faces.length; i++) {
+            geometry.faceVertexUvs[0].push([new THREE.Vector2(), new THREE.Vector2(), new THREE.Vector2()]);
+          }
+        }
+        for (var i = 0; i < geometry.faces.length; i++) {
+          var face = geometry.faces[i];
+          var faceUVs = geometry.faceVertexUvs[0][i]
+          var va = geometry.vertices[geometry.faces[i].a]
+          var vb = geometry.vertices[geometry.faces[i].b]
+          var vc = geometry.vertices[geometry.faces[i].c]
+          var vab = new THREE.Vector3().copy(vb).sub(va)
+          var vac = new THREE.Vector3().copy(vc).sub(va)
+          //now we have 2 vectors to get the cross product of...
+          var vcross = new THREE.Vector3().copy(vab).cross(vac);
+          //Find the largest axis of the plane normal...
+          vcross.set(Math.abs(vcross.x), Math.abs(vcross.y), Math.abs(vcross.z))
+          var majorAxis = vcross.x > vcross.y ? (vcross.x > vcross.z ? 'x' : vcross.y > vcross.z ? 'y' : vcross.y > vcross.z) : vcross.y > vcross.z ? 'y' : 'z'
+          //Take the other two axis from the largest axis
+          var uAxis = majorAxis == 'x' ? 'y' : majorAxis == 'y' ? 'x' : 'x';
+          var vAxis = majorAxis == 'x' ? 'z' : majorAxis == 'y' ? 'z' : 'y';
+          faceUVs[0].set((va[uAxis] - min[uAxis]) / sz[uAxis], (va[vAxis] - min[vAxis]) / sz[vAxis])
+          faceUVs[1].set((vb[uAxis] - min[uAxis]) / sz[uAxis], (vb[vAxis] - min[vAxis]) / sz[vAxis])
+          faceUVs[2].set((vc[uAxis] - min[uAxis]) / sz[uAxis], (vc[vAxis] - min[vAxis]) / sz[vAxis])
+        }
+        geometry.elementsNeedUpdate = geometry.verticesNeedUpdate = true;
+      }
 
     this.active();
 }

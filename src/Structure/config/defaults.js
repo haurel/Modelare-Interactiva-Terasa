@@ -69,6 +69,11 @@ export default {
      * @type { var }
      */
     grass : null,
+    /**
+     * @type { var }
+     *
+     */
+    terace : null,
 //#endregion
 
 //#region 
@@ -191,6 +196,11 @@ export default {
         'paint': false,
         'delete': false,
         'rotate': false,
-        'drag': true,
+        'drag': false,
+    },
+
+    teraceMode:{
+        'custom': false,
+        'default' : false,
     }
 };
