@@ -169,16 +169,7 @@ var InitializationStaticObjects = {
 
             //console.log( mesh ); 
 
-            /* mesh.traverse(function (child){
-                if(child instanceof Group){
-
-                    if(child.children[1].name === "windows_1"){
-
-                        var texutre = new TextureLoader().load('/src/Structure/House/HouseCompressed/glass.png');
-                        child.children[1].material = new MeshStandardMaterial();
-                        child.children[1].material.map = texutre;
-                    }
-                }
+            mesh.traverse(function (child){
                 if(child instanceof Mesh){
                     if(child.name === "textureToChange"){
                         child.material = new MeshBasicMaterial({
@@ -186,15 +177,31 @@ var InitializationStaticObjects = {
                         }); 
                                               
                     }
-                    child.receiveShadow = true;
-                    child.castShadow = true;
+                    
                 }
-            }) */
+                child.receiveShadow = true;
+                child.castShadow = true;
+
+                if(child instanceof Group){
+                    if(child.name === "windows"){
+                        child.receiveShadow = true;
+                        child.castShadow = true;
+                    }
+                    /* if(child.children[1].name === "windows_1"){
+                        child.children[1].receiveShadow = true;
+                        child.children[1].castShadow = true;
+                        var texutre = new TextureLoader().load('/src/Structure/House/HouseCompressed/glass.png');
+                        child.children[1].material = new MeshStandardMaterial();
+                        child.children[1].material.map = texutre;
+                    } */
+                }
+                
+            })
             //console.log(mesh)
             meshHouse.add(mesh);
             var bbox = new THREE.Box3().setFromObject(mesh);
             
-            console.log( bbox);
+            //console.log( bbox);
         })
 
         
