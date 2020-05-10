@@ -88,31 +88,31 @@
                 <div class="hvrbox">
                     <img src="css/image/terasa/1.png">
                     <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/1.png')">
-                        <div class="hvrbox-text"> 30x30cm &nbsp; 32.32lei/m<sup>2</sup></div>
+                        <div class="hvrbox-text"> 10x16 &nbsp; 43.67m<sup>2</sup></div>
                     </div>
                 </div>
                 <div class="hvrbox">
                     <img src="css/image/terasa/2.png" class="img_select">
                     <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/2.png')">
-                        <div class="hvrbox-text" > 30x30cm &nbsp; 17.32lei/m<sup>2</sup></div>
+                        <div class="hvrbox-text" > 12x20cm&nbsp; 50.16lei/m<sup>2</sup></div>
                     </div>
                 </div>
                 <div class="hvrbox">
                     <img src="css/image/terasa/3.png">
                     <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/3.png')">
-                        <div class="hvrbox-text"> 60x60cm &nbsp; 32.32lei/m<sup>2</sup></div>
+                        <div class="hvrbox-text"> 33x33cm &nbsp; 28.99lei/m<sup>2</sup></div>
                     </div>
                 </div>
                 <div class="hvrbox">
                     <img src="css/image/terasa/4.png" class="img_select">
                     <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/4.png')">
-                        <div class="hvrbox-text" > 30x30cm &nbsp; 17.32lei/m<sup>2</sup></div>
+                        <div class="hvrbox-text" > 25x25cm &nbsp; 15.55lei/m<sup>2</sup></div>
                     </div>
                 </div>
                 <div class="hvrbox">
                     <img src="css/image/terasa/5.png" class="img_select">
                     <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/5.png')">
-                        <div class="hvrbox-text" > 30x30cm &nbsp; 17.32lei/m<sup>2</sup></div>
+                        <div class="hvrbox-text" > 19.3x120.3cm &nbsp; 18.74lei/m<sup>2</sup></div>
                     </div>
                 </div>
             </section>
@@ -187,10 +187,17 @@
             </section>
         </div>
         <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
-        <div class="totalPrice">
-            <p id="price"> Price: </p>
-            <p id="materialNeeded"> Total Material Needed: </p>
-            <p id="objects"></p>
+        <button class="dropdown-btn">
+            Price
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <div class="totalPrice">
+                <p id="m2"> Total bucati pe m<sup>2</sup> </p>
+                <p id="materialNeeded"> Totalul de bucati necesare </p>
+                <p id="price"> Pret terase: </p>
+                <p id="objects"></p>
+            </div>
         </div>
     </div>
       
@@ -202,6 +209,7 @@
   
     <div class="iframe" id="main">
         <div id="datGUI"></div>
+        <div id="toolTipScene"><span>123</span></div>
     </div>
 
     

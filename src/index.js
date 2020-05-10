@@ -98,11 +98,11 @@ function takeModel(name){
             props.priceCalculate.UpdateObjectsInScene(tempObject);
 
             //console.log(props.priceCalculate.GetObjectsInformation());
-            document.getElementById("objects").textContent = "Objects: ";
+            document.getElementById("objects").textContent = "Obiecte de exterior: ";
             for(const [key, value] of props.priceCalculate.GetObjectsInformation().entries()){
                 //console.log(key + ": " +value);
                 document.getElementById("objects").setAttribute('style', 'white-space: pre;');
-                document.getElementById("objects").textContent += key + ": " + value.toFixed(2) + "\r\n";
+                document.getElementById("objects").textContent += key + "- " + value.toFixed(2) + "lei\r\n";
             }
             //document.getElementById("objects").textContent += " " + values[0];
             props.scene.add(tempObject);  
@@ -138,8 +138,8 @@ function ChangeColor(){
             //chairTextureSettings.leather_chair_014
             chairTextureSettings.material_001
         )
-        console.log(props.objectsMeshIndexTextureChange);
-        console.log(props.objectsMeshIndexTextureChange);
+        //console.log(props.objectsMeshIndexTextureChange);
+        //console.log(props.objectsMeshIndexTextureChange);
         PaintObject.ObjectTexture( props.objectsMeshOnlyArray[props.objectsMeshIndexTextureChange]
                                 .children[0], textureArray 
             );

@@ -29,9 +29,10 @@ body, html{
   top: 0; /* Stay at the top */
   left: 0;
   background-color: #111; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
+  /* overflow-x: hidden; */ /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  overflow-x: auto; /* [2] */
 }
 
 /* The navigation menu links */
@@ -341,5 +342,24 @@ div.hidden{ display: none; }
 
 .button_class:hover .tooltiptext {
   visibility: visible;
+}
+
+#toolTipScene{
+  position: fixed;
+  left: 0;
+  top: 0;
+  min-width: 100px;
+  min-height: 32px;
+  text-align: center;
+  padding: 5px 12px;
+  font-family: monospace;
+  color: white;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  opacity: 0;
+  border: 1px solid black;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.25s linear;
+  border-radius: 3px;
 }
   

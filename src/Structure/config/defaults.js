@@ -74,6 +74,7 @@ export default {
      *
      */
     terace : null,
+    customTerace : null,
 //#endregion
 
 //#region 
