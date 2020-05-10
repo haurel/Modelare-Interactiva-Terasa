@@ -14,7 +14,7 @@ var MeshMaterial = function( objectSelected ){
     position.copy( objectSelected.position );
     position.x += - 5;
     console.log( _objectName );
-    for (let [key, value] of Object.entries(MeshMaterialCount.chair)) {
+    for (let [key, value] of Object.entries(MeshMaterialCount.objects)) {
         if(key === _objectName){
             value.forEach( (texture)=>{
                 _arrayTextureName.push( texture );

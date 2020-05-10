@@ -268,6 +268,7 @@ var InitializationStaticObjects = {
         meshTerrace.material.needsUpdate = true;
 
         meshTerrace.name = "Terace";
+        meshTerrace.drawMode = 'default';
         meshTerrace.scale.set(11.65, 12.10, 1);
         return meshTerrace;
     },
