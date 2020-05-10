@@ -300,66 +300,99 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 }
                 else if( props.objectActions['paint'] ){
                     if( !scope._isSelect){
+                        console.log(props.objectsArray[ scope._INDEX]);
+                        if(props.objectsArray[ scope._INDEX].paint === "true"){
                         //console.log( props.objectsArray[ scope._INDEX ].position);
-                        scope._CURRENTSELECTEDPOSITION = new Vector3();
-                        scope._CURRENTSELECTEDPOSITION.setFromMatrixPosition(props.objectsArray[ scope._INDEX ].matrixWorld);
-                        //console.log(scope._CURRENTSELECTEDPOSITION);
+                            scope._CURRENTSELECTEDPOSITION = new Vector3();
+                            scope._CURRENTSELECTEDPOSITION.setFromMatrixPosition(props.objectsArray[ scope._INDEX ].matrixWorld);
+                            //console.log(scope._CURRENTSELECTEDPOSITION);
 
 
 
-                        props.objectsArray[ scope._INDEX ].position.set( scope._PAINTSELECTEDPOSITION.x, 
-                                scope._PAINTSELECTEDPOSITION.y,
-                                scope._PAINTSELECTEDPOSITION.z 
-                        );
+                            props.objectsArray[ scope._INDEX ].position.set( scope._PAINTSELECTEDPOSITION.x, 
+                                    scope._PAINTSELECTEDPOSITION.y,
+                                    scope._PAINTSELECTEDPOSITION.z 
+                            );
 
-                        var divElement = $("#toolTipScene");
-                        divElement.css({
-                            display: "block",
-                            opacity: 1.0
-                        });
-
-
-                        divElement.css({
-                            left: `${268.386}px`,
-                            top: `${150}px`
-                        });
-                        divElement.find('span').text("Modul Pating, pentru a iesi apasa pe obiect.");
+                            var divElement = $("#toolTipScene");
+                            divElement.css({
+                                display: "block",
+                                opacity: 1.0
+                            });
 
 
-                        props.objectsMeshIndexTextureChange = scope._INDEX;
-                        scope._isSelect = true;
-                        //console.log(props.objectsArray);
-                        MeshMaterial( props.objectsArray[ scope._INDEX ] );
+                            divElement.css({
+                                left: `${268.386}px`,
+                                top: `${150}px`
+                            });
+                            divElement.find('span').text("Modul Pating, pentru a iesi apasa pe obiect.");
 
 
-                        /* scope._TERASAPOSITION = new Vector3();
-                        scope._TERASAPOSITION.setFromMatrixPosition( props.scene.getObjectByName('Terace').matrixWorld );
-
-                        props.scene.getObjectByName('Terace').position.set(
-                            scope._TERASAPOSITIONPAINT.x,
-                            scope._TERASAPOSITIONPAINT.y,
-                            scope._TERASAPOSITIONPAINT.z
-                        ); */
-
-                        CreatePlaneForPainting( props.scene.getObjectByName('Terace').material);
+                            props.objectsMeshIndexTextureChange = scope._INDEX;
+                            scope._isSelect = true;
+                            //console.log(props.objectsArray);
+                            MeshMaterial( props.objectsArray[ scope._INDEX ] );
 
 
+                            /* scope._TERASAPOSITION = new Vector3();
+                            scope._TERASAPOSITION.setFromMatrixPosition( props.scene.getObjectByName('Terace').matrixWorld );
 
-                       /*  scope._TERASAPOSITION = new Vector3();
-                        scope._TERASAPOSITION.setFromMatrixPosition( props.scene.children[4].matrixWorld);
+                            props.scene.getObjectByName('Terace').position.set(
+                                scope._TERASAPOSITIONPAINT.x,
+                                scope._TERASAPOSITIONPAINT.y,
+                                scope._TERASAPOSITIONPAINT.z
+                            ); */
 
-                        
-                        props.scene.children[4].position.set(
-                            scope._TERASAPOSITIONPAINT.x,
-                            scope._TERASAPOSITIONPAINT.y,
-                            scope._TERASAPOSITIONPAINT.z
-                        ); */
+                            CreatePlaneForPainting( props.scene.getObjectByName('Terace').material);
 
-                        scope._originalCameraPositionX = props.camera2D.position.x;
-                        props.camera2D.zoom = 3.5;
-                        props.camera2D.position.setX( -100 );
-                        props.camera2D.updateProjectionMatrix();
 
+
+                        /*  scope._TERASAPOSITION = new Vector3();
+                            scope._TERASAPOSITION.setFromMatrixPosition( props.scene.children[4].matrixWorld);
+
+                            
+                            props.scene.children[4].position.set(
+                                scope._TERASAPOSITIONPAINT.x,
+                                scope._TERASAPOSITIONPAINT.y,
+                                scope._TERASAPOSITIONPAINT.z
+                            ); */
+
+                            scope._originalCameraPositionX = props.camera2D.position.x;
+                            props.camera2D.zoom = 3.5;
+                            props.camera2D.position.setX( -100 );
+                            props.camera2D.updateProjectionMatrix();
+                        }
+                        else{
+                            var divElement = $("#toolTipScene");
+                            divElement.css({
+                                display: "block",
+                                opacity: 1.0
+                            });
+
+
+                            var canvasHalfWidth = props.renderer.domElement.offsetWidth / 2;
+                            var canvasHalfHeight = props.renderer.domElement.offsetHeight / 2;
+
+                            var tooltipPosition = scope._latestMouseProjection.clone().project(props.camera2D);
+                            tooltipPosition.x = (tooltipPosition.x * canvasHalfWidth) + canvasHalfWidth + props.renderer.domElement.offsetLeft;
+                            tooltipPosition.y = -(tooltipPosition.y * canvasHalfHeight) + canvasHalfHeight + props.renderer.domElement.offsetTop;
+
+                            var tootipWidth = divElement[0].offsetWidth;
+                            var tootipHeight = divElement[0].offsetHeight;
+
+                            divElement.css({
+                            left: `${tooltipPosition.x - tootipWidth/2}px`,
+                            top: `${tooltipPosition.y - tootipHeight - 5}px`
+                            });
+                            
+                            divElement.find('span').text("Acest obiect nu are mai multe culori.");
+
+                            scope._INDEX = null;
+                            scope._INTERSECTED = null;
+                            scope._SELECTED = null;
+                            props.objectsMeshIndexTextureChange = null;
+                            scope._isSelect = false;
+                        }
                         //console.log(props.scene);
                         
                     }else if( scope._isSelect ){
@@ -389,8 +422,6 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                     } 
                 }
                 
-                console.warn(props.objectsMeshOnlyArray[props.objectsMeshIndexTextureChange]
-                    .children[0]);
                 var textureArray = PaintObject.LoadTextureArray( _arrayTextureName[0] );
                 PaintObject.ObjectTexture(props.objectsMeshOnlyArray[props.objectsMeshIndexTextureChange]
                     .children[0], textureArray );

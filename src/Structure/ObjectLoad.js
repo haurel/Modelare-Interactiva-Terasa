@@ -25,6 +25,12 @@ export default class ObjectLoad{
             this._scale = scaleObject;
             this._name = nameObject;
             this.group = new Group();
+
+            this._availibleCustomPainting = {
+                'chair_001': "true",
+                'chair_004': "false",
+                'masa_001': "true",
+            }
     }
     
     Load(){
@@ -42,6 +48,8 @@ export default class ObjectLoad{
             //mesh.scale.set( this._scale.x, this._scale.y, this._scale.z );
             //mesh.position.set( _position.x, _position.y, _position.z );
             mesh.name = this._name;
+
+            if(mesh.name === "Perete_casa") mesh.visible = false;
 
             var gltfBox = new Box3().setFromObject( mesh );
             var getSize = new Vector3();
@@ -68,6 +76,9 @@ export default class ObjectLoad{
                 child.castShadow = true;
                 child.receiveShadow = true;
             })
+
+            
+
 
             //props.scene.add( box.helper );
             box.add( mesh );
@@ -116,7 +127,17 @@ export default class ObjectLoad{
         box.width = width;
         box.height = height;
         box.depth = depth;
+
+        for (var key in this._availibleCustomPainting) {
+            //console.log("key " + key + " has value " + this._availibleCustomPainting[key]);
+            if(key === name){
+                box.paint = this._availibleCustomPainting[key];
+                box.name = key;
+            }
+        }
         
+        
+
         props.objectsArray.push( box );
         //console.log( props.objectsArray );
         //console.log(props.objectsArray);
