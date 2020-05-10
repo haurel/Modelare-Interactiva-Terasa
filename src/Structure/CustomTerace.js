@@ -2,6 +2,7 @@ import { SphereGeometry, MeshBasicMaterial, Mesh, Vector2, Raycaster, Vector3, E
 import { DoubleSide, RepeatWrapping, TangentSpaceNormalMap } from "three";
 
 import props from './config/defaults';
+import { ObjectControl } from './ObjectControl';
 import teraceTextureSettings from "./config/teraceTextureSettings";
 
 var CustomTerace = function(){
@@ -15,6 +16,10 @@ var CustomTerace = function(){
     this.active = function(){
         props.renderer.domElement.addEventListener('mousedown', SetPoints, false);
         window.addEventListener('keydown', DrawSurface);
+    }
+
+    this.dezactive = function(){
+        props.renderer.domElement.removeEventListener('mousedown', SetPoints, { passive: true });
     }
     function SetPoints(event){
         event.preventDefault();
@@ -191,6 +196,8 @@ var CustomTerace = function(){
 
 
         props.terace = new Mesh(geometry, material);
+        props.terace.name = "Terace";
+        props.terace.drawMode = 'custom';
         props.terace.position.z = 1.2;
         props.scene.add(props.terace);
         /* var hex  = 0xff0000;
@@ -209,6 +216,12 @@ var CustomTerace = function(){
                     
             }
         })
+
+        props.renderer.domElement.removeEventListener('mousedown', SelectPoints, { passive: true });
+        window.removeEventListener('keydown', DrawSurface, { passive : true });
+
+        props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
+            props.objectsArray, props.plane);
     }
 
     function boxUnwrapUVs(geometry) {

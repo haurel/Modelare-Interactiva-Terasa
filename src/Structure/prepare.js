@@ -135,15 +135,19 @@ function animate(){
     requestAnimationFrame(animate);
     //props.orbitControls.update();
     //props.transformControlLight.updateMatrix();
+    
     if(props.teraceMode['custom'] === true){
         console.log('s');
-        new CustomTerace();
+        props.customTerace = new CustomTerace();
         if(props.obj !== null){
             props.obj = null;
         }
         props.teraceMode['custom'] = false;
         props.scene.remove(props.terace);
     }else if( props.teraceMode['default'] === true){
+        if(props.customTerace !== null){
+            props.customTerace.dezactive();
+        }
         props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
                 props.objectsArray, props.plane);
         props.scene.remove(props.terace);
