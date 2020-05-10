@@ -9,7 +9,7 @@
 
 import { Vector3, Vector2, Raycaster, Box3, BoxHelper, Matrix4, EventDispatcher, Mesh} from 'three';
 import props from './config/defaults';
-import { PlaneGeometry, MeshBasicMaterial, BoxGeometry, Group, Ray } from 'three/build/three.module';
+import { PlaneGeometry, MeshBasicMaterial, BoxGeometry, Group, Ray, Geometry } from 'three/build/three.module';
 import { MeshMaterial } from './MeshMaterial';
 import MeshMaterialCount from './config/MeshMaterial';
 import { PaintObject } from './PaintObject';
@@ -45,9 +45,11 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     this._INDEX = null, 
     this._SELECTED_TEMP = null;
     this._CURRENTSELECTEDPOSITION = null;
-    this._PAINTSELECTEDPOSITION = new Vector3(-100, -30, 5.4);
+    this._PAINTSELECTEDPOSITION = new Vector3(-100, -40, 5.4);
     this._TERASAPOSITION = null;
-    this._TERASAPOSITIONPAINT = new Vector3(-100, -15, 1);
+    this._TERASAPOSITIONPAINT = new Vector3(-100, -30, 1);
+    this._MeshTerace = null;
+
     this._MATERIAL_COLOR = null;
     this._objectForCheckCollision = [], 
     this._isDragged = false, 
@@ -59,6 +61,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     this._originalObjectPosition = new Vector3();
 
     this._originalCameraPositionX = null;
+
+    this._hoveredObject = null;
+    this._latestMouseProjection = null;
+    this._toolTipDisplayTimeout;
 
 
     this._mouseXOnMouseDown = null;
@@ -72,6 +78,72 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
     }
     
     var scope = this;
+
+    function DisplayInformation(){
+        var divElement = $("#toolTipScene");
+
+        if (divElement && scope._latestMouseProjection) {
+            divElement.css({
+              display: "block",
+              opacity: 0.0
+            });
+            var canvasHalfWidth = props.renderer.domElement.offsetWidth / 2;
+            var canvasHalfHeight = props.renderer.domElement.offsetHeight / 2;
+
+            var tooltipPosition = scope._latestMouseProjection.clone().project(props.camera2D);
+            tooltipPosition.x = (tooltipPosition.x * canvasHalfWidth) + canvasHalfWidth + props.renderer.domElement.offsetLeft;
+            tooltipPosition.y = -(tooltipPosition.y * canvasHalfHeight) + canvasHalfHeight + props.renderer.domElement.offsetTop;
+
+            var tootipWidth = divElement[0].offsetWidth;
+            var tootipHeight = divElement[0].offsetHeight;
+
+            divElement.css({
+            left: `${tooltipPosition.x - tootipWidth/2}px`,
+            top: `${tooltipPosition.y - tootipHeight - 5}px`
+            });
+            var display = null;
+            var displayTrue = false;
+            var displayInfo = null;
+            Object.keys(props.objectActions).forEach(v => {
+                    if(props.objectActions[v] === true){
+                        if(v === 'drag'){
+                            displayInfo = ". Mutare obiect prin drag'n'drop";
+                        }else if(v === 'paint'){
+                            displayInfo = ". Selectarea obiectului va duce la scena de Paiting.";
+                        }else if(v === 'delete'){
+                            displayInfo = ". Selectarea obiectului duce la stergerea acestuia.";
+                        }
+            
+                        divElement.find('span').text("Interactive mode: " + v.toUpperCase() + displayInfo);
+                        
+                        displayTrue = true;
+
+                    }
+                } 
+                
+            )
+            if(!displayTrue){
+                divElement.find('span').text("Interactive mode: NONE");
+            }
+            //divElement.find('span').text(display);
+
+            setTimeout(function() {
+            divElement.css({
+                opacity: 1.0
+            });
+            }, 25);
+        }
+    }
+
+    // This will immediately hide tooltip.
+    function HideTooltip() {
+        var divElement = $("#toolTipScene");
+        if (divElement) {
+        divElement.css({
+            display: "none"
+        });
+        }
+    }
     /**
     * @param event - event from domElement
     */
@@ -92,6 +164,19 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
     function GetIsDragged(){
         return scope._isDragged;
+    }
+
+    function CreatePlaneForPainting( _material ){
+        const geometry = new PlaneGeometry(7, 5, 30, 30);
+        const material = _material;
+
+        scope._MeshTerace = new Mesh( geometry, material );
+        scope._MeshTerace.receiveShadow = true;
+
+        scope._MeshTerace.position.set(-100, -30, 1);
+        scope._MeshTerace.name = "TeraceForPaint";
+        scope._MeshTerace.scale.set(11.65, 12.10, 1);
+        props.scene.add( scope._MeshTerace );
     }
 
 
@@ -179,7 +264,13 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                 if( props.objectActions['drag'] ){
                     scope._originalObjectPosition.copy( scope._SELECTED.position );
                 
-                
+                    var divElement = $("#toolTipScene");
+                    if (divElement) {
+                    divElement.css({
+                        display: "none"
+                    });
+                    }
+
                     var intersectPlane = _raycaster.intersectObject( props.planeIntersect); //planeTest );
                     scope._offset.copy( intersectPlane[0].point ).sub( props.planeIntersect.position ); //planeTest.position );
                     scope._isDragged = true;
@@ -212,10 +303,8 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                         //console.log( props.objectsArray[ scope._INDEX ].position);
                         scope._CURRENTSELECTEDPOSITION = new Vector3();
                         scope._CURRENTSELECTEDPOSITION.setFromMatrixPosition(props.objectsArray[ scope._INDEX ].matrixWorld);
-                        console.log(scope._CURRENTSELECTEDPOSITION);
+                        //console.log(scope._CURRENTSELECTEDPOSITION);
 
-                        //props.objectsArray[ scope._INDEX ].helper.material.visible = true;
-                        //props.objectsArray[ scope._INDEX ].helper.update();
 
 
                         props.objectsArray[ scope._INDEX ].position.set( scope._PAINTSELECTEDPOSITION.x, 
@@ -223,14 +312,40 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                                 scope._PAINTSELECTEDPOSITION.z 
                         );
 
+                        var divElement = $("#toolTipScene");
+                        divElement.css({
+                            display: "block",
+                            opacity: 1.0
+                        });
+
+
+                        divElement.css({
+                            left: `${268.386}px`,
+                            top: `${150}px`
+                        });
+                        divElement.find('span').text("Modul Pating, pentru a iesi apasa pe obiect.");
+
+
                         props.objectsMeshIndexTextureChange = scope._INDEX;
                         scope._isSelect = true;
                         //console.log(props.objectsArray);
                         MeshMaterial( props.objectsArray[ scope._INDEX ] );
 
 
-                        
-                        scope._TERASAPOSITION = new Vector3();
+                        /* scope._TERASAPOSITION = new Vector3();
+                        scope._TERASAPOSITION.setFromMatrixPosition( props.scene.getObjectByName('Terace').matrixWorld );
+
+                        props.scene.getObjectByName('Terace').position.set(
+                            scope._TERASAPOSITIONPAINT.x,
+                            scope._TERASAPOSITIONPAINT.y,
+                            scope._TERASAPOSITIONPAINT.z
+                        ); */
+
+                        CreatePlaneForPainting( props.scene.getObjectByName('Terace').material);
+
+
+
+                       /*  scope._TERASAPOSITION = new Vector3();
                         scope._TERASAPOSITION.setFromMatrixPosition( props.scene.children[4].matrixWorld);
 
                         
@@ -238,14 +353,14 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                             scope._TERASAPOSITIONPAINT.x,
                             scope._TERASAPOSITIONPAINT.y,
                             scope._TERASAPOSITIONPAINT.z
-                        );
+                        ); */
 
                         scope._originalCameraPositionX = props.camera2D.position.x;
                         props.camera2D.zoom = 3.5;
                         props.camera2D.position.setX( -100 );
                         props.camera2D.updateProjectionMatrix();
 
-                        console.log(props.scene);
+                        //console.log(props.scene);
                         
                     }else if( scope._isSelect ){
                         //props.objectsArray[ scope._INDEX ].helper.material.visible = false;
@@ -268,17 +383,18 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
             if(intersects_material.length > 0){
                 var _arrayTextureName = [];
                 var i = intersects_material[0].object.i;
-                for (let [key, value] of Object.entries(MeshMaterialCount.chair)) {
+                for (let [key, value] of Object.entries(MeshMaterialCount.objects)) {
                     if(key === props.objectsArray[ scope._INDEX ].name){
                          _arrayTextureName.push( value[i] );
                     } 
                 }
                 
-
+                console.warn(props.objectsMeshOnlyArray[props.objectsMeshIndexTextureChange]
+                    .children[0]);
                 var textureArray = PaintObject.LoadTextureArray( _arrayTextureName[0] );
                 PaintObject.ObjectTexture(props.objectsMeshOnlyArray[props.objectsMeshIndexTextureChange]
                     .children[0], textureArray );
-                console.log("INTERSECT",_arrayTextureName);
+               /*  console.log("INTERSECT",_arrayTextureName); */
             }else{
                 var intersects = _raycaster.intersectObjects( props.objectsArray );
                 if( intersects.length > 0 ){
@@ -292,12 +408,22 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
                             scope._CURRENTSELECTEDPOSITION.z 
                         );
                             // 4 daca nu e transformcontrol
-                        props.scene.children[5].position.set(
+
+
+                        /* props.scene.getObjectByName('Terace').position.set(
                             scope._TERASAPOSITION.x,
                             scope._TERASAPOSITION.y,
                             scope._TERASAPOSITION.z
-                       )
+                        ); */
 
+                        props.scene.remove( scope._MeshTerace );
+
+                        var divElement = $("#toolTipScene");
+                        if (divElement) {
+                        divElement.css({
+                            display: "none"
+                        });
+                        }
 
                         scope._INDEX = null;
                         scope._INTERSECTED = null;
@@ -343,7 +469,10 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
         }
 
 
+
+
         if( scope._SELECTED ){
+            
             if( props.objectActions['drag'] ){
                 var intersects = _raycaster.intersectObject( props.planeIntersect ); //planeTest );
                 
@@ -382,10 +511,28 @@ var ObjectControl = function(domElement, camera, objectsArray, plane){
 
             }
         }
+        scope._latestMouseProjection = undefined;
+        scope._hoveredObject = undefined;
 
         var intersects = _raycaster.intersectObjects( props.objectsArray );
         if( intersects.length > 0 && scope._SELECTED === null && intersects[0].object.i !== 0){
+
+            scope._latestMouseProjection = intersects[0].point;
+            scope._hoveredObject = intersects[0].object;
+
+            if (scope._tooltipDisplayTimeout || !scope._latestMouseProjection) {
+                clearTimeout(scope._tooltipDisplayTimeout);
+                scope._tooltipDisplayTimeout = undefined;
+                HideTooltip();
+              }
             
+              if (!scope._tooltipDisplayTimeout && scope._latestMouseProjection) {
+                    scope._tooltipDisplayTimeout = setTimeout(function() {
+                        scope._tooltipDisplayTimeout = undefined;
+                        DisplayInformation();
+                }, 50);
+            }
+
             if( scope._INTERSECTED != intersects[0].object ){
                 scope._INDEX = intersects[0].object.i;
                 scope._INTERSECTED = intersects[0].object;
