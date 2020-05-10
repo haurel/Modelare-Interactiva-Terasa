@@ -15,6 +15,8 @@ export default class PriceCalculate{
         this._teraceSurfaceArea = null;
         this._teraceTotalMaterialNeeded = null;
         this._totalPriceTerace = null;
+        this._totalMaterialM2 = null;
+        this._totalMaterialM2PerTerace = null;
     }
 
     UpdateObjectsInScene( _newmesh ){
@@ -48,13 +50,26 @@ export default class PriceCalculate{
 
     CalculateTeraceSurface( mesh ){
         this._teraceMaterialSurfaceArea = this._teraceMaterialWidth * this._teraceMaterialLength; // m
-        this._teraceSurfaceArea = mesh.geometry.parameters.width * mesh.geometry.parameters.height;
 
-        this._teraceTotalMaterialNeeded = Math.ceil(this._teraceSurfaceArea / this._teraceMaterialSurfaceArea);
+        if(mesh.drawMode === 'default'){
+            this._teraceSurfaceArea = mesh.geometry.parameters.width * mesh.geometry.parameters.height;
+        }else if( mesh.drawMode === 'custom' ){
+            var max = mesh.geometry.boundingBox.max;
+            var min = mesh.geometry.boundingBox.min;
 
-        this._totalPriceTerace = this._teraceMaterialPrice * this._teraceTotalMaterialNeeded;
+            var w = (max.x - min.x) / 11.65 // din cauza ca terasa default se scaleaza cu (11.65, 12.10, 1) pentru a avea dim de 7 respectiv 5
+            var h = (max.y - min.y) / 12.10
 
-        //console.warn(this._teraceSurfaceArea + "\n" + this._teraceMaterialSurfaceArea + "\n" + this._teraceTotalMaterialNeeded);
+            this._teraceSurfaceArea = w * h;
+        }
+        
+        //this._teraceTotalMaterialNeeded = Math.ceil(this._teraceSurfaceArea / this._teraceMaterialSurfaceArea);
+        this._teraceTotalMaterialNeeded = this._teraceSurfaceArea / this._teraceMaterialSurfaceArea;
+        this._totalPriceTerace = this._teraceMaterialPrice *  this._teraceSurfaceArea;
+
+        
+        this._totalMaterialM2 = 1 / this._teraceMaterialSurfaceArea;
+        this._totalMaterialM2PerTerace = this._teraceSurfaceArea * this._totalMaterialM2;
         
     }
 
@@ -62,6 +77,7 @@ export default class PriceCalculate{
         return[
             this._totalPriceTerace,
             this._teraceTotalMaterialNeeded,
+            this._totalMaterialM2,
         ]
     }
 
