@@ -5,8 +5,16 @@ export default{
         78.32,
         "Scaun Simplu"
     ],
-    chair_004: '/src/Structure/Chair/chair_004.gltf',
-    chair_006: '/src/Structure/Chair/chair_006.gltf',
+    chair_004: [
+        '/src/Structure/Chair/chair_004.gltf',
+        120.22,
+        "Scaun lemn"
+    ],
+    chair_006: [
+        '/src/Structure/Chair/chair_006.gltf',
+        150,
+        "Scaun Lescur"
+    ],
     chair_007: [
         '/src/Structure/Chair/chair_007.gltf',
         102,
