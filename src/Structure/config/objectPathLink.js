@@ -12,6 +12,14 @@ export default{
         102,
         "Scaun piele"
     ],
-    masa_picnic: '/src/Structure/Tables/masa_picnic.gltf',
-    masa_001: '/src/Structure/Tables/masa_001.gltf',
+    masa_picnic: [
+        '/src/Structure/Tables/masa_picnic.gltf',
+        340,
+        "Masa picnic"
+    ],
+    masa_001: [
+        '/src/Structure/Tables/masa_001.gltf',
+        233.33,
+        "Masa din lemn"
+    ]
 }

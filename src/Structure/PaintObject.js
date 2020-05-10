@@ -78,32 +78,39 @@ var PaintObject = {
 
     ObjectTexture: function( mesh, texture ){
         //const material = new MeshPhongMaterial();
+        if(mesh.material){
+            mesh.material.map = texture[0];
+            mesh.material.normalMap = texture[1];
+            mesh.material.aoMap = texture[2];
 
-        mesh.traverse((child)=>{
-            if(child.name === "change_material"){
-                console.warn(child);
-                //child.material = new MeshStandardMaterial();
-                child.material.map = texture[0];
-                //child.material.displacementMap = texture[1];
-                child.material.normalMap = texture[1];
-                child.material.aoMap = texture[2];
+            mesh.material.needsUpdate = true;
+        }else{
+            mesh.traverse((child)=>{
+                if(child.name === "change_material"){
+                    console.warn(child);
+                    //child.material = new MeshStandardMaterial();
+                    child.material.map = texture[0];
+                    //child.material.displacementMap = texture[1];
+                    child.material.normalMap = texture[1];
+                    child.material.aoMap = texture[2];
 
 
-                //child.material.specularMap = texture[4];
-        
-                /* child.material.map.wrapS = RepeatWrapping;
-                child.material.map.wrapT = RepeatWrapping;
-                child.material.map.anisotropy = 4;
-                child.material.map.repeat.set(6, 6);
-                
-                child.material.normalMapType = TangentSpaceNormalMap;
-                child.material.displacementBias = - 0.48000408;
-                child.material.displacementScale = 0.9909636143;
-                child.material.normalScale = new Vector2( 1.8, - 1.8); */
-        
-                child.material.needsUpdate = true;
-            }
-        })
+                    //child.material.specularMap = texture[4];
+            
+                    /* child.material.map.wrapS = RepeatWrapping;
+                    child.material.map.wrapT = RepeatWrapping;
+                    child.material.map.anisotropy = 4;
+                    child.material.map.repeat.set(6, 6);
+                    
+                    child.material.normalMapType = TangentSpaceNormalMap;
+                    child.material.displacementBias = - 0.48000408;
+                    child.material.displacementScale = 0.9909636143;
+                    child.material.normalScale = new Vector2( 1.8, - 1.8); */
+            
+                    child.material.needsUpdate = true;
+                }
+            })
+        }
     },
 
     TeraceChangeTexture: function( mesh, texture ){
@@ -115,8 +122,8 @@ var PaintObject = {
         mesh.material.map.wrapS = RepeatWrapping;
         mesh.material.map.wrapT = RepeatWrapping;
         mesh.material.map.anisotropy = 4;
-        mesh.material.map.repeat.set(6, 6);
-        //mesh.material.map.repeat.set(23, 16);
+        //mesh.material.map.repeat.set(6, 6);
+        mesh.material.map.repeat.set(23, 16);
 
 
         mesh.material.normalMapType = TangentSpaceNormalMap;
@@ -134,11 +141,10 @@ var PaintObject = {
         var values = props.priceCalculate.GetTeraceInformation();
 
 
-        document.getElementById("price").textContent = "Price: ";
-        document.getElementById("materialNeeded").textContent = "Total Material needed";
-        document.getElementById("price").textContent += " " + values[0];
-        document.getElementById("materialNeeded").textContent += " " + values[1];
-        console.log( mesh );
+        document.getElementById("price").textContent = "Pret terase: " + values[0] + " lei";;
+        document.getElementById("materialNeeded").textContent = "Totalul de bucati necesare: " + values[1].toFixed(2) + " bucati";
+        var m2 = document.getElementById("m2");
+        m2.innerHTML = "Total bucati pe m" + "2".sup() + " necesari: " + values[2].toFixed(2);
     }
 }
 
