@@ -17,4 +17,5 @@ export namespace CameraObject{
     * @returns { camera } Return half 2D camera half 3D
     */
     export function CameraBoth ( _cameraBoth );
+    export function Camera3DMoving ( _camera3D );
 }

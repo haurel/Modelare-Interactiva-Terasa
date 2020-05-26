@@ -2,6 +2,7 @@ import { OrthographicCamera } from "three/build/three.module";
 import { PerspectiveCamera } from "three";
 
 
+
 var camera2D = {
     width : window.innerWidth / 6,
     height : window.innerHeight / 6,
@@ -16,16 +17,6 @@ var camera3D = {
     aspectRatio : (window.innerWidth / 6) / (window.innerHeight / 6),
     near : 1,
     far: 200,
-}
-
-var cameraBoth = {
-    camera2D : {
-        aspectRatio : (window.innerWidth / 6) / (window.innerHeight / 6),
-
-    },
-    camera3 : {
-
-    }
 }
 
 
@@ -54,6 +45,23 @@ var CameraObject = {
         camera.position.set(30, -120, 50);
         camera.rotation.set(1, 0, 0);
         //camera.position.set(x, y, z);
+        return camera;
+    },
+
+    Camera3DMoving: function( _camera3D = camera3D){
+        var camera = new PerspectiveCamera(
+            _camera3D.fov,
+            _camera3D.aspectRatio,
+            _camera3D.near,
+            _camera3D.far
+        )
+
+        //camera.position.set(0, -70, 15);
+        //amera.position.y = 10;
+        /* camera.up.set(0, -1, 1);
+        camera.lookAt(0, 1, 0); */
+        camera.name = "Camera3DMoving";
+
         return camera;
     }
 }

@@ -4,12 +4,14 @@ import prepare from './Structure/prepare';
 import * as functionForUI from './Structure/functionForUI';
 import props from './Structure/config/defaults';
 import ObjectLoad from './Structure/ObjectLoad';
-import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, ShaderMaterial, PlaneGeometry, Vector2 } from 'three/build/three.module';
+import { Vector3, Group, Object3D, Box3, BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, ShaderMaterial, PlaneGeometry, Vector2, Euler } from 'three/build/three.module';
 import { CameraObject } from './Structure/CameraObject';
 import { PaintObject } from './Structure/PaintObject';
 import chairTextureSettings from './Structure/config/chairTextureSettings';
 import objectPathLink from './Structure/config/objectPathLink';
-
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import { OrbitControls, MapControls } from 'three/examples/jsm/controls/OrbitControls';
+import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls';
 
 /* document.addEventListener('DOMContentLoaded', () => {
     const wallTexture = document.getElementById("img_select");
@@ -59,16 +61,49 @@ function ChangeView( typeOfView ){
     if( typeOfView === '2D'){
         props.scene.remove(props.camera2D)
         props.camera2D = null;
-
+        
         props.camera2D = CameraObject.Camera2D();
         props.scene.add( props.camera2D );
+        props.obj.activate();
     }
     else if( typeOfView === '3D'){
         props.scene.remove(props.camera2D);
         props.camera2D = null;
 
         props.camera2D = CameraObject.Camera3D();
+        props.obj.activate();
         props.scene.add(props.camera2D);
+    }else if( typeOfView === 'Move'){
+        props.scene.remove(props.camera2D);
+        props.camera2D = null;
+        props.camera2D = CameraObject.Camera3DMoving();
+
+        /* props.camera2D.lookAt(1, 0, 0);
+        props.camera2D.up.set(0, 1, 0);
+        props.camera2D.updateProjectionMatrix(); */
+        props.scene.add(props.camera2D);
+
+        props.camera2D.position.set(0, -44.8, 10);
+        props.camera2D.lookAt(new THREE.Vector3(-44.8, 0, 0));
+        props.camera2D.rotation.set(Math.PI / 2, 0, 0);
+
+        window.addEventListener('keydown', keyDown);
+        window.addEventListener('keyup', keyUp);
+        
+        function keyDown(event){
+            props.keyboard[event.keyCode] = true;
+        }
+        
+        function keyUp(event){
+            props.keyboard[event.keyCode] = false;
+        }
+
+        
+
+        props.obj.dezactive();
+
+
+
     }
 }
 
@@ -90,7 +125,6 @@ function takeModel(name){
                         new Vector3(3, 3, 3), 
                         name 
                     );
-
             var tempObject = chair.Load();
             
             tempObject.price = value[1];
