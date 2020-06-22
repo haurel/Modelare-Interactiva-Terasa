@@ -8,6 +8,7 @@ body, html{
   overflow: hidden;
 }
 
+
 #header{
   /* z-index: 999; */
   position: fixed;
@@ -214,11 +215,7 @@ body, html{
   min-width:782px; /* width of 3 images (746px) plus images' padding and border (36px) */ 
   background-color:#f0f0f0; 
  } 
-#image-container img { 
-  /* padding:5px;  */
-  /* border:1px solid #42f54e;  */
-  /* border: 2px solid #f54245; */
- } 
+
 .image-right { 
   float:right;
   display: block;
@@ -226,6 +223,51 @@ body, html{
   margin-right: 100px;
   border:1px solid #f54245;
  } 
+
+ .about{
+  float:left;
+  display: block;
+  margin-top: 15px;
+  margin-left: 100px;
+ }
+
+ .about-message {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.about-content {
+  background-color: #1F2833;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid rgb(27, 35, 44);
+  color: #ff652f;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 
  .active{
   border:1px #42f54e; 
@@ -343,6 +385,7 @@ div.hidden{ display: none; }
 .button_class:hover .tooltiptext {
   visibility: visible;
 }
+
 
 #toolTipScene{
   position: fixed;

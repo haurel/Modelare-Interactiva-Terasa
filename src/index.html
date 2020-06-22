@@ -17,6 +17,44 @@
         </div>
         <div id="image-container">
             <!-- style="border: 1px solid rgb(66, 245, 78);" -->
+            <img class="about" id="about-button" src="./css/image/about.png">
+            <div id="aboutSection" class="about-message">
+
+                <!-- Modal content -->
+                <div class="about-content">
+                  <span class="close">&times;</span>
+                  <p>Informatii utilizare:
+                    <ol>
+                        <li>Generarea terasei</li>
+                        <ol>
+                            <li>Se va merge din meniu - submeniu si se va selecta modul de generare a terasei: standard si custom</li>
+                            <li>Terasa standard este de forma dreptunghiulara si are o dimensiune de 7x5m</li>
+                            <li>Pentru generarea terasei interactive se vor executa urmatori pasi:
+                                <ol>
+                                    <li>Se vor seta puncte pe scena, punctele apoi vor fi conectate in urmatorul pas;</li>
+                                    <li>Dupa setarea punctelor se va apasa tasta Z de la tastatura si se vor selecta punctele in sensul acelor ceasornicului;</li>
+                                    <li>Dupa unirea tuturor punctelor se va tasta X si se va genera terasa custom.</li>
+                                </ol>
+                            </li>
+                        </ol>
+                        <li>Dupa generarea terasei se pot introduce obiecte respectiv se poate schimba materialul terasei;</li>
+                        <li>Dupa adaugarea obiectelor in scena in partea dreapta exista 4 butoane de interactiune(din stanga spre dreapta):</li>
+                        <ol>
+                            <li>Primul buton - modul Paiting, la activare acestuia se va selecta un obiect iar acelui obiect i se va putea schimba materialul din care este format;</li>
+                            <li>Al doilea buton - stergerea obiectelor, la activarea acestuia si respectiv selectarea unui obiect, acel obiect va fi sters din scena;</li>
+                            <li>Al treilea buton - rotirea obiectelor, la activarea lui obiectul selectat se poate roti, rotatia se face tinand apasat click stanga pe obiect si miscand mouse-ul;</li>
+                            <li>Ultimul buton - mutarea obiectelor, la activarea lui si selectarea unui obiect acesta poate fi mutat, bine-inteles trebuie in momentul mutari click stanga al mouse-ului 
+                                sa fie tinut apasat.
+                            </li>
+                        </ol>
+                        <li>Dupa finalizarea tuturor modificarile, in jos-ul meniului exista un sub meniu numit Pret Total care afiseaza pentrul total pentru toate obiectele adaugate/modificarile aduse
+                            terasei.
+                        </li>
+                    </ol>
+                  </p>
+                </div>
+              
+            </div>
             <img class="image-right" src="./css/image/drag.png"  onClick="Action('drag')"/>
             <img class="image-right" src="./css/image/rotate.png" onClick="Action('rotate')"/>
             <img class="image-right" src="./css/image/delete.png" onClick="Action('delete')"/>
@@ -215,6 +253,35 @@
     
 
     <script>
+        //////////////////////////////////////////////////////////////////////////////////////
+        //ABOUT SECTION
+        var modal = document.getElementById("aboutSection");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("about-button");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        //ABOUT SECTION END
+        //////////////////////////////////////////////////////////////////////////////////////
+
         document.getElementById('input_file').addEventListener('change', readFile, false);
 
         function readFile(e){
