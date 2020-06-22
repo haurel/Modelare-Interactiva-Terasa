@@ -114,7 +114,7 @@ const createOrbitControls = () => {
         props.renderer.domElement
     )
     //props.orbitControls.update();
-    console.log(props.orbitControls);
+    //console.log(props.orbitControls);
 
     /* props.orbitControls = new TrackballControls( props.camera2D, 
         props.renderer.domElement);
@@ -137,7 +137,7 @@ function animate(){
     //props.transformControlLight.updateMatrix();
     
     if(props.teraceMode['custom'] === true){
-        console.log('s');
+       
         props.customTerace = new CustomTerace();
         if(props.obj !== null){
             props.obj = null;
@@ -148,8 +148,7 @@ function animate(){
         if(props.customTerace !== null){
             props.customTerace.dezactive();
         }
-        props.obj = new ObjectControl(props.renderer.domElement, props.camera2D,
-                props.objectsArray, props.plane);
+        props.obj = new ObjectControl();
         props.scene.remove(props.terace);
         
         props.terace = InitializationStaticObjects.Terrace();
@@ -157,6 +156,35 @@ function animate(){
         props.teraceMode['default'] = false;
     }
 
+    if(props.camera2D.name === "Camera3DMoving"){
+        
+        if(props.keyboard[87]){ // W key
+            props.camera2D.position.x -= Math.sin(props.camera2D.rotation.y) * 0.2;
+		    props.camera2D.position.y -= -Math.cos(props.camera2D.rotation.y) * 0.2;
+            
+        }
+        if(props.keyboard[83]){ // S key
+            props.camera2D.position.x += Math.sin(props.camera2D.rotation.y) * 0.2;
+		    props.camera2D.position.y += -Math.cos(props.camera2D.rotation.y) * 0.2;
+            
+        }
+        if(props.keyboard[65]){ // A key
+            props.camera2D.position.x += Math.sin(props.camera2D.rotation.y - Math.PI/2) * 0.2;
+            props.camera2D.position.y += -Math.cos(props.camera2D.rotation.y - Math.PI/2) * 0.2;
+        }
+        if(props.keyboard[68]){ // D key
+            props.camera2D.position.x += Math.sin(props.camera2D.rotation.y + Math.PI/2) * 0.2;
+		    props.camera2D.position.y += -Math.cos(props.camera2D.rotation.y + Math.PI/2) * 0.2;
+        }
+        if(props.keyboard[81]){ //q
+            props.camera2D.rotation.y -= Math.PI*0.02
+        }
+        if(props.keyboard[69]){ //e
+            props.camera2D.rotation.y += Math.PI*0.02
+        }
+    }
+
+  
     render();
 }
 
@@ -179,10 +207,13 @@ function LoadCompleteScene(){
 
     //props.camera2D = CameraObject.Camera2D();
     props.camera2D = CameraObject.Camera3D();
+    //props.camera2D = CameraObject.Camera3DMoving();
     props.scene.add(props.camera2D);
     //props.camera2D.position.set(0, 0, 30);
     createRenderer();    
     createEnvironment();
+
+    
     //createOrbitControls();
 
     
