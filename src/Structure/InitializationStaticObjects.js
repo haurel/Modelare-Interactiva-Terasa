@@ -155,7 +155,7 @@ var InitializationStaticObjects = {
         const meshHouse = new Group();
         const loader = new GLTFLoader();
         const dracoLoader = new DRACOLoader();
-        const location = '/src/Structure/House/HouseCompressed/Cyprys_House.gltf';
+        const location = '/src/Structure/House/HouseCompressed/house.gltf';
         dracoLoader.setDecoderPath('./node_modules/three/examples/js/libs/draco/');
         loader.setDRACOLoader( dracoLoader );
 

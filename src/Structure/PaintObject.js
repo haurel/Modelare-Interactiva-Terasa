@@ -1,4 +1,4 @@
-import { MeshPhongMaterial, TextureLoader, Mesh, Vector2, MeshBasicMaterial, MeshStandardMaterial, ImageUtils } from "three/build/three.module"
+import { MeshPhongMaterial, TextureLoader, Mesh, Vector2, MeshBasicMaterial, MeshStandardMaterial, ImageUtils, Group } from "three/build/three.module"
 import { RepeatWrapping, ObjectSpaceNormalMap, TangentSpaceNormalMap } from "three";
 import props from './config/defaults';
 
@@ -78,21 +78,45 @@ var PaintObject = {
 
     ObjectTexture: function( mesh, texture ){
         //const material = new MeshPhongMaterial();
-        if(mesh.material){
-            mesh.material.map = texture[0];
-            mesh.material.normalMap = texture[1];
-            mesh.material.aoMap = texture[2];
+        //console.log(mesh);
+        if(mesh.name === "masa_001"){
+            //console.log(mesh.children[0])
+            mesh.children[0].material.map = texture[0];
+            mesh.children[0].material.normalMap = texture[1];
+            mesh.children[0].material.aoMap = texture[2];
 
-            mesh.material.needsUpdate = true;
+            mesh.children[0].material.needsUpdate = true;
         }else{
+
+            //console.log(mesh);
             mesh.traverse((child)=>{
                 if(child.name === "change_material"){
                     console.warn(child);
-                    //child.material = new MeshStandardMaterial();
-                    child.material.map = texture[0];
-                    //child.material.displacementMap = texture[1];
-                    child.material.normalMap = texture[1];
-                    child.material.aoMap = texture[2];
+                    if(child instanceof Group){
+                            child.children[0].material.map = texture[0];
+                            child.children[0].material.normalMap = texture[1];
+                            child.children[0].material.aoMap = texture[2];
+
+                            child.children[0].material.needsUpdate = true;
+
+                            child.children[1].material.map = texture[0];
+                            child.children[1].material.normalMap = texture[1];
+                            child.children[1].material.aoMap = texture[2];
+
+                            child.children[1].material.needsUpdate = true;
+
+                            child.children[2].material.map = texture[0];
+                            child.children[2].material.normalMap = texture[1];
+                            child.children[2].material.aoMap = texture[2];
+
+                            child.children[2].material.needsUpdate = true;
+                    }else{
+                        child.material.map = texture[0];
+                        //child.material.displacementMap = texture[1];
+                        child.material.normalMap = texture[1];
+                        child.material.aoMap = texture[2];
+                        child.material.needsUpdate = true;
+                    }
 
 
                     //child.material.specularMap = texture[4];
@@ -107,7 +131,7 @@ var PaintObject = {
                     child.material.displacementScale = 0.9909636143;
                     child.material.normalScale = new Vector2( 1.8, - 1.8); */
             
-                    child.material.needsUpdate = true;
+                    
                 }
             })
         }

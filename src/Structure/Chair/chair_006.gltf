@@ -31,7 +31,7 @@
         },
         {
             "mesh" : 1,
-            "name" : "chair_006_plane",
+            "name" : "change_material",
             "rotation" : [
                 0.012087940238416195,
                 0.7070034146308899,
@@ -74,8 +74,8 @@
                     "index" : 1,
                     "texCoord" : 0
                 },
-                "metallicFactor" : 1,
-                "roughnessFactor" : 1
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5083333253860474
             }
         },
         {
@@ -105,8 +105,8 @@
                     "index" : 4,
                     "texCoord" : 0
                 },
-                "metallicFactor" : 1,
-                "roughnessFactor" : 1
+                "metallicFactor" : 0.3916666507720947,
+                "roughnessFactor" : 0.2749999761581421
             }
         }
     ],
@@ -118,25 +118,23 @@
                     "attributes" : {
                         "POSITION" : 0,
                         "NORMAL" : 1,
-                        "TANGENT" : 2,
-                        "TEXCOORD_0" : 3
+                        "TEXCOORD_0" : 2
                     },
-                    "indices" : 4,
+                    "indices" : 3,
                     "material" : 0
                 }
             ]
         },
         {
-            "name" : "Plane008",
+            "name" : "change_material",
             "primitives" : [
                 {
                     "attributes" : {
-                        "POSITION" : 5,
-                        "NORMAL" : 6,
-                        "TANGENT" : 7,
-                        "TEXCOORD_0" : 8
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
                     },
-                    "indices" : 9,
+                    "indices" : 7,
                     "material" : 1
                 }
             ]
@@ -213,22 +211,16 @@
             "bufferView" : 2,
             "componentType" : 5126,
             "count" : 38116,
-            "type" : "VEC4"
-        },
-        {
-            "bufferView" : 3,
-            "componentType" : 5126,
-            "count" : 38116,
             "type" : "VEC2"
         },
         {
-            "bufferView" : 4,
+            "bufferView" : 3,
             "componentType" : 5123,
             "count" : 209748,
             "type" : "SCALAR"
         },
         {
-            "bufferView" : 5,
+            "bufferView" : 4,
             "componentType" : 5126,
             "count" : 4873,
             "max" : [
@@ -244,25 +236,19 @@
             "type" : "VEC3"
         },
         {
-            "bufferView" : 6,
+            "bufferView" : 5,
             "componentType" : 5126,
             "count" : 4873,
             "type" : "VEC3"
         },
         {
-            "bufferView" : 7,
-            "componentType" : 5126,
-            "count" : 4873,
-            "type" : "VEC4"
-        },
-        {
-            "bufferView" : 8,
+            "bufferView" : 6,
             "componentType" : 5126,
             "count" : 4873,
             "type" : "VEC2"
         },
         {
-            "bufferView" : 9,
+            "bufferView" : 7,
             "componentType" : 5123,
             "count" : 26166,
             "type" : "SCALAR"
@@ -281,48 +267,38 @@
         },
         {
             "buffer" : 0,
-            "byteLength" : 609856,
+            "byteLength" : 304928,
             "byteOffset" : 914784
         },
         {
             "buffer" : 0,
-            "byteLength" : 304928,
-            "byteOffset" : 1524640
-        },
-        {
-            "buffer" : 0,
             "byteLength" : 419496,
-            "byteOffset" : 1829568
+            "byteOffset" : 1219712
         },
         {
             "buffer" : 0,
             "byteLength" : 58476,
-            "byteOffset" : 2249064
+            "byteOffset" : 1639208
         },
         {
             "buffer" : 0,
             "byteLength" : 58476,
-            "byteOffset" : 2307540
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 77968,
-            "byteOffset" : 2366016
+            "byteOffset" : 1697684
         },
         {
             "buffer" : 0,
             "byteLength" : 38984,
-            "byteOffset" : 2443984
+            "byteOffset" : 1756160
         },
         {
             "buffer" : 0,
             "byteLength" : 52332,
-            "byteOffset" : 2482968
+            "byteOffset" : 1795144
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 2535300,
+            "byteLength" : 1847476,
             "uri" : "chair_006.bin"
         }
     ]

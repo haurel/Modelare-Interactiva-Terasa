@@ -2,6 +2,7 @@ import { Object3D } from "three";
 import { NotEqualStencilFunc, Group } from "three/build/three.module";
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 
 export default {
@@ -41,9 +42,11 @@ export default {
     /**
      * Orbit Controls
      * 
-     * @type { TrackballControls } from 'three/examples/jsm/controls/OrbitControls.js'
+     * @type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
      */
     orbitControls: {},
+
+
 
     /**
      * Transform Control
@@ -203,5 +206,8 @@ export default {
     teraceMode:{
         'custom': false,
         'default' : false,
-    }
+    },
+
+
+    keyboard: {},
 };

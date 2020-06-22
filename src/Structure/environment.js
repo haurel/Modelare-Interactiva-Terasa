@@ -41,7 +41,7 @@ const createHelpers = () =>{
 
 window.addEventListener('keydown', tempFunctionForChangeTexture, false); */
 
-const setModeForLight = (event) =>{
+/* const setModeForLight = (event) =>{
     if(event.keyCode === 82){
         //R
         props.transformControlLight.setMode('rotate');
@@ -50,7 +50,7 @@ const setModeForLight = (event) =>{
     }
 }
 
-window.addEventListener('keydown', setModeForLight);
+window.addEventListener('keydown', setModeForLight); */
 
 
 export default createEnvironment  => {
@@ -60,7 +60,7 @@ export default createEnvironment  => {
 
     props.planeIntersect = new Mesh( 
         new PlaneGeometry( 100, 100, 30, 30 ), 
-        new MeshBasicMaterial( { color: 0x03fc32, opacity: 0, transparent: false, wireframe: true } )
+        new MeshBasicMaterial( { color: 0x03fc32, opacity: 0, transparent: true, wireframe: true } )
     );
     props.planeIntersect.visible = true;
     props.planeIntersect.name = "PlaneIntersect";
@@ -104,11 +104,12 @@ export default createEnvironment  => {
 
     var boundingBox = new ObjectLoad('/src/Structure/House/HouseCompressed/boundingbox.gltf',
                     new Vector3(31, 16, 24),
-                    new Vector3(6, 6, 6),
+                    new Vector3(10, 10, 10),
                     "Perete_casa",
                 );
-    var boundingBoxTemp = boundingBox.Load();
     
+    var boundingBoxTemp = boundingBox.Load();
+    //console.log("Console", boundingBoxTemp);
     props.scene.add(boundingBoxTemp);
 
 

@@ -20,10 +20,10 @@ var MeshMaterial = function( objectSelected ){
                 _arrayTextureName.push( texture );
             })
         } 
-
     }
     //console.log( _arrayTextureName );
     //console.log( _arrayTextureName[0].diffuse_map)
+
 
     for(let i = 0; i <  _arrayTextureName.length; i++){
         var geometry = new SphereGeometry(2, 32, 32);

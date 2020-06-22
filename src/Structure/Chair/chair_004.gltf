@@ -15,7 +15,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "chair_004",
+            "name" : "change_material",
             "rotation" : [
                 0.4998880922794342,
                 -0.5001119375228882,

@@ -83,7 +83,7 @@ function ChangeView( typeOfView ){
         props.camera2D.updateProjectionMatrix(); */
         props.scene.add(props.camera2D);
 
-        props.camera2D.position.set(0, -44.8, 10);
+        props.camera2D.position.set(0, -44.8, 15);
         props.camera2D.lookAt(new THREE.Vector3(-44.8, 0, 0));
         props.camera2D.rotation.set(Math.PI / 2, 0, 0);
 

@@ -133,7 +133,7 @@ var CustomTerace = function(){
         surface.lineTo(  _this._verticesPoints[0][0],  _this._verticesPoints[0][1] );
 
         var geometry = new ShapeGeometry( surface );
-
+        
         geometry.computeBoundingBox();
         boxUnwrapUVs(geometry);
         //calculate UV coordinates, if uv attribute is not present, it will be added
@@ -216,6 +216,8 @@ var CustomTerace = function(){
                     
             }
         })
+
+        console.log(props.terace);
 
         props.renderer.domElement.removeEventListener('mousedown', SelectPoints, { passive: true });
         window.removeEventListener('keydown', DrawSurface, { passive : true });

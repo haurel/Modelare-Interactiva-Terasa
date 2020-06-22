@@ -28,7 +28,9 @@ export default class ObjectLoad{
 
             this._availibleCustomPainting = {
                 'chair_001': "true",
-                'chair_004': "false",
+                'chair_004': "true",
+                'chair_006': "true",
+                'chair_007': "true",
                 'masa_001': "true",
             }
     }
@@ -37,7 +39,8 @@ export default class ObjectLoad{
         const loader = new GLTFLoader();
         loader.load( this._objectPath, ( gltf ) =>{
             const mesh = gltf.scene;
-			
+            mesh.receiveShadow = true;
+            mesh.castShadow = true;
             //console.log(mesh);
             //mesh.scale.set(30, 30,30);
             //mesh.scale.set(2.5, 2.5, 2.5);
@@ -49,7 +52,10 @@ export default class ObjectLoad{
             //mesh.position.set( _position.x, _position.y, _position.z );
             mesh.name = this._name;
 
-            if(mesh.name === "Perete_casa") mesh.visible = false;
+            if(mesh.name === "Perete_casa"){
+                mesh.visible = false;
+                mesh.children[0].material.visible = false
+            } 
 
             var gltfBox = new Box3().setFromObject( mesh );
             var getSize = new Vector3();
@@ -82,6 +88,8 @@ export default class ObjectLoad{
 
             //props.scene.add( box.helper );
             box.add( mesh );
+
+            
             
             
             //console.log(props.scene);
@@ -91,7 +99,6 @@ export default class ObjectLoad{
             )
             PaintObject.ObjectTexture( mesh, textureArray ); */
         });
-
         return this.group;
     };
 
@@ -101,17 +108,17 @@ export default class ObjectLoad{
             width, height, depth
         );
         material = new MeshBasicMaterial({
-            color: 0x000000,
+            color: 0xAAACF213,
             transparent: false,
             opacity: 0.0,
             wireframe: true,
             depthTest: true
         });
 
-
+        
         box = new Mesh( geometry, material );
         box.name = name;
-
+        box.material.visible = false;
         box.i = props.allObject; props.allObject++;
 
         box.rotation.set( this._rotation.x, this._rotation.y, this._rotation.z );

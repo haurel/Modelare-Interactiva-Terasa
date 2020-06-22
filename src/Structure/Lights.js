@@ -41,10 +41,10 @@ export default class Lights extends Group{
             1
             //1.89
         );
-        this.directionalLight.position.set(5, 8, 2);
+        this.directionalLight.position.set(0, -2, 20);
         //this.directionalLight.position.set(200, 100, 200);
         //this.directionalLight.position.set(100, 520, 100);
-        this.directionalLight.position.multiplyScalar(50);
+        this.directionalLight.position.multiplyScalar(5);
         
         this.directionalLight.castShadow = true;
         this.directionalLight.shadow.mapSize.width = this.directionalLight.shadow.mapSize.height = 1024 * 2;
