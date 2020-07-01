@@ -43,11 +43,6 @@ export default class PriceCalculate{
         this.CalculateTeraceSurface( mesh );
     }
 
-    UpdateTotalPrice(){
-
-    }
-
-
     CalculateTeraceSurface( mesh ){
         this._teraceMaterialSurfaceArea = this._teraceMaterialWidth * this._teraceMaterialLength; // m
 

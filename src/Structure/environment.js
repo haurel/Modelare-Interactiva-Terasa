@@ -104,7 +104,7 @@ export default createEnvironment  => {
 
     var boundingBox = new ObjectLoad('/src/Structure/House/HouseCompressed/boundingbox.gltf',
                     new Vector3(31, 16, 24),
-                    new Vector3(10, 10, 10),
+                    new Vector3(6, 6, 6),
                     "Perete_casa",
                 );
     

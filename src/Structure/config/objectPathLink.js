@@ -5,6 +5,11 @@ export default{
         78.32,
         "Scaun Simplu"
     ],
+    chair_003: [
+        '/src/Structure/Chair/chair_003.gltf',
+        99.99,
+        "Scaun lemn"
+    ],
     chair_004: [
         '/src/Structure/Chair/chair_004.gltf',
         120.22,
@@ -28,6 +33,16 @@ export default{
     masa_001: [
         '/src/Structure/Tables/masa_001.gltf',
         233.33,
+        "Masa din lemn"
+    ],
+    masa_scaun: [
+        '/src/Structure/Tables/masa_si_scaune.gltf',
+        450,
+        "Masa si 4 scaune din lemn"
+    ],
+    masa_002: [
+        '/src/Structure/Tables/masa_002.gltf',
+        120,
         "Masa din lemn"
     ]
 }
