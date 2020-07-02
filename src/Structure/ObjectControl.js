@@ -292,6 +292,29 @@ var ObjectControl = function(){
                         props.objectsArray.splice( scope._INDEX, 1);
                         props.objectsMeshOnlyArray.splice( scope._INDEX , 1);
                         scope.UpdateArrayObject();
+
+                        /* for(const [key, value] of props.priceCalculate.GetObjectsInformation().entries()){
+                            console.log(key,  intersects[0].object.parent.objectName);
+                            if(key === intersects[0].object.parent.objectName && value === intersects[0].object.parent.price){
+                                
+                            }
+                        } */
+                        props.priceCalculate.UpdateObjectPriceAfterDelete(intersects[0].object.parent)
+
+                        document.getElementById("objects").textContent = "Obiecte de exterior: ";
+                        for(const [key, value] of props.priceCalculate.GetObjectsInformation().entries()){
+                            //console.log(key + ": " +value);
+                            document.getElementById("objects").setAttribute('style', 'white-space: pre;');
+                            document.getElementById("objects").textContent += key + "- " + value.toFixed(2) + "lei\r\n";
+                        }
+
+                        var divElement = $("#toolTipScene");
+                        if (divElement) {
+                        divElement.css({
+                            display: "none"
+                        });
+                        }
+
                 }
                 else if( props.objectActions['paint'] ){
                     if( !scope._isSelect){

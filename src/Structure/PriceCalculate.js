@@ -31,8 +31,26 @@ export default class PriceCalculate{
         
 
         this._priceAllObjects += value;
-
+        console.warn("ADD", this._priceAllObjects);
         //console.log(this._priceAllObjects);
+    }
+
+    UpdateObjectPriceAfterDelete( _oldmesh ){
+        var key = _oldmesh.objectName;
+        var value = _oldmesh.price;
+
+        if(this._totalObjectInScene.has(key)){
+            if(this._totalObjectInScene.get(key) !== value){
+                this._totalObjectInScene.set(key, (this._totalObjectInScene.get(key) - value));
+                this._priceAllObjects -= value;
+            }else{
+                this._totalObjectInScene.delete(key)
+                this._priceAllObjects -= value;
+            }
+        }
+
+        console.warn("DELETE", this._priceAllObjects,  this._totalObjectInScene);
+
     }
 
     UpdateTeraceMaterial( price, length, width, mesh ){
@@ -74,6 +92,10 @@ export default class PriceCalculate{
             this._teraceTotalMaterialNeeded,
             this._totalMaterialM2,
         ]
+    }
+
+    GetTotalPriceObjects(){
+        return this._priceAllObjects;
     }
 
     GetObjectsInformation(){

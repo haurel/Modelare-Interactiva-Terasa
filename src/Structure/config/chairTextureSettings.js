@@ -60,8 +60,9 @@ export default{
         occ_map: "/src/Structure/Chair/Texture/material_008_OCC.png",
     },
 
-
-
-    
-
+    material_lana:{
+        diffuse_map: "/src/Structure/Chair/Texture/material_lana_diffuse.png",
+        nrm_map: "/src/Structure/Chair/Texture/material_lana_nrm.png",
+        occ_map: "/src/Structure/Chair/Texture/material_lana_occ.png"
+    },
 }

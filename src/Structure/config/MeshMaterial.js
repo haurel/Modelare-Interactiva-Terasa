@@ -15,6 +15,7 @@ export default{
             chairTextureSettings.leather_chair_014,
             chairTextureSettings.material_001,
             chairTextureSettings.material_004,
+            chairTextureSettings.material_lana
         ],
         'chair_003' : [
             chairTextureSettings.leather_chair_014,
@@ -28,6 +29,7 @@ export default{
             chairTextureSettings.material_005,
             chairTextureSettings.material_001,
             chairTextureSettings.material_004,
+            chairTextureSettings.leather_chair_014
         ],
         'chair_007':[
             chairTextureSettings.material_004,

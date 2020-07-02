@@ -8,7 +8,7 @@ export default{
     chair_003: [
         '/src/Structure/Chair/chair_003.gltf',
         99.99,
-        "Scaun lemn"
+        "Scaun lemn model N"
     ],
     chair_004: [
         '/src/Structure/Chair/chair_004.gltf',
@@ -43,6 +43,6 @@ export default{
     masa_002: [
         '/src/Structure/Tables/masa_002.gltf',
         120,
-        "Masa din lemn"
+        "Masa moderna inalta"
     ]
 }
