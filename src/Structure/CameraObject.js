@@ -68,26 +68,3 @@ var CameraObject = {
 
 export { CameraObject }
 
- /* var SCREEN_W, SCREEN_H;
-    SCREEN_W = window.innerWidth;
-    SCREEN_H = window.innerHeight;
-    
-    
-    var left,bottom,width,height;
-    left = 0; bottom = 0; width = 0.4*SCREEN_W-2; height = SCREEN_H-2;
-
-
-    props.renderer.setViewport(left,bottom,width,height);
-    props.renderer.setScissor(left,bottom,width,height);
-    props.renderer.setScissorTest (true);
-    props.camera2D.aspect = width / height;
-    props.camera2D.updateProjectionMatrix();
-    props.renderer.render(props.scene, props.camera2D);
-
-    left = 0.4*SCREEN_W+1; bottom = 1; width = 0.6*SCREEN_W-2; height = SCREEN_H-2;
-    props.renderer.setViewport (left,bottom,width,height);
-    props.renderer.setScissor(left,bottom,width,height);
-    props.renderer.setScissorTest (true);  // clip out "viewport"
-    props.camera.aspect = width / height;
-    props.camera.updateProjectionMatrix();
-    props.renderer.render(props.scene,props.camera); */

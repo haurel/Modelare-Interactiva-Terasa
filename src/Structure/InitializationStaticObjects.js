@@ -250,27 +250,6 @@ var InitializationStaticObjects = {
         meshTerrace.material.normalMapType = TangentSpaceNormalMap;
         meshTerrace.material.normalScale = new Vector2(0.7, 0.9);
 
-                //meshTerrace.material.displacementMap = textureLoadTerrace[1];
-/*         meshTerrace.material.displacementMap.wrapS = RepeatWrapping;
-        meshTerrace.material.displacementMap.wrapT = RepeatWrapping;
-        meshTerrace.material.displacementMap.anisotropy = 4;
-        meshTerrace.material.displacementMap.repeat.set(3,3); */
-
-
-        //meshTerrace.material.normalMap.repeat.set(6, 6);
-        //
-        //
-/*        meshTerrace.material.normalScale = new Vector2(0.7, 0.9);
-        meshTerrace.material.normalMap.wrapS = RepeatWrapping;
-        meshTerrace.material.normalMap.wrapT = RepeatWrapping;
-        meshTerrace.material.normalMap.anisotropy = 4;
-        meshTerrace.material.normalMap.repeat.set(3, 3); */
-
-        //meshTerrace.material.metalnessMap = textureLoadTerrace[3];
-/*         meshTerrace.material.metalnessMap.wrapS = RepeatWrapping;
-        meshTerrace.material.metalnessMap.wrapT = RepeatWrapping;
-        meshTerrace.material.metalnessMap.anisotropy = 4;
-        meshTerrace.material.metalnessMap.repeat.set(3, 3); */
 
         meshTerrace.material.needsUpdate = true;
 

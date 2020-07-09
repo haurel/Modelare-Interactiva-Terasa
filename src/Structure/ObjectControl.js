@@ -102,7 +102,9 @@ var ObjectControl = function(){
                             displayInfo = ". Selectarea obiectului va duce la scena de Paiting.";
                         }else if(v === 'delete'){
                             displayInfo = ". Selectarea obiectului duce la stergerea acestuia.";
-                        }
+                        }else if(v === 'rotate'){
+							displayInfo = ""
+						}
             
                         divElement.find('span').text("Interactive mode: " + v.toUpperCase() + displayInfo);
                         

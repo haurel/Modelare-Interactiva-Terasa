@@ -8,7 +8,7 @@
     <link href='https://fonts.googleapis.com/css?family=Cabin+Condensed:700' rel='stylesheet' type='text/css'>
     <script src="/src/css/js/menu-script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <title>Three JS</title>
+    <title>Modelare Grafica 3D</title>
 </head>
 <body>
     <div id="header">
@@ -112,8 +112,8 @@
                 <img src="./css/image/textures/house/2.jpg" onclick = "init(this.src)" class="img_select"> -->
             </section>
 
-            <input type="image" id="input_image" src="/src/css/image/upload.png" width="10%"/>
-            <input type="file" id="input_file" style="display: none"/>
+            <!-- <input type="image" id="input_image" src="/src/css/image/upload.png" width="10%"/>
+            <input type="file" id="input_file" style="display: none"/> -->
             <!--onchange="readURL(this);" -->
         </div>
         <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
@@ -126,7 +126,7 @@
                 <div class="hvrbox">
                     <img src="css/image/terasa/1.png">
                     <div class="hvrbox-layer_top" class="img_select" onclick="teraceChange('css/image/terasa/1.png')">
-                        <div class="hvrbox-text"> 10x16 &nbsp; 43.67m<sup>2</sup></div>
+                        <div class="hvrbox-text"> 10x16 &nbsp; 43.67lei/m<sup>2</sup></div>
                     </div>
                 </div>
                 <div class="hvrbox">
@@ -334,7 +334,7 @@
         var ext = ".jpg";
         var srcComplete;
 
-        for(var i = 0; i < 2; i++){
+        for(var i = 0; i < 5; i++){
             srcComplete = src + (i+1) + ext;
             //console.log(srcComplete.toString());
             var image = document.createElement("img");

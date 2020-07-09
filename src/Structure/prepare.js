@@ -37,17 +37,13 @@ const createRenderer = () => {
     props.renderer = new WebGLRenderer({
         alpha: !settings.backgroundColor,
     });
-    //props.renderer.compile(props.scene, props.camera);
-    // Set the pixel ratio for detail or perfomance
+
     props.renderer.setPixelRatio(settings.defaultPixelRatio);
 
-    // Set the size of the render to fit the window
     props.renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // TODO: Check for which cases this is necessary
     props.renderer.gammaInput = true;
 
-    // TODO: Check for which cases this is necessary
     props.renderer.gammaOutput = true;
     props.renderer.gammaFactor = 2;
 
@@ -61,17 +57,13 @@ const createRenderer = () => {
     props.renderer.toneMappingExposure = 1.2;
 
     props.renderer.physicallyCorrectLights = true;
-    // Append the render canvas to the DOM
-    //document.body.appendChild(props.renderer.domElement);
+
     var container = document.getElementById( 'main' );
     document.body.appendChild( container );
     container.appendChild( props.renderer.domElement );
-    //document.getElementById('scena').appendChild(props.renderer.domElement);
+
 };
 
-/**
-* Create camera of type THREE.PerspectiveCamera
-*/
 
 /* const createCamera = () => {
     // Create the camera 
@@ -176,10 +168,10 @@ function animate(){
             props.camera2D.position.x += Math.sin(props.camera2D.rotation.y + Math.PI/2) * 0.2;
 		    props.camera2D.position.y += -Math.cos(props.camera2D.rotation.y + Math.PI/2) * 0.2;
         }
-        if(props.keyboard[81]){ //q
+        if(props.keyboard[69]){ //q
             props.camera2D.rotation.y -= Math.PI*0.02
         }
-        if(props.keyboard[69]){ //e
+        if(props.keyboard[81]){ //e
             props.camera2D.rotation.y += Math.PI*0.02
         }
     }

@@ -50,25 +50,6 @@ var PaintObject = {
                     child.material.map.wrapS = RepeatWrapping;
                     child.material.map.wrapT = RepeatWrapping;
 
-                   /*  child.material.displacementMap = texture[1];
-                    child.material.normalMap = texture[2];
-                    child.material.aoMap = texture[3];
-                    child.material.specularMap = texture[4];
-
-                    child.material.wrapS = RepeatWrapping;
-                    child.material.wrapT = RepeatWrapping;
-                    child.material.anisotropy = 4
-
-                    child.material.map.wrapS = RepeatWrapping;
-                    child.material.map.wrapT = RepeatWrapping;
-                    child.material.map.anisotropy = 4;
-                    child.material.map.repeat.set(1.5 , 1.5);
-
-
-                    child.material.displacementBias = - 0.528408;
-                    child.material.displacementScale = 1.0236143;
-                    child.material.normalScale = new Vector2( 1, - 1 );
- */
                 
                     child.material.needsUpdate = true;
                 }
@@ -168,7 +149,7 @@ var PaintObject = {
         document.getElementById("price").textContent = "Pret terase: " + values[0] + " lei";;
         document.getElementById("materialNeeded").textContent = "Totalul de bucati necesare: " + values[1].toFixed(2) + " bucati";
         var m2 = document.getElementById("m2");
-        m2.innerHTML = "Total bucati pe m" + "2".sup() + " necesari: " + values[2].toFixed(2);
+        m2.innerHTML = "Total bucati pe 1m" + "2".sup() + " necesari: " + values[2].toFixed(2);
     }
 }
 

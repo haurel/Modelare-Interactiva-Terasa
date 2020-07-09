@@ -26,12 +26,6 @@ export default class Camera{
         var viewSize = h;
 		var aspectRatio = w / h;
         props.camera2D = new OrthographicCamera(
-            /* settings.camera2DSigle.left,
-            settings.camera2DSigle.right,
-            settings.camera2DSigle.top,
-            settings.camera2DSigle.bottom,
-            settings.camera2DSigle.near,
-            settings.camera2DSigle.far */
             (-aspectRatio * viewSize) / 2,
 			(aspectRatio * viewSize) / 2,
 			viewSize / 2,

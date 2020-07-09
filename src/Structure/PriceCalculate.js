@@ -74,11 +74,12 @@ export default class PriceCalculate{
             var h = (max.y - min.y) / 12.10
 
             this._teraceSurfaceArea = w * h;
+
         }
         
         //this._teraceTotalMaterialNeeded = Math.ceil(this._teraceSurfaceArea / this._teraceMaterialSurfaceArea);
-        this._teraceTotalMaterialNeeded = this._teraceSurfaceArea / this._teraceMaterialSurfaceArea;
-        this._totalPriceTerace = this._teraceMaterialPrice *  this._teraceSurfaceArea;
+        this._teraceTotalMaterialNeeded = this._teraceSurfaceArea.toFixed(2) / this._teraceMaterialSurfaceArea;
+        this._totalPriceTerace = this._teraceMaterialPrice *  this._teraceSurfaceArea.toFixed(2);
 
         
         this._totalMaterialM2 = 1 / this._teraceMaterialSurfaceArea;
@@ -88,7 +89,7 @@ export default class PriceCalculate{
 
     GetTeraceInformation(){
         return[
-            this._totalPriceTerace,
+            this._totalPriceTerace.toFixed(2),
             this._teraceTotalMaterialNeeded,
             this._totalMaterialM2,
         ]
